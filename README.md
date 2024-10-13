@@ -7,3 +7,5 @@ This is the frontend application to the DailySAT application
 
 - NextJS (not using backend, just frontend)
 - TailwindCSS
+
+### THE NEW CODEBASE (PREVIOUS ONE USING PLAIN REACT)
