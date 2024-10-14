@@ -6,8 +6,11 @@ import Header from '../components/features/Questions/Header';
 import Question from '../components/features/Questions/Question';
 import httpService from '../utils/httpService';
 import useScoreStore from '@/store/score';
-import Modal from '@/components/features/Questions/Modal';
+import ScoreModal from '@/components/features/Questions/Modals/ScoreModal';
+import EditorialModal from '@/components/features/Questions/Modals/EditorialModal';
 import BookSVG from '@/components/features/Questions/icons/BookSVG';
+import { useEditorialModalStore, useScoreModalStore } from '@/store/modals';
+import useEditorialStore from '@/store/editorial';
 
 interface Topic {
   id: number;
@@ -27,11 +30,16 @@ interface QuestionData {
   optionD: string;
 }
 
+
+
 const Home = () => {
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
   const [randomQuestion, setRandomQuestion] = useState<QuestionData | null>(null);
   const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
-  const [isOpen, setIsOpen] = useState(false);
+
+  const openScoreModal = useScoreModalStore((state) => state.openModal)
+  const openEditorialModal = useEditorialModalStore((state) => state.openModal)
+  const setEditorial = useEditorialStore((state) => state.setEditorial)
 
   const topics: Topic[] = [
     { id: 1, name: "Information and Ideas", description: "Topic 1" },
@@ -93,8 +101,14 @@ const Home = () => {
     }
   };
 
-  const openScoreModal = () => setIsOpen(true);
-  const closeScoreModal = () => setIsOpen(false);
+  const handleGetEditorial = async () => {
+    const editorialResponse = await httpService.get(`/questions/editorial/reading?questionID=${randomQuestion?.id}`)
+
+    setEditorial(editorialResponse.data.editorials)
+
+    openEditorialModal()
+  }
+
 
   return (
     <ProtectedRoute>
@@ -163,9 +177,12 @@ const Home = () => {
                 <p>Loading question...</p>
               )}
               {isAnswerCorrect !== null && (
-                <p className='mt-4 text-lg text-red-500'>
-                  {!isAnswerCorrect && 'Incorrect. Try again!'}
-                </p>
+                <>
+                  <p className='mt-4 text-lg text-red-500'>
+                    {!isAnswerCorrect && 'Incorrect. Try again!'}
+                  </p>
+                  <button onClick={handleGetEditorial}>Do you want to see the editorials? Click here!</button>
+                </>
               )}
             </div>
           ) : (
@@ -179,7 +196,8 @@ const Home = () => {
           )}
         </div>
       </div>
-      <Modal isOpen={isOpen} onClose={closeScoreModal} />
+      <ScoreModal />
+      <EditorialModal />
     </ProtectedRoute>
   );
 };
