@@ -30,16 +30,17 @@ interface QuestionData {
   optionD: string;
 }
 
-
-
 const Home = () => {
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
   const [randomQuestion, setRandomQuestion] = useState<QuestionData | null>(null);
   const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
 
-  const openScoreModal = useScoreModalStore((state) => state.openModal)
-  const openEditorialModal = useEditorialModalStore((state) => state.openModal)
-  const setEditorial = useEditorialStore((state) => state.setEditorial)
+  const openScoreModal = useScoreModalStore((state) => state.openModal);
+  const openEditorialModal = useEditorialModalStore((state) => state.openModal);
+  const setEditorial = useEditorialStore((state) => state.setEditorial);
+
+  const isScoreModalOpen = useScoreModalStore((state) => state.isOpen); // Assuming you have an `isOpen` property
+  const isEditorialModalOpen = useEditorialModalStore((state) => state.isOpen); // Assuming you have an `isOpen` property
 
   const topics: Topic[] = [
     { id: 1, name: "Information and Ideas", description: "Topic 1" },
@@ -102,17 +103,25 @@ const Home = () => {
   };
 
   const handleGetEditorial = async () => {
-    const editorialResponse = await httpService.get(`/questions/editorial/reading?questionID=${randomQuestion?.id}`)
+    const editorialResponse = await httpService.get(`/questions/editorial/reading?questionID=${randomQuestion?.id}`);
 
-    setEditorial(editorialResponse.data.editorials)
+    setEditorial(editorialResponse.data.editorials);
+    openEditorialModal();
+  };
 
-    openEditorialModal()
+  // Prevent rendering if either modal is open
+  if (isScoreModalOpen || isEditorialModalOpen) {
+    return (
+      <>
+        <ScoreModal />
+        <EditorialModal />
+      </>
+    );
   }
-
 
   return (
     <ProtectedRoute>
-      <div className="flex h-screen">
+      <div className="flex">
         <div className="w-96 flex flex-col p-10">
           <div className="w-full h-14 py-2 cursor-pointer duration-500 hover:bg-gray-50 flex items-center space-x-2">
             <div className="flex-col">
@@ -196,8 +205,6 @@ const Home = () => {
           )}
         </div>
       </div>
-      <ScoreModal />
-      <EditorialModal />
     </ProtectedRoute>
   );
 };

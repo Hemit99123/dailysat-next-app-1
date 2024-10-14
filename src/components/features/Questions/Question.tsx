@@ -21,7 +21,6 @@ const Question: React.FC<QuestionProps> = ({ title, optionA, optionB, optionC, o
   const handleSubmit = () => {
     if (selectedAnswer) {
       onAnswerSubmit(selectedAnswer);
-      setSelectedAnswer("")
     }
   };
 
