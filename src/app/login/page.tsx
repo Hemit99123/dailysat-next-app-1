@@ -6,7 +6,7 @@ const Login = () => {
   
   const handleGoogleSignIn = async () => {
     try {
-      const response = await httpService.post("/auth/google"); // Adjust the endpoint as necessary
+      const response = await httpService.get("/auth/login"); // Adjust the endpoint as necessary
 
       if (response.status === 200) {
         alert("Successfully logged in with Google!");
@@ -24,6 +24,7 @@ const Login = () => {
       } else {
         throw new Error(response.data.error);
       }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       alert(error.response?.data.message || 'An unexpected error occurred');
     }
