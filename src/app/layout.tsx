@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import NavBar from "@/components/common/NavBar";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -9,12 +10,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: React.PropsWithChildren<{}>) {
+}: React.PropsWithChildren) {
   return (
     <html lang="en">
       <body className="antialiased">
-        <NavBar />
-        {children}
+        <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID as string}>
+          <NavBar />
+          {children}
+        </GoogleOAuthProvider>;
       </body>
     </html>
   );
