@@ -1,18 +1,22 @@
 "use client";
 
-import axios from 'axios';
 import { useGoogleLogin } from '@react-oauth/google';
+import httpService from '@/utils/httpService';
 
 const Login = () => {
 
   
   const login = useGoogleLogin({
-    onSuccess: (codeResponse) => axios.get(`http://localhost:3001/auth/login?access_token=${codeResponse.access_token}`, {
-      withCredentials: true
-    }),
+    onSuccess: async (codeResponse) => {
+      const response = await httpService.get(`/auth/login?access_token=${codeResponse.access_token}`);
+
+      if (response.data.error == "already-authenticated") {
+        alert("You are already logged in, you can't log in again!")
+      }
+    },
     onError: (error) => console.log('Login Failed:', error)
   });
-
+  
   const handleLoginClick = () => {
     login(); // Call the login function without parameters (to get rid of type error from typescript)
   };

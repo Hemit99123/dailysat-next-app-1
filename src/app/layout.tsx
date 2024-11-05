@@ -14,7 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
-        <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID as string}>
+        <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string}>
           <NavBar />
           {children}
         </GoogleOAuthProvider>;
