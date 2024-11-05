@@ -121,8 +121,9 @@ const Home = () => {
 
   return (
     <ProtectedRoute>
-      <div className="flex">
-        <div className="w-96 flex flex-col p-10">
+      <div className="flex flex-col md:flex-row">
+        {/* Sidebar */}
+        <div className="w-full md:w-96 flex flex-col p-5 md:p-10">
           <div className="w-full h-14 py-2 cursor-pointer duration-500 hover:bg-gray-50 flex items-center space-x-2">
             <div className="flex-col">
               <div className='flex space-x-2 items-center'>
@@ -164,10 +165,10 @@ const Home = () => {
         </div>
 
         {/* Divider */}
-        <div className="w-px bg-gray-200 h-full"></div>
+        <div className="w-px bg-gray-200 h-px md:h-full"></div>
 
         {/* Question content */}
-        <div className="flex flex-grow p-10">
+        <div className="flex flex-col md:flex-grow p-5 md:p-10">
           {selectedTopic ? (
             <div className="w-full">
               <div className="text-center mb-16">
