@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-oauth/google": "^0.12.1",
     "axios": "^1.7.7",
     "next": "14.2.15",
     "react": "^18",

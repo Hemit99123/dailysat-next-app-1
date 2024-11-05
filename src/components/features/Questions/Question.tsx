@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import AnswerOption from '../shared-components/AnswerOption';
-import useScoreStore from '@/store/score';
 
 interface QuestionProps {
   title: string;
@@ -32,29 +31,29 @@ const Question: React.FC<QuestionProps> = ({ title, optionA, optionB, optionC, o
         <AnswerOption 
           label={'A'} // Converts index to letter (A, B, C, D)
           text={optionA}
-          onClick={() => handleAnswerClick("option_a")}
-          isSelected={selectedAnswer === "option_a"} // Check if the option is selected
+          onClick={() => handleAnswerClick("A")}
+          isSelected={selectedAnswer === "A"} // Check if the option is selected
         />
 
         <AnswerOption 
           label={'B'} // Converts index to letter (A, B, C, D)
           text={optionB}
-          onClick={() => handleAnswerClick("option_b")}
-          isSelected={selectedAnswer === "option_b"} // Check if the option is selected
+          onClick={() => handleAnswerClick("B")}
+          isSelected={selectedAnswer === "B"} // Check if the option is selected
         />
 
         <AnswerOption 
           label={'C'} // Converts index to letter (A, B, C, D)
           text={optionC}
-          onClick={() => handleAnswerClick("option_c")}
-          isSelected={selectedAnswer === "option_c"} // Check if the option is selected
+          onClick={() => handleAnswerClick("C")}
+          isSelected={selectedAnswer === "C"} // Check if the option is selected
         />
 
         <AnswerOption 
           label={'D'} // Converts index to letter (A, B, C, D)
           text={optionD}
-          onClick={() => handleAnswerClick("option_d")}
-          isSelected={selectedAnswer === "option_d"} // Check if the option is selected
+          onClick={() => handleAnswerClick("D")}
+          isSelected={selectedAnswer === "D"} // Check if the option is selected
         />
   
       </div>
