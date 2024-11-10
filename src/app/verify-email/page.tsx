@@ -30,6 +30,7 @@ const VerifyEmail = () => {
             } else {
                 alert('Verified account sucessfully!')
             }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch(err: any) {
             alert(err.response?.data.message)
         }
