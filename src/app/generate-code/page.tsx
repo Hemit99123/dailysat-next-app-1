@@ -23,6 +23,7 @@ const GenerateCode = () => {
             } else {
                 alert('Verified account successfully!');
             }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (err: any) {
             alert(err.response?.data.message || 'An error occurred');
         }
