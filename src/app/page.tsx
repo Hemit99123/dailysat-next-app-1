@@ -5,7 +5,7 @@ import ProtectedRoute from "../wrappers/CheckSessionWrapper";
 import Header from '../components/features/Questions/Header';
 import Question from '../components/features/Questions/Question';
 import httpService from '../utils/httpService';
-import useScoreStore from '@/store/score';
+import {useAnswerCounterStore, useScoreStore} from '@/store/score';
 import ScoreModal from '@/components/features/Questions/Modals/ScoreModal';
 import EditorialModal from '@/components/features/Questions/Modals/EditorialModal';
 import BookSVG from '@/components/features/Questions/icons/BookSVG';
@@ -36,8 +36,14 @@ const Home = () => {
   const [randomQuestion, setRandomQuestion] = useState<QuestionData | null>(null);
   const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
 
+  const increaseScore = useScoreStore((state) => state.increaseScore);
+
+  const increaseCorrectCounter = useAnswerCounterStore((state) => state.increaseCount)
+  const resetCorrectCounter = useAnswerCounterStore((state) => state.resetCount)
+  const correctCount = useAnswerCounterStore((state) => state.count)
+
   // this is used for the streak feature of the website
-  const [answerCounter, setAnswerCounter] = useState<number>(0)
+
 
   // variables used to open the modals
   const openScoreModal = useScoreModalStore((state) => state.openModal);
@@ -53,10 +59,10 @@ const Home = () => {
 
 
   useEffect(() => {
-    if (answerCounter == 3) {
+    if (correctCount == 3) {
       openStreakModal()
     }
-  }, [answerCounter, openStreakModal])
+  }, [correctCount, openStreakModal])
 
 
 
@@ -102,7 +108,6 @@ const Home = () => {
     }
   };
 
-  const increaseScore = useScoreStore((state) => state.increaseScore);
 
   const handleAnswerSubmit = (answer: string) => {
     const correct = answer === randomQuestion?.correctAnswer;
@@ -112,14 +117,15 @@ const Home = () => {
     }
 
     if (correct) {
-      setAnswerCounter(prev => prev + 1)
+      increaseCorrectCounter()
       increaseScore();
       // Fetch a new question after answering correctly
       if (selectedTopic) {
         fetchRandomQuestion(selectedTopic);
       }
     } else  {
-      setAnswerCounter(0)
+      // streak is lost because user has got a question wrong, so reset the correct answer counter
+      resetCorrectCounter()
     }
   };
 

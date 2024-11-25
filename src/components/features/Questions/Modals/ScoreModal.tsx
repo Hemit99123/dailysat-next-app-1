@@ -1,5 +1,5 @@
 import { useScoreModalStore } from "@/store/modals";
-import useScoreStore from "@/store/score";
+import {useScoreStore} from "@/store/score";
 import React from "react";
 import CloseButton from '@/components/features/shared-components/Cancel'; 
 
@@ -20,7 +20,7 @@ const ScoreModal = () => {
                 className="p-10"
             >
                 <div className="absolute top-13 right-4 p-2">
-                    <CloseButton onClose={onClose} /> 
+                <CloseButton onClose={onClose} /> 
                 </div>
                 
                 {/* Score Message */}
