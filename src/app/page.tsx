@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProtectedRoute from "../wrappers/CheckSessionWrapper";
 import Header from '../components/features/Questions/Header';
 import Question from '../components/features/Questions/Question';
@@ -9,8 +9,9 @@ import useScoreStore from '@/store/score';
 import ScoreModal from '@/components/features/Questions/Modals/ScoreModal';
 import EditorialModal from '@/components/features/Questions/Modals/EditorialModal';
 import BookSVG from '@/components/features/Questions/icons/BookSVG';
-import { useEditorialModalStore, useScoreModalStore } from '@/store/modals';
+import { useEditorialModalStore, useScoreModalStore, useStreakAnnouncerModalStore } from '@/store/modals';
 import useEditorialStore from '@/store/editorial';
+import StreakAnnouncer from '@/components/features/Questions/Modals/StreakAnnouncer';
 
 interface Topic {
   id: number;
@@ -35,12 +36,29 @@ const Home = () => {
   const [randomQuestion, setRandomQuestion] = useState<QuestionData | null>(null);
   const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
 
+  // this is used for the streak feature of the website
+  const [answerCounter, setAnswerCounter] = useState<number>(0)
+
+  // variables used to open the modals
   const openScoreModal = useScoreModalStore((state) => state.openModal);
-  const openEditorialModal = useEditorialModalStore((state) => state.openModal);
+  const isScoreModalOpen = useScoreModalStore((state) => state.isOpen); 
+
+  const openEditorialModal = useEditorialModalStore((state) => state.openModal); 
+  const isEditorialModalOpen = useEditorialModalStore((state) => state.isOpen); 
+ 
+  const openStreakModal = useStreakAnnouncerModalStore((state) => state.openModal)
+  const isStreakModalOpen = useStreakAnnouncerModalStore((state) => state.isOpen); 
+
   const setEditorial = useEditorialStore((state) => state.setEditorial);
 
-  const isScoreModalOpen = useScoreModalStore((state) => state.isOpen); // Assuming you have an `isOpen` property
-  const isEditorialModalOpen = useEditorialModalStore((state) => state.isOpen); // Assuming you have an `isOpen` property
+
+  useEffect(() => {
+    if (answerCounter == 3) {
+      openStreakModal()
+    }
+  }, [answerCounter, openStreakModal])
+
+
 
   const topics: Topic[] = [
     { id: 1, name: "Information and Ideas", description: "Topic 1" },
@@ -94,11 +112,14 @@ const Home = () => {
     }
 
     if (correct) {
+      setAnswerCounter(prev => prev + 1)
       increaseScore();
       // Fetch a new question after answering correctly
       if (selectedTopic) {
         fetchRandomQuestion(selectedTopic);
       }
+    } else  {
+      setAnswerCounter(0)
     }
   };
 
@@ -205,6 +226,7 @@ const Home = () => {
             </div>
           )}
         </div>
+        {isStreakModalOpen && <StreakAnnouncer />}
       </div>
     </ProtectedRoute>
   );
