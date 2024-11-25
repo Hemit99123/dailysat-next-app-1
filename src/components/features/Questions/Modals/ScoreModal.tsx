@@ -19,7 +19,9 @@ const ScoreModal = () => {
                 onClick={(e) => e.stopPropagation()} // Prevent closing on inner click
                 className="p-10"
             >
-                <CloseButton onClose={onClose} /> {/* Include the CloseButton */}
+                <div className="absolute top-13 right-4 p-2">
+                    <CloseButton onClose={onClose} /> 
+                </div>
                 
                 {/* Score Message */}
                 <p className="text-gray-500 text-center font-light text-2xl mt-10">
