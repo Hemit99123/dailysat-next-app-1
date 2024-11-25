@@ -42,9 +42,6 @@ const Home = () => {
   const resetCorrectCounter = useAnswerCounterStore((state) => state.resetCount)
   const correctCount = useAnswerCounterStore((state) => state.count)
 
-  // this is used for the streak feature of the website
-
-
   // variables used to open the modals
   const openScoreModal = useScoreModalStore((state) => state.openModal);
   const isScoreModalOpen = useScoreModalStore((state) => state.isOpen); 
