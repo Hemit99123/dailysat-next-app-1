@@ -1,12 +1,12 @@
 import { useScoreModalStore } from "@/store/modals";
-import {useScoreStore} from "@/store/score";
+import {useAnswerCounterStore} from "@/store/score";
 import React from "react";
 import CloseButton from '@/components/features/shared-components/Cancel'; 
 import ScoreShower from "../../shared-components/ScoreShower";
 
 const ScoreModal = () => {
     // Retrieve score from score store
-    const score = useScoreStore((state) => state.score);
+    const correctAnswerScore = useAnswerCounterStore((state) => state.count)
 
     // Close modal function and isOpen state from score modal store
     const onClose = useScoreModalStore((state) => state.closeModal);
@@ -23,8 +23,7 @@ const ScoreModal = () => {
                 <div className="absolute top-13 right-4 p-2">
                 <CloseButton onClose={onClose} /> 
                 </div>
-                 
-                <ScoreShower score={score}/>
+                <ScoreShower score={correctAnswerScore}/>
             </div>
         </div>
     );
