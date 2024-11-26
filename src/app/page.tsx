@@ -122,7 +122,6 @@ const Home = () => {
   return (
     <ProtectedRoute>
       <div className="flex flex-col md:flex-row">
-        {/* Sidebar */}
         <div className="w-full md:w-96 flex flex-col p-5 md:p-10">
           <div className="w-full h-14 py-2 cursor-pointer duration-500 hover:bg-gray-50 flex items-center space-x-2">
             <div className="flex-col">
@@ -164,7 +163,6 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Divider */}
         <div className="w-px bg-gray-200 h-px md:h-full"></div>
 
         {/* Question content */}
