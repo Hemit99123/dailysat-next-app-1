@@ -126,7 +126,7 @@ const Home = () => {
         if (selectedTopic) {
           fetchRandomQuestion(selectedTopic);
         }
-      }, 1000); // 1-second delay to allow user to see the correct answer they got
+      }, 1500); // 1-second delay to allow user to see the correct answer they got
 
     } else  {
       // streak is lost because user has got a question wrong, so reset the correct answer counter
