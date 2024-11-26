@@ -122,9 +122,12 @@ const Home = () => {
       increaseCorrectCounter()
       increaseScore();
       // Fetch a new question after answering correctly
-      if (selectedTopic) {
-        fetchRandomQuestion(selectedTopic);
-      }
+      setTimeout(() => {
+        if (selectedTopic) {
+          fetchRandomQuestion(selectedTopic);
+        }
+      }, 1000); // 1-second delay to allow user to see the correct answer they got
+
     } else  {
       // streak is lost because user has got a question wrong, so reset the correct answer counter
       resetCorrectCounter()
@@ -214,14 +217,24 @@ const Home = () => {
               ) : (
                 <p>Loading question...</p>
               )}
-              {isAnswerCorrect !== null && (
-                <>
-                  <p className='mt-4 text-lg text-red-500'>
-                    {!isAnswerCorrect && 'Incorrect. Try again!'}
-                  </p>
-                  <button onClick={handleGetEditorial}>Do you want to see the editorials? Click here!</button>
-                </>
-              )}
+              <div className="mt-4 pl-7">
+                {isAnswerCorrect !== null ? (
+                  <>
+                    {isAnswerCorrect ? (
+                      <>
+                        <p className="text-green-500 text-lg font-semibold">You are correct!</p>
+                      </>
+                    ): (
+                      <>
+                        <p className="text-red-500 text-lg font-semibold">You are wrong :(</p>
+                        <button onClick={handleGetEditorial}>Do you want to see the editorials? Click here!</button>                    
+                      </>
+                    )
+                    }
+                  </>
+                ) : null}
+              </div>
+
             </div>
           ) : (
             <div className="flex flex-col items-center flex-grow">
