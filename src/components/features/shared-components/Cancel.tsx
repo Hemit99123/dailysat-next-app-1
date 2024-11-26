@@ -9,7 +9,7 @@ const CloseButton: React.FC<CloseButtonProps> = ({ onClose }) => {
   return (
     <button
       onClick={onClose}
-      className="absolute top-13 right-4 p-2 bg-transparent border-none cursor-pointer"
+      className="bg-transparent border-none cursor-pointer"
       aria-label="Close"
     >
       <svg
