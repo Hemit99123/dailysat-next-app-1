@@ -9,9 +9,11 @@ import {useAnswerCounterStore, useScoreStore} from '@/store/score';
 import ScoreModal from '@/components/features/Questions/Modals/ScoreModal';
 import EditorialModal from '@/components/features/Questions/Modals/EditorialModal';
 import BookSVG from '@/components/features/Questions/icons/BookSVG';
-import { useEditorialModalStore, useScoreModalStore, useStreakAnnouncerModalStore } from '@/store/modals';
+import { useEditorialModalStore, useScoreModalStore, useStreakAnnouncerModalStore, useStreakCounterModalStore } from '@/store/modals';
 import useEditorialStore from '@/store/editorial';
 import StreakAnnouncer from '@/components/features/Questions/Modals/StreakAnnouncer';
+import CTASideBar from '@/components/features/shared-components/CTASideBar';
+import StreakModal from '@/components/features/Questions/Modals/StreakModal';
 
 interface Topic {
   id: number;
@@ -49,17 +51,20 @@ const Home = () => {
   const openEditorialModal = useEditorialModalStore((state) => state.openModal); 
   const isEditorialModalOpen = useEditorialModalStore((state) => state.isOpen); 
  
-  const openStreakModal = useStreakAnnouncerModalStore((state) => state.openModal)
-  const isStreakModalOpen = useStreakAnnouncerModalStore((state) => state.isOpen); 
+  const openAnnouncerModal = useStreakAnnouncerModalStore((state) => state.openModal)
+  const isAnnouncerModalOpen = useStreakAnnouncerModalStore((state) => state.isOpen); 
+
+  const openStreakModal = useStreakCounterModalStore((state) => state.openModal)
+  const isStreakModalOpen = useStreakCounterModalStore((state) => state.isOpen)
 
   const setEditorial = useEditorialStore((state) => state.setEditorial);
 
 
   useEffect(() => {
     if (correctCount == 3) {
-      openStreakModal()
+      openAnnouncerModal()
     }
-  }, [correctCount, openStreakModal])
+  }, [correctCount, openAnnouncerModal])
 
 
 
@@ -134,14 +139,16 @@ const Home = () => {
   };
 
   // Prevent rendering if either modal is open
-  if (isScoreModalOpen || isEditorialModalOpen) {
+  if (isScoreModalOpen || isEditorialModalOpen || isStreakModalOpen) {
     return (
       <>
         <ScoreModal />
         <EditorialModal />
+        <StreakModal />
       </>
     );
   }
+
 
   return (
     <ProtectedRoute>
@@ -180,12 +187,9 @@ const Home = () => {
             <p className="font-semibold text-sm text-blue-500 cursor-pointer">Start course challenge</p>
           </div>
 
-          <div className="flex flex-col border border-gray-200 rounded-sm px-1.5 py-3 mt-8">
-            <div className="flex items-center mb-0.5">
-              <p className="font-medium uppercase text-[12px]">Open the scoreboard</p>
-            </div>
-            <button className="font-semibold" onClick={openScoreModal}>Click here!</button>
-          </div>
+          <CTASideBar open={openScoreModal} text='Click to open the scoreboard!'/>
+          <CTASideBar open={openStreakModal} text='Click to see your current streak!'/>
+
         </div>
 
         {/* Divider */}
@@ -229,7 +233,7 @@ const Home = () => {
             </div>
           )}
         </div>
-        {isStreakModalOpen && <StreakAnnouncer />}
+        {isAnnouncerModalOpen && <StreakAnnouncer />}
       </div>
     </ProtectedRoute>
   );
