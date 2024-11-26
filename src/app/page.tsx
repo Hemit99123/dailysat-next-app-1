@@ -1,16 +1,19 @@
 "use client";
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProtectedRoute from "../wrappers/CheckSessionWrapper";
 import Header from '../components/features/Questions/Header';
 import Question from '../components/features/Questions/Question';
 import httpService from '../utils/httpService';
-import useScoreStore from '@/store/score';
+import {useAnswerCounterStore, useScoreStore} from '@/store/score';
 import ScoreModal from '@/components/features/Questions/Modals/ScoreModal';
 import EditorialModal from '@/components/features/Questions/Modals/EditorialModal';
 import BookSVG from '@/components/features/Questions/icons/BookSVG';
-import { useEditorialModalStore, useScoreModalStore } from '@/store/modals';
+import { useEditorialModalStore, useScoreModalStore, useStreakAnnouncerModalStore, useStreakCounterModalStore } from '@/store/modals';
 import useEditorialStore from '@/store/editorial';
+import StreakAnnouncer from '@/components/features/Questions/Modals/StreakAnnouncer';
+import CTASideBar from '@/components/features/shared-components/CTASideBar';
+import StreakModal from '@/components/features/Questions/Modals/StreakModal';
 
 interface Topic {
   id: number;
@@ -35,12 +38,35 @@ const Home = () => {
   const [randomQuestion, setRandomQuestion] = useState<QuestionData | null>(null);
   const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
 
+  const increaseScore = useScoreStore((state) => state.increaseScore);
+
+  const increaseCorrectCounter = useAnswerCounterStore((state) => state.increaseCount)
+  const resetCorrectCounter = useAnswerCounterStore((state) => state.resetCount)
+  const correctCount = useAnswerCounterStore((state) => state.count)
+
+  // variables used to open the modals
   const openScoreModal = useScoreModalStore((state) => state.openModal);
-  const openEditorialModal = useEditorialModalStore((state) => state.openModal);
+  const isScoreModalOpen = useScoreModalStore((state) => state.isOpen); 
+
+  const openEditorialModal = useEditorialModalStore((state) => state.openModal); 
+  const isEditorialModalOpen = useEditorialModalStore((state) => state.isOpen); 
+ 
+  const openAnnouncerModal = useStreakAnnouncerModalStore((state) => state.openModal)
+  const isAnnouncerModalOpen = useStreakAnnouncerModalStore((state) => state.isOpen); 
+
+  const openStreakModal = useStreakCounterModalStore((state) => state.openModal)
+  const isStreakModalOpen = useStreakCounterModalStore((state) => state.isOpen)
+
   const setEditorial = useEditorialStore((state) => state.setEditorial);
 
-  const isScoreModalOpen = useScoreModalStore((state) => state.isOpen); // Assuming you have an `isOpen` property
-  const isEditorialModalOpen = useEditorialModalStore((state) => state.isOpen); // Assuming you have an `isOpen` property
+
+  useEffect(() => {
+    if (correctCount == 3) {
+      openAnnouncerModal()
+    }
+  }, [correctCount, openAnnouncerModal])
+
+
 
   const topics: Topic[] = [
     { id: 1, name: "Information and Ideas", description: "Topic 1" },
@@ -84,7 +110,6 @@ const Home = () => {
     }
   };
 
-  const increaseScore = useScoreStore((state) => state.increaseScore);
 
   const handleAnswerSubmit = (answer: string) => {
     const correct = answer === randomQuestion?.correctAnswer;
@@ -94,11 +119,18 @@ const Home = () => {
     }
 
     if (correct) {
+      increaseCorrectCounter()
       increaseScore();
       // Fetch a new question after answering correctly
-      if (selectedTopic) {
-        fetchRandomQuestion(selectedTopic);
-      }
+      setTimeout(() => {
+        if (selectedTopic) {
+          fetchRandomQuestion(selectedTopic);
+        }
+      }, 1000); // 1-second delay to allow user to see the correct answer they got
+
+    } else  {
+      // streak is lost because user has got a question wrong, so reset the correct answer counter
+      resetCorrectCounter()
     }
   };
 
@@ -110,14 +142,16 @@ const Home = () => {
   };
 
   // Prevent rendering if either modal is open
-  if (isScoreModalOpen || isEditorialModalOpen) {
+  if (isScoreModalOpen || isEditorialModalOpen || isStreakModalOpen) {
     return (
       <>
         <ScoreModal />
         <EditorialModal />
+        <StreakModal />
       </>
     );
   }
+
 
   return (
     <ProtectedRoute>
@@ -156,12 +190,9 @@ const Home = () => {
             <p className="font-semibold text-sm text-blue-500 cursor-pointer">Start course challenge</p>
           </div>
 
-          <div className="flex flex-col border border-gray-200 rounded-sm px-1.5 py-3 mt-8">
-            <div className="flex items-center mb-0.5">
-              <p className="font-medium uppercase text-[12px]">Open the scoreboard</p>
-            </div>
-            <button className="font-semibold" onClick={openScoreModal}>Click here!</button>
-          </div>
+          <CTASideBar open={openScoreModal} text='Click to open the scoreboard!'/>
+          <CTASideBar open={openStreakModal} text='Click to see your current streak!'/>
+
         </div>
 
         {/* Divider */}
@@ -186,14 +217,24 @@ const Home = () => {
               ) : (
                 <p>Loading question...</p>
               )}
-              {isAnswerCorrect !== null && (
-                <>
-                  <p className='mt-4 text-lg text-red-500'>
-                    {!isAnswerCorrect && 'Incorrect. Try again!'}
-                  </p>
-                  <button onClick={handleGetEditorial}>Do you want to see the editorials? Click here!</button>
-                </>
-              )}
+              <div className="mt-4 pl-7">
+                {isAnswerCorrect !== null ? (
+                  <>
+                    {isAnswerCorrect ? (
+                      <>
+                        <p className="text-green-500 text-lg font-semibold">You are correct!</p>
+                      </>
+                    ): (
+                      <>
+                        <p className="text-red-500 text-lg font-semibold">You are wrong :(</p>
+                        <button onClick={handleGetEditorial}>Do you want to see the editorials? Click here!</button>                    
+                      </>
+                    )
+                    }
+                  </>
+                ) : null}
+              </div>
+
             </div>
           ) : (
             <div className="flex flex-col items-center flex-grow">
@@ -205,6 +246,7 @@ const Home = () => {
             </div>
           )}
         </div>
+        {isAnnouncerModalOpen && <StreakAnnouncer />}
       </div>
     </ProtectedRoute>
   );
