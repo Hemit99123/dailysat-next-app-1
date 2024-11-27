@@ -5,7 +5,7 @@ import ProtectedRoute from "../wrappers/CheckSessionWrapper";
 import Header from '../components/features/Questions/Header';
 import Question from '../components/features/Questions/Question';
 import httpService from '../utils/httpService';
-import {useAnswerCounterStore, useScoreStore} from '@/store/score';
+import { useAnswerCounterStore, useScoreStore } from '@/store/score';
 import ScoreModal from '@/components/features/Questions/Modals/ScoreModal';
 import EditorialModal from '@/components/features/Questions/Modals/EditorialModal';
 import BookSVG from '@/components/features/Questions/icons/BookSVG';
@@ -39,35 +39,29 @@ const Home = () => {
   const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
 
   const increaseScore = useScoreStore((state) => state.increaseScore);
+  const increaseCorrectCounter = useAnswerCounterStore((state) => state.increaseCount);
+  const resetCorrectCounter = useAnswerCounterStore((state) => state.resetCount);
+  const correctCount = useAnswerCounterStore((state) => state.count);
 
-  const increaseCorrectCounter = useAnswerCounterStore((state) => state.increaseCount)
-  const resetCorrectCounter = useAnswerCounterStore((state) => state.resetCount)
-  const correctCount = useAnswerCounterStore((state) => state.count)
-
-  // variables used to open the modals
+  // Modal handlers
   const openScoreModal = useScoreModalStore((state) => state.openModal);
-  const isScoreModalOpen = useScoreModalStore((state) => state.isOpen); 
-
-  const openEditorialModal = useEditorialModalStore((state) => state.openModal); 
-  const isEditorialModalOpen = useEditorialModalStore((state) => state.isOpen); 
- 
-  const openAnnouncerModal = useStreakAnnouncerModalStore((state) => state.openModal)
-  const isAnnouncerModalOpen = useStreakAnnouncerModalStore((state) => state.isOpen); 
-
-  const openStreakModal = useStreakCounterModalStore((state) => state.openModal)
-  const isStreakModalOpen = useStreakCounterModalStore((state) => state.isOpen)
+  const isScoreModalOpen = useScoreModalStore((state) => state.isOpen);
+  const openEditorialModal = useEditorialModalStore((state) => state.openModal);
+  const isEditorialModalOpen = useEditorialModalStore((state) => state.isOpen);
+  const openAnnouncerModal = useStreakAnnouncerModalStore((state) => state.openModal);
+  const isAnnouncerModalOpen = useStreakAnnouncerModalStore((state) => state.isOpen);
+  const openStreakModal = useStreakCounterModalStore((state) => state.openModal);
+  const isStreakModalOpen = useStreakCounterModalStore((state) => state.isOpen);
 
   const setEditorial = useEditorialStore((state) => state.setEditorial);
 
-
   useEffect(() => {
-    if (correctCount == 3) {
-      openAnnouncerModal()
+    if (correctCount === 3) {
+      openAnnouncerModal();
     }
-  }, [correctCount, openAnnouncerModal])
+  }, [correctCount, openAnnouncerModal]);
 
-
-
+  // List of topics
   const topics: Topic[] = [
     { id: 1, name: "Information and Ideas", description: "Topic 1" },
     { id: 2, name: "Craft and Structure", description: "Topic 2" },
@@ -80,83 +74,54 @@ const Home = () => {
     fetchRandomQuestion(topic);
   };
 
-  const fetchRandomQuestion = async (topic: Topic) => {
-    try {
-      let type = "";
-      switch (topic.name) {
-        case "Information and Ideas":
-          type = "information";
-          break;
-        case "Craft and Structure":
-          type = "craft";
-          break;
-        case "Expression of Ideas":
-          type = "idea";
-          break;
-        case "Standard English Conventions":
-          type = "convention";
-          break;
-      }
+  type TopicName = "Information and Ideas" | "Craft and Structure" | "Expression of Ideas" | "Standard English Conventions";
 
+  const topicType: Record<TopicName, string> = {
+    "Information and Ideas": "information",
+    "Craft and Structure": "craft",
+    "Expression of Ideas": "idea",
+    "Standard English Conventions": "convention"
+  };
+  
+  const fetchRandomQuestion = async (topic: Topic) => {
+    const type = topicType[topic.name as TopicName]; // This will be inferred as one of the valid keys
+    try {
       const response = await httpService.get(`/questions/get/reading?type=${type}`);
       const questionData: QuestionData = response.data.randomQuestion[0];
-
-      if (questionData) {
-        setRandomQuestion(questionData);
-      }
-      setIsAnswerCorrect(null);
+      setRandomQuestion(questionData || null);
+      setIsAnswerCorrect(null); // Reset correctness after a new question
     } catch (error) {
       console.error("Error fetching question:", error);
     }
   };
-
-
+  
   const handleAnswerSubmit = (answer: string) => {
-    // Map answer letters ('A', 'B', 'C', 'D') to their corresponding indices (0, 1, 2, 3)
-    const correctAnswerMap = new Map([
-      ['A', 0],
-      ['B', 1],
-      ['C', 2],
-      ['D', 3]
-    ]);
-  
-    // Get the selected answer's index from the map
-    const selectedAnswerIndex = correctAnswerMap.get(answer);
-  
-    // Check if the selected answer index is equal to the correct answer index (which is a number)
-    const correct = selectedAnswerIndex === parseInt(randomQuestion?.correctAnswer || "");
-    alert(randomQuestion?.correctAnswer)
-    alert(correctAnswerMap.get(answer))
-  
-    if (randomQuestion) {
-      setIsAnswerCorrect(correct);
-    }
-  
+    const correct = answer === randomQuestion?.correctAnswer;
+
     if (correct) {
       increaseCorrectCounter();
       increaseScore();
-      // Fetch a new question after answering correctly
-      setTimeout(() => {
-        if (selectedTopic) {
-          fetchRandomQuestion(selectedTopic);
-        }
-      }, 1500); // 1-second delay to allow user to see the correct answer they got
-  
     } else {
-      // Streak is lost because the user has got a question wrong, so reset the correct answer counter
       resetCorrectCounter();
     }
+
+    setIsAnswerCorrect(correct);
+
+    // Fetch a new question immediately after answering
+    if (correct && selectedTopic) {
+      fetchRandomQuestion(selectedTopic);
+    }
   };
-  
 
   const handleGetEditorial = async () => {
-    const editorialResponse = await httpService.get(`/questions/editorial/reading?questionID=${randomQuestion?.id}`);
-
-    setEditorial(editorialResponse.data.editorials);
-    openEditorialModal();
+    if (randomQuestion) {
+      const editorialResponse = await httpService.get(`/questions/editorial/reading?questionID=${randomQuestion.id}`);
+      setEditorial(editorialResponse.data.editorials);
+      openEditorialModal();
+    }
   };
 
-  // Prevent rendering if either modal is open
+  // Prevent rendering if modals are open
   if (isScoreModalOpen || isEditorialModalOpen || isStreakModalOpen) {
     return (
       <>
@@ -166,7 +131,6 @@ const Home = () => {
       </>
     );
   }
-
 
   return (
     <ProtectedRoute>
@@ -195,23 +159,20 @@ const Home = () => {
             ))}
           </div>
 
-          {/* Challenge section */}
           <div className="border border-gray-200 rounded-sm px-1.5 py-3 mt-8">
             <div className="flex items-center mb-0.5">
               <p className="font-medium uppercase text-[12px]">Course Challenge</p>
             </div>
-            <p className="text-[12px] text-gray-400 mb-1">Challenge yourself, better yourself! COMING SOON!</p>
+            <p className="text-[12px] text-gray-400 mb-1">Challenge yourself, better yourself!</p>
             <p className="font-semibold text-sm text-blue-500 cursor-pointer">Start course challenge</p>
           </div>
 
-          <CTASideBar open={openScoreModal} text='Click to open the scoreboard!'/>
-          <CTASideBar open={openStreakModal} text='Click to see your current streak!'/>
-
+          <CTASideBar open={openScoreModal} text='Click to open the scoreboard!' />
+          <CTASideBar open={openStreakModal} text='Click to see your current streak!' />
         </div>
 
         <div className="w-px bg-gray-200 h-px md:h-full"></div>
 
-        {/* Question content */}
         <div className="flex flex-col md:flex-grow p-5 md:p-10">
           {selectedTopic ? (
             <div className="w-full">
@@ -234,20 +195,16 @@ const Home = () => {
                 {isAnswerCorrect !== null ? (
                   <>
                     {isAnswerCorrect ? (
-                      <>
-                        <p className="text-green-500 text-lg font-semibold">You are correct!</p>
-                      </>
-                    ): (
-                      <>
+                      <p className="text-green-500 text-lg font-semibold">You are correct!</p>
+                    ) : (
+                      <div>
                         <p className="text-red-500 text-lg font-semibold">You are wrong :(</p>
-                        <button onClick={handleGetEditorial}>Do you want to see the editorials? Click here!</button>                    
-                      </>
-                    )
-                    }
+                        <button onClick={handleGetEditorial}>Do you want to see the editorials? Click here!</button>
+                      </div>
+                    )}
                   </>
                 ) : null}
               </div>
-
             </div>
           ) : (
             <div className="flex flex-col items-center flex-grow">
@@ -259,6 +216,7 @@ const Home = () => {
             </div>
           )}
         </div>
+
         {isAnnouncerModalOpen && <StreakAnnouncer />}
       </div>
     </ProtectedRoute>
