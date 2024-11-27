@@ -3,7 +3,7 @@ import AnswerOption from "../shared-components/AnswerOption";
 
 interface QuestionProps {
   title: string;
-  onAnswerSubmit: (answer: string) => void;
+  onAnswerSubmit: (answer: Answers) => void;
   optionA: string;
   optionB: string;
   optionC: string;
@@ -131,6 +131,7 @@ const Question: React.FC<QuestionProps> = ({
 
   // Handle answer click
   const handleAnswerClick = (answer: string) => {
+
     setSelectedAnswer(answer);
   };
 
@@ -140,6 +141,8 @@ const Question: React.FC<QuestionProps> = ({
       onAnswerSubmit(selectedAnswer);
     }
   };
+
+
 
   return (
     <div className="flex flex-col items-start px-8">
@@ -203,6 +206,7 @@ const Question: React.FC<QuestionProps> = ({
       <div className="w-full space-y-2">
         <AnswerOption
           label={"A"}
+
           text={optionA}
           onClick={() => handleAnswerClick("A")}
           isSelected={selectedAnswer === "A"}
@@ -210,6 +214,7 @@ const Question: React.FC<QuestionProps> = ({
 
         <AnswerOption
           label={"B"}
+
           text={optionB}
           onClick={() => handleAnswerClick("B")}
           isSelected={selectedAnswer === "B"}
@@ -217,6 +222,7 @@ const Question: React.FC<QuestionProps> = ({
 
         <AnswerOption
           label={"C"}
+
           text={optionC}
           onClick={() => handleAnswerClick("C")}
           isSelected={selectedAnswer === "C"}
@@ -224,6 +230,7 @@ const Question: React.FC<QuestionProps> = ({
 
         <AnswerOption
           label={"D"}
+
           text={optionD}
           onClick={() => handleAnswerClick("D")}
           isSelected={selectedAnswer === "D"}
