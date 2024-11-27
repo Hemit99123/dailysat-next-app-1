@@ -23,34 +23,32 @@ const Question: React.FC<QuestionProps> = ({ title, optionA, optionB, optionC, o
     }
   };
 
+
+
   return (
     <div className="flex flex-col items-start px-8">
       <p className="mb-5 text-lg">{title}</p>
       <span className="mb-3 text-sm font-semibold">Choose 1 answer:</span>
       <div className="w-full space-y-2">
         <AnswerOption 
-          label={'A'} // Converts index to letter (A, B, C, D)
           text={optionA}
           onClick={() => handleAnswerClick("A")}
           isSelected={selectedAnswer === "A"} // Check if the option is selected
         />
 
         <AnswerOption 
-          label={'B'} // Converts index to letter (A, B, C, D)
           text={optionB}
           onClick={() => handleAnswerClick("B")}
           isSelected={selectedAnswer === "B"} // Check if the option is selected
         />
 
         <AnswerOption 
-          label={'C'} // Converts index to letter (A, B, C, D)
           text={optionC}
           onClick={() => handleAnswerClick("C")}
           isSelected={selectedAnswer === "C"} // Check if the option is selected
         />
 
         <AnswerOption 
-          label={'D'} // Converts index to letter (A, B, C, D)
           text={optionD}
           onClick={() => handleAnswerClick("D")}
           isSelected={selectedAnswer === "D"} // Check if the option is selected

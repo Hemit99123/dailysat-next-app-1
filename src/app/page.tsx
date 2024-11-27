@@ -91,7 +91,7 @@ const Home = () => {
           type = "craft";
           break;
         case "Expression of Ideas":
-          type = "ideas";
+          type = "idea";
           break;
         case "Standard English Conventions":
           type = "convention";
@@ -112,14 +112,28 @@ const Home = () => {
 
 
   const handleAnswerSubmit = (answer: string) => {
-    const correct = answer === randomQuestion?.correctAnswer;
-
+    // Map answer letters ('A', 'B', 'C', 'D') to their corresponding indices (0, 1, 2, 3)
+    const correctAnswerMap = new Map([
+      ['A', 0],
+      ['B', 1],
+      ['C', 2],
+      ['D', 3]
+    ]);
+  
+    // Get the selected answer's index from the map
+    const selectedAnswerIndex = correctAnswerMap.get(answer);
+  
+    // Check if the selected answer index is equal to the correct answer index (which is a number)
+    const correct = selectedAnswerIndex === parseInt(randomQuestion?.correctAnswer || "");
+    alert(randomQuestion?.correctAnswer)
+    alert(correctAnswerMap.get(answer))
+  
     if (randomQuestion) {
       setIsAnswerCorrect(correct);
     }
-
+  
     if (correct) {
-      increaseCorrectCounter()
+      increaseCorrectCounter();
       increaseScore();
       // Fetch a new question after answering correctly
       setTimeout(() => {
@@ -127,12 +141,13 @@ const Home = () => {
           fetchRandomQuestion(selectedTopic);
         }
       }, 1500); // 1-second delay to allow user to see the correct answer they got
-
-    } else  {
-      // streak is lost because user has got a question wrong, so reset the correct answer counter
-      resetCorrectCounter()
+  
+    } else {
+      // Streak is lost because the user has got a question wrong, so reset the correct answer counter
+      resetCorrectCounter();
     }
   };
+  
 
   const handleGetEditorial = async () => {
     const editorialResponse = await httpService.get(`/questions/editorial/reading?questionID=${randomQuestion?.id}`);
@@ -185,7 +200,7 @@ const Home = () => {
             <div className="flex items-center mb-0.5">
               <p className="font-medium uppercase text-[12px]">Course Challenge</p>
             </div>
-            <p className="text-[12px] text-gray-400 mb-1">Challenge yourself, better yourself!</p>
+            <p className="text-[12px] text-gray-400 mb-1">Challenge yourself, better yourself! COMING SOON!</p>
             <p className="font-semibold text-sm text-blue-500 cursor-pointer">Start course challenge</p>
           </div>
 
