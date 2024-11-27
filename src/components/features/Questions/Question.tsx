@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import AnswerOption from '../shared-components/AnswerOption';
+import { Answers } from '@/types/answer';
 
 interface QuestionProps {
   title: string;
-  onAnswerSubmit: (answer: string) => void;
+  onAnswerSubmit: (answer: Answers) => void;
   optionA: string;
   optionB: string;
   optionC: string;
@@ -11,9 +12,9 @@ interface QuestionProps {
 }
 
 const Question: React.FC<QuestionProps> = ({ title, optionA, optionB, optionC, optionD, onAnswerSubmit }) => {
-  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+  const [selectedAnswer, setSelectedAnswer] = useState<Answers | null>(null);
 
-  const handleAnswerClick = (answer: string) => {
+  const handleAnswerClick = (answer: Answers) => {
     setSelectedAnswer(answer);
   };
 

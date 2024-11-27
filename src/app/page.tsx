@@ -14,6 +14,8 @@ import useEditorialStore from '@/store/editorial';
 import StreakAnnouncer from '@/components/features/Questions/Modals/StreakAnnouncer';
 import CTASideBar from '@/components/features/shared-components/CTASideBar';
 import StreakModal from '@/components/features/Questions/Modals/StreakModal';
+import { Answers } from '@/types/answer';
+import { TopicName } from '@/types/topic';
 
 interface Topic {
   id: number;
@@ -74,7 +76,6 @@ const Home = () => {
     fetchRandomQuestion(topic);
   };
 
-  type TopicName = "Information and Ideas" | "Craft and Structure" | "Expression of Ideas" | "Standard English Conventions";
 
   const topicType: Record<TopicName, string> = {
     "Information and Ideas": "information",
@@ -94,9 +95,17 @@ const Home = () => {
       console.error("Error fetching question:", error);
     }
   };
-  
-  const handleAnswerSubmit = (answer: string) => {
-    const correct = answer === randomQuestion?.correctAnswer;
+
+  const answerCorrectRef: Record<Answers, string> = {
+    "A": "0",
+    "B": "1",
+    "C": "2",
+    "D": "3"
+  };
+
+  const handleAnswerSubmit = (answer: Answers) => {
+    
+    const correct = answerCorrectRef[answer] === randomQuestion?.correctAnswer;
 
     if (correct) {
       increaseCorrectCounter();
