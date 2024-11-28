@@ -7,9 +7,8 @@ import Question from '../components/features/Questions/Question';
 import httpService from '../utils/httpService';
 import { useAnswerCounterStore, useScoreStore } from '@/store/score';
 import ScoreModal from '@/components/features/Questions/Modals/ScoreModal';
-import EditorialModal from '@/components/features/Questions/Modals/EditorialModal';
 import BookSVG from '@/components/features/Questions/icons/BookSVG';
-import { useEditorialModalStore, useScoreModalStore, useStreakAnnouncerModalStore, useStreakCounterModalStore } from '@/store/modals';
+import { useScoreModalStore, useStreakAnnouncerModalStore, useStreakCounterModalStore } from '@/store/modals';
 import useEditorialStore from '@/store/editorial';
 import StreakAnnouncer from '@/components/features/Questions/Modals/StreakAnnouncer';
 import CTASideBar from '@/components/features/shared-components/CTASideBar';
@@ -39,6 +38,7 @@ const Home = () => {
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
   const [randomQuestion, setRandomQuestion] = useState<QuestionData | null>(null);
   const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
+  const [openEditorial, setOpenEditorial] = useState<boolean>(false)
 
   const increaseScore = useScoreStore((state) => state.increaseScore);
   const increaseCorrectCounter = useAnswerCounterStore((state) => state.increaseCount);
@@ -48,8 +48,6 @@ const Home = () => {
   // Modal handlers
   const openScoreModal = useScoreModalStore((state) => state.openModal);
   const isScoreModalOpen = useScoreModalStore((state) => state.isOpen);
-  const openEditorialModal = useEditorialModalStore((state) => state.openModal);
-  const isEditorialModalOpen = useEditorialModalStore((state) => state.isOpen);
   const openAnnouncerModal = useStreakAnnouncerModalStore((state) => state.openModal);
   const isAnnouncerModalOpen = useStreakAnnouncerModalStore((state) => state.isOpen);
   const openStreakModal = useStreakCounterModalStore((state) => state.openModal);
@@ -123,24 +121,18 @@ const Home = () => {
       fetchRandomQuestion(selectedTopic);
     }
   };
-
-  const handleGetEditorial = async () => {
-    if (randomQuestion) {
-      const editorialResponse = await httpService.get(`/questions/editorial/reading?questionID=${randomQuestion.id}`);
-      setEditorial(editorialResponse.data.editorials);
-      openEditorialModal();
-    }
-  };
-
   // Prevent rendering if modals are open
-  if (isScoreModalOpen || isEditorialModalOpen || isStreakModalOpen) {
+  if (isScoreModalOpen || isStreakModalOpen) {
     return (
       <>
         <ScoreModal />
-        <EditorialModal />
         <StreakModal />
       </>
     );
+  }
+
+  const handleToggleEditorial = () => {
+    setOpenEditorial((prev)  => !prev)
   }
 
   return (
@@ -210,7 +202,10 @@ const Home = () => {
                     ) : (
                       <div>
                         <p className="text-red-500 text-lg font-semibold">You are wrong :(</p>
-                        <button onClick={handleGetEditorial}>Do you want to see the editorials? Click here!</button>
+                        <button onClick={handleToggleEditorial}>Do you want to see the editorials? Click here!</button>
+                        {openEditorial &&
+                          <p className="mt-6">{randomQuestion?.explanation}</p>
+                        }
                       </div>
                     )}
                   </>
