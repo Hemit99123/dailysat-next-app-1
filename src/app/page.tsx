@@ -15,7 +15,6 @@ import StreakAnnouncer from '@/components/features/Questions/Modals/StreakAnnoun
 import CTASideBar from '@/components/features/shared-components/CTASideBar';
 import StreakModal from '@/components/features/Questions/Modals/StreakModal';
 import { Answers } from '@/types/answer';
-import { TopicName } from '@/types/topic';
 import questions from '@/data/questions.js'
 
 interface Topic {
@@ -79,9 +78,16 @@ const Home = () => {
 
   const fetchRandomQuestion = async (topic: Topic) => {
     const topicName = topic.name
+
+    // Filtering based on the topic that the user has chosen from the topics list
+    
+    const filteredQuestions = questions.filter(
+      (question) => question.skill === topicName
+    );
+
     try {
       if (questions.length > 0) {
-        const questionData: QuestionData = questions[Math.floor(Math.random() * questions.length)];
+        const questionData: QuestionData = filteredQuestions[Math.floor(Math.random() * filteredQuestions.length)];
         setRandomQuestion(questionData)
       } else {
         console.log("No questions available");
