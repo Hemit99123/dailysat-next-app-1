@@ -7,7 +7,6 @@ import { useAnswerCounterStore, useScoreStore } from '@/store/score';
 import ScoreModal from '@/components/features/Questions/Modals/ScoreModal';
 import BookSVG from '@/components/features/Questions/icons/BookSVG';
 import { useScoreModalStore, useStreakAnnouncerModalStore, useStreakCounterModalStore } from '@/store/modals';
-import useEditorialStore from '@/store/editorial';
 import StreakAnnouncer from '@/components/features/Questions/Modals/StreakAnnouncer';
 import CTASideBar from '@/components/features/shared-components/CTASideBar';
 import StreakModal from '@/components/features/Questions/Modals/StreakModal';
@@ -50,8 +49,6 @@ const Home = () => {
   const isAnnouncerModalOpen = useStreakAnnouncerModalStore((state) => state.isOpen);
   const openStreakModal = useStreakCounterModalStore((state) => state.openModal);
   const isStreakModalOpen = useStreakCounterModalStore((state) => state.isOpen);
-
-  const setEditorial = useEditorialStore((state) => state.setEditorial);
 
   useEffect(() => {
     if (correctCount === 3) {
