@@ -3,7 +3,7 @@ import AnswerOption from "../shared-components/AnswerOption";
 
 interface QuestionProps {
   title: string;
-  onAnswerSubmit: (answer: string) => void;
+  onAnswerSubmit: (answer: Answers) => void;
   optionA: string;
   optionB: string;
   optionC: string;
@@ -121,6 +121,7 @@ const Question: React.FC<QuestionProps> = ({
 
   // Handle answer click
   const handleAnswerClick = (answer: string) => {
+
     setSelectedAnswer(answer);
   };
 

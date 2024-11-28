@@ -17,3 +17,15 @@ export const useEditorialModalStore = create<ModalProps>((set) => ({
     openModal: () => set(() => ({ isOpen: true })),
     closeModal: () => set(() => ({ isOpen: false }))
 }))
+
+export const useStreakAnnouncerModalStore = create<ModalProps>((set) => ({
+  isOpen: false,
+  openModal: () => set(() => ({ isOpen: true })),
+  closeModal: () => set(() => ({ isOpen: false }))
+}))
+
+export const useStreakCounterModalStore = create<ModalProps>((set) => ({
+  isOpen: false,
+  openModal: () => set(() => ({ isOpen: true })),
+  closeModal: () => set(() => ({ isOpen: false }))
+}))
