@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import AnswerOption from "../shared-components/AnswerOption";
+import { Answers } from "@/types/answer";
 
 interface QuestionProps {
   title: string;
@@ -28,7 +29,7 @@ const Question: React.FC<QuestionProps> = ({
   const [highlights, setHighlights] = useState<Highlight[]>([]);
   const [mode, setMode] = useState<"highlight" | "clear" | null>(null); // Current mode
   const [crossOffMode, setCrossOffMode] = useState(false); // Cross-off mode
-  const [crossedOffOptions, setCrossedOffOptions] = useState<Set<string>>(
+  const [crossedOffOptions, setCrossedOffOptions] = useState<Set<Answers>>(
     new Set()
   ); // To track crossed off options
   const textRef = useRef<HTMLParagraphElement | null>(null);
@@ -121,7 +122,6 @@ const Question: React.FC<QuestionProps> = ({
 
   // Handle answer click
   const handleAnswerClick = (answer: string) => {
-
     setSelectedAnswer(answer);
   };
 
