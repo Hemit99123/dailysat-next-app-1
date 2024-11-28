@@ -1,33 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react"; // Import useState and useEffect
-import httpService from "../../utils/httpService";
-import { useRouter } from "next/navigation"; // Using Next.js router for navigation
-
 const NavBar = () => {
-  const [user, setUser] = useState<{ name: string; email: string } | null>(null); // State to store user info
-  const router = useRouter();
-
-  useEffect(() => {
-    const userObj = localStorage.getItem("user"); // Retrieve user object from localStorage
-    if (userObj) {
-      setUser(JSON.parse(userObj)); // Parse and set user info if it exists
-    }
-  }, []);
-
-  const handleAuth = async () => {
-    if (user) {
-      // Logout (user already logged in)
-      await httpService.post("/auth/logout");
-      setUser(null); // Clear user on logout
-      localStorage.removeItem("user"); // Remove user from localStorage
-      router.refresh(); // Refreshes the page
-    } else {
-      // Redirect to login
-      router.push("/login");
-    }
-  };
-
   return (
     <nav className="bg-white w-full z-20 top-0 start-0 border-b border-gray-200">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -35,13 +8,6 @@ const NavBar = () => {
           <span className="self-center text-2xl font-semibold whitespace-nowrap">DailySAT</span>
         </a>
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-          <button
-            type="button"
-            onClick={handleAuth}
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center"
-          >
-            {user ? "Logout" : "Login"} {/* Check if user is logged in */}
-          </button>
           <button
             data-collapse-toggle="navbar-sticky"
             type="button"
