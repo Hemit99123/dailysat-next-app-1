@@ -1,16 +1,12 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import ProtectedRoute from "../wrappers/CheckSessionWrapper";
 import Header from '../components/features/Questions/Header';
 import Question from '../components/features/Questions/Question';
-import httpService from '../utils/httpService';
 import { useAnswerCounterStore, useScoreStore } from '@/store/score';
 import ScoreModal from '@/components/features/Questions/Modals/ScoreModal';
-import EditorialModal from '@/components/features/Questions/Modals/EditorialModal';
 import BookSVG from '@/components/features/Questions/icons/BookSVG';
-import { useEditorialModalStore, useScoreModalStore, useStreakAnnouncerModalStore, useStreakCounterModalStore } from '@/store/modals';
-import useEditorialStore from '@/store/editorial';
+import { useScoreModalStore, useStreakAnnouncerModalStore, useStreakCounterModalStore } from '@/store/modals';
 import StreakAnnouncer from '@/components/features/Questions/Modals/StreakAnnouncer';
 import CTASideBar from '@/components/features/shared-components/CTASideBar';
 import StreakModal from '@/components/features/Questions/Modals/StreakModal';
@@ -39,6 +35,7 @@ const Home = () => {
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
   const [randomQuestion, setRandomQuestion] = useState<QuestionData | null>(null);
   const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
+  const [openEditorial, setOpenEditorial] = useState<boolean>(false)
 
   const increaseScore = useScoreStore((state) => state.increaseScore);
   const increaseCorrectCounter = useAnswerCounterStore((state) => state.increaseCount);
@@ -48,14 +45,10 @@ const Home = () => {
   // Modal handlers
   const openScoreModal = useScoreModalStore((state) => state.openModal);
   const isScoreModalOpen = useScoreModalStore((state) => state.isOpen);
-  const openEditorialModal = useEditorialModalStore((state) => state.openModal);
-  const isEditorialModalOpen = useEditorialModalStore((state) => state.isOpen);
   const openAnnouncerModal = useStreakAnnouncerModalStore((state) => state.openModal);
   const isAnnouncerModalOpen = useStreakAnnouncerModalStore((state) => state.isOpen);
   const openStreakModal = useStreakCounterModalStore((state) => state.openModal);
   const isStreakModalOpen = useStreakCounterModalStore((state) => state.isOpen);
-
-  const setEditorial = useEditorialStore((state) => state.setEditorial);
 
   useEffect(() => {
     if (correctCount === 3) {
@@ -123,28 +116,22 @@ const Home = () => {
       fetchRandomQuestion(selectedTopic);
     }
   };
-
-  const handleGetEditorial = async () => {
-    if (randomQuestion) {
-      const editorialResponse = await httpService.get(`/questions/editorial/reading?questionID=${randomQuestion.id}`);
-      setEditorial(editorialResponse.data.editorials);
-      openEditorialModal();
-    }
-  };
-
   // Prevent rendering if modals are open
-  if (isScoreModalOpen || isEditorialModalOpen || isStreakModalOpen) {
+  if (isScoreModalOpen || isStreakModalOpen) {
     return (
       <>
         <ScoreModal />
-        <EditorialModal />
         <StreakModal />
       </>
     );
   }
 
+  const handleToggleEditorial = () => {
+    setOpenEditorial((prev)  => !prev)
+  }
+
   return (
-    <ProtectedRoute>
+    <>
       <div className="flex flex-col md:flex-row">
         <div className="w-full md:w-96 flex flex-col p-5 md:p-10">
           <div className="w-full h-14 py-2 cursor-pointer duration-500 hover:bg-gray-50 flex items-center space-x-2">
@@ -210,7 +197,10 @@ const Home = () => {
                     ) : (
                       <div>
                         <p className="text-red-500 text-lg font-semibold">You are wrong :(</p>
-                        <button onClick={handleGetEditorial}>Do you want to see the editorials? Click here!</button>
+                        <button onClick={handleToggleEditorial}>Do you want to see the editorials? Click here!</button>
+                        {openEditorial &&
+                          <p className="mt-6">{randomQuestion?.explanation}</p>
+                        }
                       </div>
                     )}
                   </>
@@ -230,7 +220,7 @@ const Home = () => {
 
         {isAnnouncerModalOpen && <StreakAnnouncer />}
       </div>
-    </ProtectedRoute>
+    </>
   );
 };
 
