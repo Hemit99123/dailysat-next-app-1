@@ -1,10 +1,8 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import ProtectedRoute from "../wrappers/CheckSessionWrapper";
 import Header from '../components/features/Questions/Header';
 import Question from '../components/features/Questions/Question';
-import httpService from '../utils/httpService';
 import { useAnswerCounterStore, useScoreStore } from '@/store/score';
 import ScoreModal from '@/components/features/Questions/Modals/ScoreModal';
 import BookSVG from '@/components/features/Questions/icons/BookSVG';
@@ -136,7 +134,7 @@ const Home = () => {
   }
 
   return (
-    <ProtectedRoute>
+    <>
       <div className="flex flex-col md:flex-row">
         <div className="w-full md:w-96 flex flex-col p-5 md:p-10">
           <div className="w-full h-14 py-2 cursor-pointer duration-500 hover:bg-gray-50 flex items-center space-x-2">
@@ -225,7 +223,7 @@ const Home = () => {
 
         {isAnnouncerModalOpen && <StreakAnnouncer />}
       </div>
-    </ProtectedRoute>
+    </>
   );
 };
 
