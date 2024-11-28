@@ -99,23 +99,25 @@ const Home = () => {
   };
 
   const handleAnswerSubmit = (answer: Answers) => {
-    
     const correct = answerCorrectRef[answer] === randomQuestion?.correctAnswer;
-
+  
     if (correct) {
       increaseCorrectCounter();
       increaseScore();
     } else {
       resetCorrectCounter();
     }
-
+  
     setIsAnswerCorrect(correct);
-
-    // Fetch a new question immediately after answering
+  
+    // Add a 500ms delay before fetching a new question
     if (correct && selectedTopic) {
-      fetchRandomQuestion(selectedTopic);
+      setTimeout(() => {
+        fetchRandomQuestion(selectedTopic);
+      }, 500);
     }
   };
+
   // Prevent rendering if modals are open
   if (isScoreModalOpen || isStreakModalOpen) {
     return (
