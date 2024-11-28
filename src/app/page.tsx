@@ -16,6 +16,7 @@ import CTASideBar from '@/components/features/shared-components/CTASideBar';
 import StreakModal from '@/components/features/Questions/Modals/StreakModal';
 import { Answers } from '@/types/answer';
 import { TopicName } from '@/types/topic';
+import questions from '@/data/questions.js'
 
 interface Topic {
   id: number;
@@ -24,15 +25,15 @@ interface Topic {
 }
 
 interface QuestionData {
-  id: number;
-  title: string;
-  body: string;
-  correctAnswer: string;
-  topic: string;
+  id: string;
+  question: string;
   optionA: string;
   optionB: string;
   optionC: string;
   optionD: string;
+  correctAnswer: number;
+  explanation: string;
+  skill: string;
 }
 
 const Home = () => {
@@ -76,31 +77,26 @@ const Home = () => {
     fetchRandomQuestion(topic);
   };
 
-
-  const topicType: Record<TopicName, string> = {
-    "Information and Ideas": "information",
-    "Craft and Structure": "craft",
-    "Expression of Ideas": "idea",
-    "Standard English Conventions": "convention"
-  };
-  
   const fetchRandomQuestion = async (topic: Topic) => {
-    const type = topicType[topic.name as TopicName]; // This will be inferred as one of the valid keys
+    const topicName = topic.name
     try {
-      const response = await httpService.get(`/questions/get/reading?type=${type}`);
-      const questionData: QuestionData = response.data.randomQuestion[0];
-      setRandomQuestion(questionData || null);
+      if (questions.length > 0) {
+        const questionData: QuestionData = questions[Math.floor(Math.random() * questions.length)];
+        setRandomQuestion(questionData)
+      } else {
+        console.log("No questions available");
+      }      
       setIsAnswerCorrect(null); // Reset correctness after a new question
     } catch (error) {
       console.error("Error fetching question:", error);
     }
   };
 
-  const answerCorrectRef: Record<Answers, string> = {
-    "A": "0",
-    "B": "1",
-    "C": "2",
-    "D": "3"
+  const answerCorrectRef: Record<Answers, number> = {
+    "A": 0,
+    "B": 1,
+    "C": 2,
+    "D": 3
   };
 
   const handleAnswerSubmit = (answer: Answers) => {
@@ -190,7 +186,7 @@ const Home = () => {
               </div>
               {randomQuestion ? (
                 <Question
-                  title={randomQuestion.title}
+                  title={randomQuestion.question}
                   optionA={randomQuestion.optionA}
                   optionB={randomQuestion.optionB}
                   optionC={randomQuestion.optionC}
