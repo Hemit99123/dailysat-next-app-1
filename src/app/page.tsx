@@ -114,7 +114,7 @@ const Home = () => {
     if (correct && selectedTopic) {
       setTimeout(() => {
         fetchRandomQuestion(selectedTopic);
-      }, 500);
+      }, 1500);
     }
   };
 
