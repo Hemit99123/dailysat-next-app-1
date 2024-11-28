@@ -83,7 +83,7 @@ const Home = () => {
         const questionData: QuestionData = filteredQuestions[Math.floor(Math.random() * filteredQuestions.length)];
         setRandomQuestion(questionData)
       } else {
-        console.log("No questions available");
+        alert("No questions available");
       }      
       setIsAnswerCorrect(null); // Reset correctness after a new question
     } catch (error) {
