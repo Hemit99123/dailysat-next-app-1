@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import AnswerOption from "../shared-components/AnswerOption";
+import { Answers } from "@/types/answer";
 
 interface QuestionProps {
   title: string;
@@ -25,7 +26,7 @@ const Question: React.FC<QuestionProps> = ({
   optionD,
   onAnswerSubmit,
 }) => {
-  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+  const [selectedAnswer, setSelectedAnswer] = useState<Answers | null>(null);
   const [highlights, setHighlights] = useState<Highlight[]>([]);
   const [mode, setMode] = useState<"highlight" | "clear" | null>(null); // Current mode
   const [annotationText, setAnnotationText] = useState("");
@@ -89,11 +90,6 @@ const Question: React.FC<QuestionProps> = ({
   };
 
   // Check if text is highlighted
-  const isTextHighlighted = (start: number, end: number) =>
-    highlights.some(
-      (highlight) =>
-        highlight.startOffset <= start && highlight.endOffset >= end
-    );
 
   // Render text with highlights
   const renderHighlightedText = () => {
@@ -130,7 +126,7 @@ const Question: React.FC<QuestionProps> = ({
   };
 
   // Handle answer click
-  const handleAnswerClick = (answer: string) => {
+  const handleAnswerClick = (answer: Answers) => {
 
     setSelectedAnswer(answer);
   };
@@ -205,32 +201,24 @@ const Question: React.FC<QuestionProps> = ({
       <span className="mb-3 text-sm font-semibold">Choose 1 answer:</span>
       <div className="w-full space-y-2">
         <AnswerOption
-          label={"A"}
-
           text={optionA}
           onClick={() => handleAnswerClick("A")}
           isSelected={selectedAnswer === "A"}
         />
 
         <AnswerOption
-          label={"B"}
-
           text={optionB}
           onClick={() => handleAnswerClick("B")}
           isSelected={selectedAnswer === "B"}
         />
 
         <AnswerOption
-          label={"C"}
-
           text={optionC}
           onClick={() => handleAnswerClick("C")}
           isSelected={selectedAnswer === "C"}
         />
 
         <AnswerOption
-          label={"D"}
-
           text={optionD}
           onClick={() => handleAnswerClick("D")}
           isSelected={selectedAnswer === "D"}
