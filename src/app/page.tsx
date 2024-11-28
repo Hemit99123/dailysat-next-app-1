@@ -157,14 +157,6 @@ const Home = () => {
             ))}
           </div>
 
-          <div className="border border-gray-200 rounded-sm px-1.5 py-3 mt-8">
-            <div className="flex items-center mb-0.5">
-              <p className="font-medium uppercase text-[12px]">Course Challenge</p>
-            </div>
-            <p className="text-[12px] text-gray-400 mb-1">Challenge yourself, better yourself!</p>
-            <p className="font-semibold text-sm text-blue-500 cursor-pointer">Start course challenge</p>
-          </div>
-
           <CTASideBar open={openScoreModal} text='Click to open the scoreboard!' />
           <CTASideBar open={openStreakModal} text='Click to see your current streak!' />
         </div>
