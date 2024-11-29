@@ -10,7 +10,7 @@ const About = () => {
     {
       name: 'Aarush Kute',
       role: 'CEO',
-      imgSrc: './60c4f17b-6827-4b25-bb09-031fc9bf871d (1).JPG',
+      imgSrc: './people/aarush.png',
       linkedIn: "https://www.linkedin.com/in/aarush-kute-1639a525b/"
     },
     {
@@ -118,7 +118,7 @@ const About = () => {
             {team.map((member, index) => (
                 <div key={index} className="flex flex-col items-center justify-center">
                 <img
-                    className="w-36 h-36 rounded-full mb-4"
+                    className="w-36 h-36 rounded-3xl object-contain mb-4"
                     src={member.imgSrc}
                     alt={member.name}
                 />
