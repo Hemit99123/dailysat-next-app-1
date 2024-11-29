@@ -12,6 +12,7 @@ import CTASideBar from '@/components/features/shared-components/CTASideBar';
 import StreakModal from '@/components/features/Questions/Modals/StreakModal';
 import { Answers } from '@/types/answer';
 import questions from '@/data/questions';
+import { useAnswerStore } from '@/store/answer';
 
 interface Topic {
   id: number;
@@ -34,7 +35,8 @@ interface QuestionData {
 const Home = () => {
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
   const [randomQuestion, setRandomQuestion] = useState<QuestionData | null>(null);
-  const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
+  const isAnswerCorrect = useAnswerStore((state) => state.isAnswerCorrect)
+  const setIsAnswerCorrect = useAnswerStore((state) => state.setIsAnswerCorrect)
   const [openEditorial, setOpenEditorial] = useState<boolean>(false);
 
   const increaseScore = useScoreStore((state) => state.increaseScore);
