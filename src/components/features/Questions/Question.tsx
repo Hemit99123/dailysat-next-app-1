@@ -1,6 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import AnswerOption from "../shared-components/AnswerOption";
 import { Answers } from "@/types/answer";
+import { useAnswerStore } from "@/store/answer";
 
 interface QuestionProps {
   title: string;
@@ -34,6 +35,13 @@ const Question: React.FC<QuestionProps> = ({
     null
   );
   const textRef = useRef<HTMLParagraphElement | null>(null);
+  const isAnswerCorrect = useAnswerStore((state) => state.isAnswerCorrect)
+
+  useEffect(() => {
+    if (isAnswerCorrect) {
+      setSelectedAnswer(null)
+    }
+  }, [isAnswerCorrect])
 
   // Toggle highlight/clear mode
   const toggleMode = (newMode: "highlight" | "clear") => {
@@ -127,7 +135,6 @@ const Question: React.FC<QuestionProps> = ({
 
   // Handle answer click
   const handleAnswerClick = (answer: Answers) => {
-
     setSelectedAnswer(answer);
   };
 
