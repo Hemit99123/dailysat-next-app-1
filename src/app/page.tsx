@@ -11,7 +11,7 @@ import StreakAnnouncer from '@/components/features/Questions/Modals/StreakAnnoun
 import CTASideBar from '@/components/features/shared-components/CTASideBar';
 import StreakModal from '@/components/features/Questions/Modals/StreakModal';
 import { Answers } from '@/types/answer';
-import questions from '@/data/questions.js'
+import questions from '@/data/questions.ts';
 
 interface Topic {
   id: number;
@@ -35,14 +35,13 @@ const Home = () => {
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
   const [randomQuestion, setRandomQuestion] = useState<QuestionData | null>(null);
   const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
-  const [openEditorial, setOpenEditorial] = useState<boolean>(false)
+  const [openEditorial, setOpenEditorial] = useState<boolean>(false);
 
   const increaseScore = useScoreStore((state) => state.increaseScore);
   const increaseCorrectCounter = useAnswerCounterStore((state) => state.increaseCount);
   const resetCorrectCounter = useAnswerCounterStore((state) => state.resetCount);
   const correctCount = useAnswerCounterStore((state) => state.count);
 
-  // Modal handlers
   const openScoreModal = useScoreModalStore((state) => state.openModal);
   const isScoreModalOpen = useScoreModalStore((state) => state.isOpen);
   const openAnnouncerModal = useStreakAnnouncerModalStore((state) => state.openModal);
@@ -56,12 +55,11 @@ const Home = () => {
     }
   }, [correctCount, openAnnouncerModal]);
 
-  // List of topics
   const topics: Topic[] = [
-    { id: 1, name: "Information and Ideas", description: "Topic 1" },
-    { id: 2, name: "Craft and Structure", description: "Topic 2" },
-    { id: 3, name: "Expression of Ideas", description: "Topic 3" },
-    { id: 4, name: "Standard English Conventions", description: "Topic 4" }
+    { id: 1, name: 'Information and Ideas', description: 'Topic 1' },
+    { id: 2, name: 'Craft and Structure', description: 'Topic 2' },
+    { id: 3, name: 'Expression of Ideas', description: 'Topic 3' },
+    { id: 4, name: 'Standard English Conventions', description: 'Topic 4' },
   ];
 
   const handleTopicClick = (topic: Topic) => {
@@ -70,47 +68,33 @@ const Home = () => {
   };
 
   const fetchRandomQuestion = async (topic: Topic) => {
-    const topicName = topic.name
-
-    // Filtering based on the topic that the user has chosen from the topics list
-    
-    const filteredQuestions = questions.filter(
-      (question) => question.skill === topicName
-    );
+    const topicName = topic.name;
+    const filteredQuestions = questions.filter((question) => question.skill === topicName);
 
     try {
-      if (questions.length > 0) {
+      if (filteredQuestions.length > 0) {
         const questionData: QuestionData = filteredQuestions[Math.floor(Math.random() * filteredQuestions.length)];
-        setRandomQuestion(questionData)
+        setRandomQuestion(questionData);
       } else {
-        alert("No questions available");
-      }      
-      setIsAnswerCorrect(null); // Reset correctness after a new question
+        alert('No questions available');
+      }
+      setIsAnswerCorrect(null);
     } catch (error) {
-      console.error("Error fetching question:", error);
+      console.error('Error fetching question:', error);
     }
   };
 
-  const answerCorrectRef: Record<Answers, number> = {
-    "A": 0,
-    "B": 1,
-    "C": 2,
-    "D": 3
-  };
+  const answerCorrectRef: Record<Answers, number> = { A: 0, B: 1, C: 2, D: 3 };
 
   const handleAnswerSubmit = (answer: Answers) => {
     const correct = answerCorrectRef[answer] === randomQuestion?.correctAnswer;
-  
     if (correct) {
       increaseCorrectCounter();
       increaseScore();
     } else {
       resetCorrectCounter();
     }
-  
     setIsAnswerCorrect(correct);
-  
-    // Add a 500ms delay before fetching a new question
     if (correct && selectedTopic) {
       setTimeout(() => {
         fetchRandomQuestion(selectedTopic);
@@ -118,7 +102,10 @@ const Home = () => {
     }
   };
 
-  // Prevent rendering if modals are open
+  const handleToggleEditorial = () => {
+    setOpenEditorial((prev) => !prev);
+  };
+
   if (isScoreModalOpen || isStreakModalOpen) {
     return (
       <>
@@ -128,93 +115,88 @@ const Home = () => {
     );
   }
 
-  const handleToggleEditorial = () => {
-    setOpenEditorial((prev)  => !prev)
-  }
-
   return (
-    <>
-      <div className="flex flex-col md:flex-row">
-        <div className="w-full md:w-96 flex flex-col p-5 md:p-10">
-          <div className="w-full h-14 py-2 cursor-pointer duration-500 hover:bg-gray-50 flex items-center space-x-2">
-            <div className="flex-col">
-              <div className='flex space-x-2 items-center'>
-                <BookSVG />
-                <p className="font-semibold">Reading SAT</p>
-              </div>
-              <p className="uppercase text-[12px] text-gray-400">4 topics</p>
+    <div className="flex flex-col md:flex-row h-screen">
+      {/* Sidebar */}
+      <div className="w-full md:w-96 p-5 md:p-10 flex-shrink-0">
+        <div className="w-full h-14 py-2 cursor-pointer duration-500 hover:bg-gray-50 flex items-center space-x-2">
+          <div className="px-2">
+            <div className="flex space-x-2 items-center">
+              <BookSVG />
+              <p className="font-semibold text-2xl">Reading SAT</p>
             </div>
+            <p className="uppercase text-[12px] text-gray-400 mt-1">4 topics</p>
           </div>
-
-          <div className="mt-5">
-            {topics.map((topic) => (
-              <div
-                key={topic.id}
-                className={`bg-blue-50 py-3 px-3 mb-2 cursor-pointer ${selectedTopic?.id === topic.id ? 'border-l-4 border-blue-500' : ''}`}
-                onClick={() => handleTopicClick(topic)}
-              >
-                <p className="text-[11px] text-gray-400 uppercase">{topic.description}</p>
-                <p className="text-[16px] font-semibold">{topic.name}</p>
-              </div>
-            ))}
-          </div>
-
-          <CTASideBar open={openScoreModal} text='Click to open the scoreboard!' />
-          <CTASideBar open={openStreakModal} text='Click to see your current streak!' />
+          
         </div>
-
-        <div className="w-px bg-gray-200 h-px md:h-full"></div>
-
-        <div className="flex flex-col md:flex-grow p-5 md:p-10">
-          {selectedTopic ? (
-            <div className="w-full">
-              <div className="text-center mb-16">
-                <Header name={selectedTopic.name} />
-              </div>
-              {randomQuestion ? (
-                <Question
-                  title={randomQuestion.question}
-                  optionA={randomQuestion.optionA}
-                  optionB={randomQuestion.optionB}
-                  optionC={randomQuestion.optionC}
-                  optionD={randomQuestion.optionD}
-                  onAnswerSubmit={handleAnswerSubmit}
-                />
-              ) : (
-                <p>Loading question...</p>
-              )}
-              <div className="mt-4 pl-7">
-                {isAnswerCorrect !== null ? (
-                  <>
-                    {isAnswerCorrect ? (
-                      <p className="text-green-500 text-lg font-semibold">You are correct!</p>
-                    ) : (
-                      <div>
-                        <p className="text-red-500 text-lg font-semibold">You are wrong :(</p>
-                        <button onClick={handleToggleEditorial}>Do you want to see the editorials? Click here!</button>
-                        {openEditorial &&
-                          <p className="mt-6">{randomQuestion?.explanation}</p>
-                        }
-                      </div>
-                    )}
-                  </>
-                ) : null}
-              </div>
+        <div className="mt-5">
+          {topics.map((topic) => (
+            <div
+              key={topic.id}
+              className={`bg-blue-50 py-3 px-3 mb-2 cursor-pointer ${
+                selectedTopic?.id === topic.id ? 'border-l-4 border-blue-500' : ''
+              }`}
+              onClick={() => handleTopicClick(topic)}
+            >
+              <p className="text-[11px] text-gray-400 uppercase">{topic.description}</p>
+              <p className="text-[16px] font-semibold">{topic.name}</p>
             </div>
-          ) : (
-            <div className="flex flex-col items-center flex-grow">
-              <div className="mt-16 text-center">
-                <hr className="mx-8 my-5 h-px border-0 bg-gray-200" />
-                <p className="text-xl font-medium">Select a topic to start</p>
-                <p className="text-gray-400">Get started by selecting a topic from the left.</p>
-              </div>
-            </div>
-          )}
+          ))}
         </div>
-
-        {isAnnouncerModalOpen && <StreakAnnouncer />}
+        <CTASideBar open={openScoreModal} text="Click to open the scoreboard!" />
+        <CTASideBar open={openStreakModal} text="Click to see your current streak!" />
       </div>
-    </>
+
+      {/* Main Content */}
+      <div className="flex flex-col flex-grow p-5 md:p-10">
+        {selectedTopic ? (
+          <div className="w-full mx-auto">
+            <div className="text-center mb-16">
+              <Header name={selectedTopic.name} question={randomQuestion?.question}/>
+            </div>
+            {randomQuestion ? (
+              <Question
+                title={randomQuestion.question}
+                optionA={randomQuestion.optionA}
+                optionB={randomQuestion.optionB}
+                optionC={randomQuestion.optionC}
+                optionD={randomQuestion.optionD}
+                onAnswerSubmit={handleAnswerSubmit}
+              />
+            ) : (
+              <p>Loading question...</p>
+            )}
+            <div className="mt-4 pl-7">
+              {isAnswerCorrect !== null && (
+                <>
+                  {isAnswerCorrect ? (
+                    <p className="text-green-500 text-lg font-semibold">You are correct!</p>
+                  ) : (
+                    <div>
+                      <p className="text-red-500 text-lg font-semibold">You are wrong :(</p>
+                      <button onClick={handleToggleEditorial}>
+                        Do you want to see the editorials? Click here!
+                      </button>
+                      {openEditorial && <p className="mt-6">{randomQuestion?.explanation}</p>}
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div className="flex flex-col items-center flex-grow">
+            <div className="mt-16 text-center">
+              <hr className="mx-8 my-5 h-px border-0 bg-gray-200" />
+              <p className="text-xl font-medium">Select a topic to start</p>
+              <p className="text-gray-400">Get started by selecting a topic from the left.</p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {isAnnouncerModalOpen && <StreakAnnouncer />}
+    </div>
   );
 };
 
