@@ -11,7 +11,7 @@ import StreakAnnouncer from '@/components/features/Questions/Modals/StreakAnnoun
 import CTASideBar from '@/components/features/shared-components/CTASideBar';
 import StreakModal from '@/components/features/Questions/Modals/StreakModal';
 import { Answers } from '@/types/answer';
-import questions from '@/data/questions.ts';
+import questions from '@/data/questions';
 
 interface Topic {
   id: number;
