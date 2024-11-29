@@ -10,7 +10,7 @@ const About = () => {
     {
       name: 'Aarush Kute',
       role: 'CEO',
-      imgSrc: '60c4f17b-6827-4b25-bb09-031fc9bf871d (1).JPG',
+      imgSrc: './60c4f17b-6827-4b25-bb09-031fc9bf871d (1).JPG',
       linkedIn: "https://www.linkedin.com/in/aarush-kute-1639a525b/"
     },
     {
