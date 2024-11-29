@@ -110,7 +110,7 @@ const About = () => {
             <div className="mx-auto mb-8 max-w-screen-sm lg:mb-16">
             <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900">Our team</h2>
             <p className="font-light text-gray-500 sm:text-xl">
-                Explore the whole collection of open-source web components and elements built with the utility classes from Tailwind
+                These are the people behind DailySAT!
             </p>
             </div>
             {/* Mapping over team array */}
