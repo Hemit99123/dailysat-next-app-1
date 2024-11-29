@@ -86,7 +86,7 @@ const About = () => {
                     Empowering students to succeed!
                   </h2>
                   <p className="text-gray-500 text-sm font-normal leading-relaxed lg:text-start lg:text-base text-center">
-                    Welcome to DailySAT, your ultimate online resource for mastering the SAT! Our mission is to empower students to achieve their best scores by providing an interactive, personalized, and efficient study experience. Whether you&apos;re aiming for a perfect score or just trying to improve in specific areas, StudySmart SAT is here to guide you every step of the way.
+                    Welcome to DailySAT, your ultimate online resource for mastering the SAT! Our mission is to empower students to achieve their best scores by providing an interactive, personalized, and efficient study experience. Whether you&apos;re aiming for a perfect score or just trying to improve in specific areas, DailySAT is here to guide you every step of the way.
                   </p>
                 </div>
                 <div className="w-full lg:justify-start justify-center items-center sm:gap-10 space-x-10 inline-flex">
