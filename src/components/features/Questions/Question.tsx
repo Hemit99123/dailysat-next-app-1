@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import AnswerOption from "../shared-components/AnswerOption";
 import { Answers } from "@/types/answer";
 import { useAnswerStore } from "@/store/answer";
+import Image from "next/image";
 
 interface QuestionProps {
   title: string;
@@ -157,10 +158,12 @@ const Question: React.FC<QuestionProps> = ({
             mode === "highlight" ? "bg-blue-500 text-white" : "bg-gray-300"
           }`}
         >
-          <img
-            src={mode !== "highlight" ? "/highlighter.png" : "/full.png"}
+          <Image
+            src={mode !== "highlight" ? "/icons/highlighter.png" : "/icons/full.png"}
             alt="Toggle highlight mode"
             className="w-4 h-4"
+            width={500}
+            height={500}
           />
         </button>
 
@@ -171,10 +174,12 @@ const Question: React.FC<QuestionProps> = ({
             mode === "clear" ? "bg-red-500 text-white" : "bg-gray-300"
           }`}
         >
-          <img
-            src={mode !== "clear" ? "/eraser.png" : "/colored.png"}
+          <Image
+            src={mode !== "clear" ? "/icons/eraser.png" : "/icons/colored.png"}
             alt="Toggle clear highlight mode"
             className="w-4 h-4"
+            width={500}
+            height={500}
           />
         </button>
       </div>
