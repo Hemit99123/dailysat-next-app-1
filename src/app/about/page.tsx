@@ -15,7 +15,7 @@ const About = () => {
     },
     {
       name: 'Hemit Patel',
-      role: 'COO',
+      role: 'COO/President',
       imgSrc: 'https://media.licdn.com/dms/image/v2/D5603AQFDJxp7vmgX0Q/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1695640460890?e=1738195200&v=beta&t=sfsEBemwKB0_r70CJcFTqoBPOa2LgWU46Tq-CtjgJek',
       linkedIn: "https://www.linkedin.com/in/hemit-patel-383ab3271/"
     }, 
