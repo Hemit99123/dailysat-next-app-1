@@ -10,6 +10,6 @@ Welcome to the codebase of DailySAT! Here you will find documentation from the d
 
 ## 💻 Technology Stack:
 
-- NextJS
-- TailwindCSS
-- MongoDB
+- NextJS (frontend and backend)
+- TailwindCSS (styling)
+- MongoDB (db management solution)
