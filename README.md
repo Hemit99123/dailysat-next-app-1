@@ -1,11 +1,7 @@
-# 🎨 DAILY SAT FRONTEND PORTAL
-
-This is the frontend application to the DailySAT application
-
+# DailySAT
 
 ## 💻 Technology Stack:
 
-- NextJS (not using backend, just frontend)
+- NextJS
 - TailwindCSS
-
-### THE NEW CODEBASE (PREVIOUS ONE USING PLAIN REACT)
+- MongoDB
