@@ -1,103 +1,109 @@
-"use client";
+"use client"; // Indicates this is a client-side component
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-// Define the menu items in JSON format
+// Define the menu items for navigation
 const menuItems = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
-  { label: "Services", href: "/services" },
-  { label: "Contact", href: "/contact" },
 ];
 
 const NavBar = () => {
-  const router = useRouter();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter(); // Hook to navigate programmatically
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // State to track if the mobile menu is open
 
+  // Handles navigation to an external form link
   const handleGoToForm = () => {
     router.push("https://evq73w1t59w.typeform.com/to/S0yXIWtD");
   };
 
+  // Toggles the mobile menu open/close state
   const toggleMenu = () => {
-    setIsMenuOpen((prev) => !prev);
+    setIsMenuOpen(!isMenuOpen);
   };
 
   return (
-    <nav className="bg-white w-full z-20 top-0 start-0 border-b border-gray-200">
-      <div className="max-w-screen-xl mx-auto flex flex-wrap items-center justify-between p-4">
-        {/* Logo */}
-        <a href="/" className="flex items-center space-x-3">
+    <nav className="bg-white w-full border-b border-gray-200">
+      {/* Container for the main navigation bar */}
+      <div className="max-w-screen-xl mx-auto flex justify-between items-center p-4">
+        {/* Logo Section */}
+        <a href="/" className="flex items-center">
           <Image src="/logo/dailysat.png" width={50} height={50} alt="Logo" />
-          <span className="text-2xl font-semibold whitespace-nowrap">DailySAT</span>
+          <span className="text-2xl font-semibold ml-2">DailySAT</span>
         </a>
 
         {/* Mobile Menu Button */}
         <button
           onClick={toggleMenu}
-          className="inline-flex items-center p-2 w-10 h-10 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
-          aria-controls="navbar-sticky"
+          className="md:hidden p-2 text-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300"
           aria-expanded={isMenuOpen}
         >
           <span className="sr-only">Open main menu</span>
-          <svg
-            className="w-6 h-6"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            {isMenuOpen ? (
+          {isMenuOpen ? (
+            // Close Icon when menu is open
+            <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-            ) : (
+            </svg>
+          ) : (
+            // Hamburger Icon when menu is closed
+            <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-            )}
-          </svg>
+            </svg>
+          )}
         </button>
 
-        {/* Menu Items for Desktop */}
-        <div
-          className={`${
-            isMenuOpen ? "block" : "hidden"
-          } md:flex md:items-center md:w-auto w-full`}
-          id="navbar-sticky"
-        >
-          <ul className="flex flex-col p-4 md:p-0 mt-4 md:flex-row md:space-x-8 md:mt-0">
-            {menuItems.map((item, index) => (
-              <li key={index}>
-                <a
-                  href={item.href}
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
+        {/* Menu Items for Desktop View */}
+        <div className="hidden md:flex md:space-x-8">
+          {menuItems.map((item, index) => (
+            <a
+              key={index}
+              href={item.href}
+              className="py-2 px-4 text-gray-900 hover:text-blue-600 transition"
+            >
+              {item.label}
+            </a>
+          ))}
         </div>
 
-        {/* Contact Button */}
-        <div className="hidden md:inline-block">
+        {/* Contact Button for Desktop View */}
+        <div className="hidden md:block">
           <button
             onClick={handleGoToForm}
-            className="px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-400"
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
           >
             Contact
           </button>
         </div>
       </div>
 
-      {/* Contact Button for Mobile View */}
-      {isMenuOpen && (
-        <div className="block md:hidden mt-4 px-4">
-          <button
-            onClick={handleGoToForm}
-            className="w-full px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-400"
-          >
-            Contact
-          </button>
-        </div>
-      )}
+      {/* Mobile Menu Items with transition effect */}
+      <div
+        className={`md:hidden overflow-hidden transition-max-height duration-500 ease-in-out ${
+          isMenuOpen ? "max-h-96" : "max-h-0"
+        }`}
+      >
+        <ul className="space-y-2 p-4 bg-gray-100">
+          {menuItems.map((item, index) => (
+            <li key={index}>
+              <a
+                href={item.href}
+                className="block py-2 px-3 text-gray-900 hover:bg-gray-200 rounded-lg"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+          <li>
+            <button
+              onClick={handleGoToForm}
+              className="w-full px-4 py-2 mt-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            >
+              Contact
+            </button>
+          </li>
+        </ul>
+      </div>
     </nav>
   );
 };
