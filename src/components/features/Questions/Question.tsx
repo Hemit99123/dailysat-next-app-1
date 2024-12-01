@@ -15,7 +15,6 @@ interface QuestionProps {
 
 interface Highlight {
   text: string;
-  annotation: string;
   startOffset: number;
   endOffset: number;
 }
@@ -31,10 +30,10 @@ const Question: React.FC<QuestionProps> = ({
   const [selectedAnswer, setSelectedAnswer] = useState<Answers | null>(null);
   const [highlights, setHighlights] = useState<Highlight[]>([]);
   const [mode, setMode] = useState<"highlight" | "clear" | null>(null); // Current mode
-  const [annotationText, setAnnotationText] = useState("");
-  const [currentSelection, setCurrentSelection] = useState<Highlight | null>(
-    null
-  );
+  const [crossOffMode, setCrossOffMode] = useState(false); // Cross-off mode
+  const [crossedOffOptions, setCrossedOffOptions] = useState<Set<Answers>>(
+    new Set()
+  ); // To track crossed off options
   const textRef = useRef<HTMLParagraphElement | null>(null);
   const isAnswerCorrect = useAnswerStore((state) => state.isAnswerCorrect)
 
@@ -47,6 +46,11 @@ const Question: React.FC<QuestionProps> = ({
   // Toggle highlight/clear mode
   const toggleMode = (newMode: "highlight" | "clear") => {
     setMode((prevMode) => (prevMode === newMode ? null : newMode));
+  };
+
+  // Toggle cross-off mode
+  const toggleCrossOffMode = () => {
+    setCrossOffMode((prevMode) => !prevMode);
   };
 
   // Handle mouse selection
@@ -63,17 +67,14 @@ const Question: React.FC<QuestionProps> = ({
         const endOffset = range.endOffset;
 
         if (mode === "highlight") {
-          setCurrentSelection({
-            text: selectedText,
-            annotation: "",
-            startOffset,
-            endOffset,
-          });
-          selection.removeAllRanges(); // Clear selection
+          setHighlights((prev) => [
+            ...prev,
+            { text: selectedText, startOffset, endOffset },
+          ]);
         } else if (mode === "clear") {
           removeHighlight(startOffset, endOffset);
-          selection.removeAllRanges(); // Clear selection
         }
+        selection.removeAllRanges(); // Clear selection
       }
     }
   };
@@ -86,16 +87,6 @@ const Question: React.FC<QuestionProps> = ({
           highlight.endOffset <= start || highlight.startOffset >= end
       )
     );
-  };
-
-  // Submit an annotation for the current highlight
-  const handleAnnotationSubmit = () => {
-    if (currentSelection) {
-      const newHighlight = { ...currentSelection, annotation: annotationText };
-      setHighlights((prev) => [...prev, newHighlight]);
-      setAnnotationText("");
-      setCurrentSelection(null);
-    }
   };
 
   // Check if text is highlighted
@@ -119,7 +110,6 @@ const Question: React.FC<QuestionProps> = ({
         <span
           key={highlight.startOffset}
           style={{ backgroundColor: "yellow", cursor: "pointer" }}
-          title={highlight.annotation} // Tooltip for hover
         >
           {title.slice(highlight.startOffset, highlight.endOffset)}
         </span>
@@ -146,7 +136,18 @@ const Question: React.FC<QuestionProps> = ({
     }
   };
 
-
+  // Handle cross-off button click for an option
+  const handleCrossOff = (option: string) => {
+    setCrossedOffOptions((prev) => {
+      const updated = new Set(prev);
+      if (updated.has(option)) {
+        updated.delete(option); // Remove cross if it was previously crossed
+      } else {
+        updated.add(option); // Add cross
+      }
+      return updated;
+    });
+  };
 
   return (
     <div className="flex flex-col items-start px-8">
@@ -182,6 +183,16 @@ const Question: React.FC<QuestionProps> = ({
             height={500}
           />
         </button>
+
+        {/* Cross-Off Mode Button */}
+        <button
+          onClick={toggleCrossOffMode}
+          className={`p-1 rounded ${
+            crossOffMode ? "bg-red-500 text-white" : "bg-gray-300"
+          }`}
+        >
+          {crossOffMode ? "Disable Cross-off" : "Enable Cross-off"}
+        </button>
       </div>
 
       <p
@@ -191,24 +202,6 @@ const Question: React.FC<QuestionProps> = ({
       >
         {renderHighlightedText()}
       </p>
-
-      {/* Annotation Popup */}
-      {currentSelection && mode === "highlight" && (
-        <div className="absolute bg-white border p-2 rounded shadow">
-          <textarea
-            className="border p-1 w-full"
-            placeholder="Add an annotation"
-            value={annotationText}
-            onChange={(e) => setAnnotationText(e.target.value)}
-          />
-          <button
-            onClick={handleAnnotationSubmit}
-            className="mt-2 px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
-            Submit Annotation
-          </button>
-        </div>
-      )}
 
       <span className="mb-3 text-sm font-semibold">Choose 1 answer:</span>
       <div className="w-full space-y-2">
@@ -236,6 +229,8 @@ const Question: React.FC<QuestionProps> = ({
           isSelected={selectedAnswer === "D"}
         />
       </div>
+
+      {/* Submit Button */}
       <button
         onClick={handleSubmit}
         className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
