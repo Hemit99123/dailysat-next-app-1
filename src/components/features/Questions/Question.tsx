@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import AnswerOption from "../shared-components/AnswerOption";
-import { Answers } from "@/types/answer"; // Ensure this type is correctly defined or imported
+import { Answers } from "@/types/answer";
 import { useAnswerStore } from "@/store/answer";
 import Image from "next/image";
 
@@ -31,9 +31,9 @@ const Question: React.FC<QuestionProps> = ({
   const [highlights, setHighlights] = useState<Highlight[]>([]);
   const [mode, setMode] = useState<"highlight" | "clear" | null>(null); // Current mode
   const [crossOffMode, setCrossOffMode] = useState(false); // Cross-off mode
-  const [crossedOffOptions, setCrossedOffOptions] = useState<Set<string>>(
+  const [crossedOffOptions, setCrossedOffOptions] = useState<Set<Answers>>(
     new Set()
-  ); // To track crossed off options, use strings like "A", "B", etc.
+  ); // To track crossed off options
   const textRef = useRef<HTMLParagraphElement | null>(null);
   const isAnswerCorrect = useAnswerStore((state) => state.isAnswerCorrect);
 
@@ -124,7 +124,24 @@ const Question: React.FC<QuestionProps> = ({
 
   // Handle answer click
   const handleAnswerClick = (answer: Answers) => {
-    setSelectedAnswer(answer);
+    if (crossOffMode) {
+      toggleCrossOffOption(answer);
+    } else {
+      setSelectedAnswer(answer);
+    }
+  };
+
+  // Toggle cross-off for an option
+  const toggleCrossOffOption = (option: Answers) => {
+    setCrossedOffOptions((prev) => {
+      const updated = new Set(prev);
+      if (updated.has(option)) {
+        updated.delete(option);
+      } else {
+        updated.add(option);
+      }
+      return updated;
+    });
   };
 
   // Handle answer submit
@@ -134,26 +151,13 @@ const Question: React.FC<QuestionProps> = ({
     }
   };
 
-  // Handle cross-off button click for an option
-  const handleCrossOff = (option: string) => {
-    setCrossedOffOptions((prev) => {
-      const updated = new Set(prev);
-      if (updated.has(option)) {
-        updated.delete(option); // Remove cross if it was previously crossed
-      } else {
-        updated.add(option); // Add cross
-      }
-      return updated;
-    });
-  };
-
   return (
     <div className="flex flex-col items-start px-8">
       <div className="flex items-center mb-2 space-x-4">
         {/* Highlight Mode Button */}
         <button
           onClick={() => toggleMode("highlight")}
-          className={`p-1 rounded-lg transition-colors duration-200 ease-in-out ${
+          className={`p-1 rounded ${
             mode === "highlight" ? "bg-blue-500 text-white" : "bg-gray-300"
           }`}
         >
@@ -169,7 +173,7 @@ const Question: React.FC<QuestionProps> = ({
         {/* Clear Highlight Button */}
         <button
           onClick={() => toggleMode("clear")}
-          className={`p-1 rounded-lg transition-colors duration-200 ease-in-out ${
+          className={`p-1 rounded ${
             mode === "clear" ? "bg-red-500 text-white" : "bg-gray-300"
           }`}
         >
@@ -185,11 +189,11 @@ const Question: React.FC<QuestionProps> = ({
         {/* Cross-Off Mode Button */}
         <button
           onClick={toggleCrossOffMode}
-          className={`p-1 rounded-lg transition-colors duration-200 ease-in-out ${
-            crossOffMode ? "bg-red-500 text-white" : "bg-gray-300"
+          className={`p-1 rounded ${
+            crossOffMode ? "bg-green-500 text-white" : "bg-gray-300"
           }`}
         >
-          {crossOffMode ? "Disable Cross-off" : "Enable Cross-off"}
+          {crossOffMode ? "Cross-off" : "Cross-off"}
         </button>
       </div>
 
@@ -235,7 +239,7 @@ const Question: React.FC<QuestionProps> = ({
       {/* Submit Button */}
       <button
         onClick={handleSubmit}
-        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
         disabled={!selectedAnswer}
       >
         Submit Answer
