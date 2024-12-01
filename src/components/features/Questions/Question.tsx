@@ -190,10 +190,10 @@ const Question: React.FC<QuestionProps> = ({
         <button
           onClick={toggleCrossOffMode}
           className={`p-1 rounded ${
-            crossOffMode ? "bg-green-500 text-white" : "bg-gray-300"
+            crossOffMode ? "bg-blue-300 text-white" : "bg-gray-300"
           }`}
         >
-          {crossOffMode ? "Cross-off" : "Cross-off"}
+          Cross off
         </button>
       </div>
 
