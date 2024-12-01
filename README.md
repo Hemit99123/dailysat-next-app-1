@@ -2,7 +2,7 @@
 
 Welcome to the codebase of DailySAT! Here you will find documentation from the developers!
 
-# Main devs:
+### Main devs:
 
 - Hemit Patel (President/COO)
 - Aarush Kute (Founder/CEO)
