@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import AnswerOption from "../shared-components/AnswerOption";
-import { Answers } from "@/types/answer";
+import { Answers } from "@/types/answer"; // Ensure this type is correctly defined or imported
 import { useAnswerStore } from "@/store/answer";
 import Image from "next/image";
 
@@ -31,17 +31,17 @@ const Question: React.FC<QuestionProps> = ({
   const [highlights, setHighlights] = useState<Highlight[]>([]);
   const [mode, setMode] = useState<"highlight" | "clear" | null>(null); // Current mode
   const [crossOffMode, setCrossOffMode] = useState(false); // Cross-off mode
-  const [crossedOffOptions, setCrossedOffOptions] = useState<Set<Answers>>(
+  const [crossedOffOptions, setCrossedOffOptions] = useState<Set<string>>(
     new Set()
-  ); // To track crossed off options
+  ); // To track crossed off options, use strings like "A", "B", etc.
   const textRef = useRef<HTMLParagraphElement | null>(null);
-  const isAnswerCorrect = useAnswerStore((state) => state.isAnswerCorrect)
+  const isAnswerCorrect = useAnswerStore((state) => state.isAnswerCorrect);
 
   useEffect(() => {
     if (isAnswerCorrect) {
-      setSelectedAnswer(null)
+      setSelectedAnswer(null);
     }
-  }, [isAnswerCorrect])
+  }, [isAnswerCorrect]);
 
   // Toggle highlight/clear mode
   const toggleMode = (newMode: "highlight" | "clear") => {
@@ -88,8 +88,6 @@ const Question: React.FC<QuestionProps> = ({
       )
     );
   };
-
-  // Check if text is highlighted
 
   // Render text with highlights
   const renderHighlightedText = () => {
@@ -155,7 +153,7 @@ const Question: React.FC<QuestionProps> = ({
         {/* Highlight Mode Button */}
         <button
           onClick={() => toggleMode("highlight")}
-          className={`p-1 rounded ${
+          className={`p-1 rounded-lg transition-colors duration-200 ease-in-out ${
             mode === "highlight" ? "bg-blue-500 text-white" : "bg-gray-300"
           }`}
         >
@@ -171,7 +169,7 @@ const Question: React.FC<QuestionProps> = ({
         {/* Clear Highlight Button */}
         <button
           onClick={() => toggleMode("clear")}
-          className={`p-1 rounded ${
+          className={`p-1 rounded-lg transition-colors duration-200 ease-in-out ${
             mode === "clear" ? "bg-red-500 text-white" : "bg-gray-300"
           }`}
         >
@@ -187,7 +185,7 @@ const Question: React.FC<QuestionProps> = ({
         {/* Cross-Off Mode Button */}
         <button
           onClick={toggleCrossOffMode}
-          className={`p-1 rounded ${
+          className={`p-1 rounded-lg transition-colors duration-200 ease-in-out ${
             crossOffMode ? "bg-red-500 text-white" : "bg-gray-300"
           }`}
         >
@@ -209,31 +207,35 @@ const Question: React.FC<QuestionProps> = ({
           text={optionA}
           onClick={() => handleAnswerClick("A")}
           isSelected={selectedAnswer === "A"}
+          isCrossedOff={crossedOffOptions.has("A")}
         />
 
         <AnswerOption
           text={optionB}
           onClick={() => handleAnswerClick("B")}
           isSelected={selectedAnswer === "B"}
+          isCrossedOff={crossedOffOptions.has("B")}
         />
 
         <AnswerOption
           text={optionC}
           onClick={() => handleAnswerClick("C")}
           isSelected={selectedAnswer === "C"}
+          isCrossedOff={crossedOffOptions.has("C")}
         />
 
         <AnswerOption
           text={optionD}
           onClick={() => handleAnswerClick("D")}
           isSelected={selectedAnswer === "D"}
+          isCrossedOff={crossedOffOptions.has("D")}
         />
       </div>
 
       {/* Submit Button */}
       <button
         onClick={handleSubmit}
-        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
         disabled={!selectedAnswer}
       >
         Submit Answer

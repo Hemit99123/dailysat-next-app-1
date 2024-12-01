@@ -4,16 +4,20 @@ interface AnswerOptionProps {
   text: string;
   onClick: () => void;
   isSelected?: boolean; // Optional prop to indicate selection
+  isCrossedOff?: boolean; // New prop for crossed-off state
 }
 
-const AnswerOption: React.FC<AnswerOptionProps> = ({text, onClick, isSelected }) => {
+const AnswerOption: React.FC<AnswerOptionProps> = ({ text, onClick, isSelected, isCrossedOff }) => {
   return (
-    <div 
-      className={`cursor-pointer p-2 border rounded ${isSelected ? 'bg-blue-100' : 'hover:bg-gray-100'}`} 
+    <button
       onClick={onClick}
+      className={`w-full py-2 px-4 rounded-lg text-left border-2 transition-colors ${
+        isSelected ? 'bg-blue-500 text-white' : 'bg-white text-black'
+      } ${isCrossedOff ? 'line-through text-gray-500' : ''}`}
+      style={{ textDecoration: isCrossedOff ? 'line-through' : 'none' }}
     >
-      <span className="font-semibold"></span> {text}
-    </div>
+      {text}
+    </button>
   );
 };
 
