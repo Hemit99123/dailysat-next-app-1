@@ -152,7 +152,7 @@ const Question: React.FC<QuestionProps> = ({
   };
 
   return (
-    <div className="flex flex-col items-start px-8">
+    <div className="flex flex-col items-start px-8 -mt-6">
       <div className="flex items-center mb-2 space-x-4">
         {/* Highlight Mode Button */}
         <button
