@@ -35,13 +35,13 @@ const Question: React.FC<QuestionProps> = ({
     new Set()
   ); // To track crossed off options
   const textRef = useRef<HTMLParagraphElement | null>(null);
-  const isAnswerCorrect = useAnswerStore((state) => state.isAnswerCorrect)
+  const isAnswerCorrect = useAnswerStore((state) => state.isAnswerCorrect);
 
   useEffect(() => {
     if (isAnswerCorrect) {
-      setSelectedAnswer(null)
+      setSelectedAnswer(null);
     }
-  }, [isAnswerCorrect])
+  }, [isAnswerCorrect]);
 
   // Toggle highlight/clear mode
   const toggleMode = (newMode: "highlight" | "clear") => {
@@ -89,8 +89,6 @@ const Question: React.FC<QuestionProps> = ({
     );
   };
 
-  // Check if text is highlighted
-
   // Render text with highlights
   const renderHighlightedText = () => {
     if (!textRef.current) return title;
@@ -126,7 +124,24 @@ const Question: React.FC<QuestionProps> = ({
 
   // Handle answer click
   const handleAnswerClick = (answer: Answers) => {
-    setSelectedAnswer(answer);
+    if (crossOffMode) {
+      toggleCrossOffOption(answer);
+    } else {
+      setSelectedAnswer(answer);
+    }
+  };
+
+  // Toggle cross-off for an option
+  const toggleCrossOffOption = (option: Answers) => {
+    setCrossedOffOptions((prev) => {
+      const updated = new Set(prev);
+      if (updated.has(option)) {
+        updated.delete(option);
+      } else {
+        updated.add(option);
+      }
+      return updated;
+    });
   };
 
   // Handle answer submit
@@ -134,19 +149,6 @@ const Question: React.FC<QuestionProps> = ({
     if (selectedAnswer) {
       onAnswerSubmit(selectedAnswer);
     }
-  };
-
-  // Handle cross-off button click for an option
-  const handleCrossOff = (option: string) => {
-    setCrossedOffOptions((prev) => {
-      const updated = new Set(prev);
-      if (updated.has(option)) {
-        updated.delete(option); // Remove cross if it was previously crossed
-      } else {
-        updated.add(option); // Add cross
-      }
-      return updated;
-    });
   };
 
   return (
@@ -188,10 +190,10 @@ const Question: React.FC<QuestionProps> = ({
         <button
           onClick={toggleCrossOffMode}
           className={`p-1 rounded ${
-            crossOffMode ? "bg-red-500 text-white" : "bg-gray-300"
+            crossOffMode ? "bg-green-500 text-white" : "bg-gray-300"
           }`}
         >
-          {crossOffMode ? "Disable Cross-off" : "Enable Cross-off"}
+          {crossOffMode ? "Cross-off" : "Cross-off"}
         </button>
       </div>
 
@@ -209,24 +211,28 @@ const Question: React.FC<QuestionProps> = ({
           text={optionA}
           onClick={() => handleAnswerClick("A")}
           isSelected={selectedAnswer === "A"}
+          isCrossedOff={crossedOffOptions.has("A")}
         />
 
         <AnswerOption
           text={optionB}
           onClick={() => handleAnswerClick("B")}
           isSelected={selectedAnswer === "B"}
+          isCrossedOff={crossedOffOptions.has("B")}
         />
 
         <AnswerOption
           text={optionC}
           onClick={() => handleAnswerClick("C")}
           isSelected={selectedAnswer === "C"}
+          isCrossedOff={crossedOffOptions.has("C")}
         />
 
         <AnswerOption
           text={optionD}
           onClick={() => handleAnswerClick("D")}
           isSelected={selectedAnswer === "D"}
+          isCrossedOff={crossedOffOptions.has("D")}
         />
       </div>
 
