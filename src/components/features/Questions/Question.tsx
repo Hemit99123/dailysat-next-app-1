@@ -40,8 +40,14 @@ const Question: React.FC<QuestionProps> = ({
   useEffect(() => {
     if (isAnswerCorrect) {
       setSelectedAnswer(null);
+      setCrossedOffOptions(new Set())
     }
   }, [isAnswerCorrect]);
+
+  // useEffect(() => {
+  //   setCrossedOffOptions(new Set())
+  // }, [title])
+  
 
   // Toggle highlight/clear mode
   const toggleMode = (newMode: "highlight" | "clear") => {
