@@ -25,10 +25,10 @@ const About = () => {
       imgSrc: "https://media.licdn.com/dms/image/v2/D5603AQFMtNWPnihUBg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1718285605821?e=1738800000&v=beta&t=A2mf419HvUG8s4vdNi_10pq1VRPljzekz7BtfqWrImU",
       linkedIn: "https://www.linkedin.com/in/wilman-chan-03a468286/"
     },
-    {
+        {
       name: "Lakshaya Jain",
       role: "Intern",
-      imgSrc: "https://media.licdn.com/dms/image/v2/D4E35AQE94v14CxnoKA/profile-framedphoto-shrink_200_200/profile-framedphoto-shrink_200_200/0/1712092985933?e=1733508000&v=beta&t=5a4g6lkHC-vQfmIaZkp5fPlIR8uA4jcxo7UKfRV-3NE",
+      imgSrc: "./people/Lakshaya.png",
       linkedIn: "https://www.linkedin.com/in/lakshya-jain-9a66a22a5/"
     },
     
