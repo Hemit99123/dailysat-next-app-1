@@ -12,12 +12,6 @@ export const useScoreModalStore = create<ModalProps>((set) => ({
   closeModal: () => set(() => ({ isOpen: false }))
 }))
 
-export const useEditorialModalStore = create<ModalProps>((set) => ({
-    isOpen: false,
-    openModal: () => set(() => ({ isOpen: true })),
-    closeModal: () => set(() => ({ isOpen: false }))
-}))
-
 export const useStreakAnnouncerModalStore = create<ModalProps>((set) => ({
   isOpen: false,
   openModal: () => set(() => ({ isOpen: true })),

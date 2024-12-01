@@ -1,6 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import AnswerOption from "../shared-components/AnswerOption";
 import { Answers } from "@/types/answer";
+import { useAnswerStore } from "@/store/answer";
+import Image from "next/image";
 
 interface QuestionProps {
   title: string;
@@ -25,7 +27,7 @@ const Question: React.FC<QuestionProps> = ({
   optionD,
   onAnswerSubmit,
 }) => {
-  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+  const [selectedAnswer, setSelectedAnswer] = useState<Answers | null>(null);
   const [highlights, setHighlights] = useState<Highlight[]>([]);
   const [mode, setMode] = useState<"highlight" | "clear" | null>(null); // Current mode
   const [crossOffMode, setCrossOffMode] = useState(false); // Cross-off mode
@@ -33,6 +35,13 @@ const Question: React.FC<QuestionProps> = ({
     new Set()
   ); // To track crossed off options
   const textRef = useRef<HTMLParagraphElement | null>(null);
+  const isAnswerCorrect = useAnswerStore((state) => state.isAnswerCorrect)
+
+  useEffect(() => {
+    if (isAnswerCorrect) {
+      setSelectedAnswer(null)
+    }
+  }, [isAnswerCorrect])
 
   // Toggle highlight/clear mode
   const toggleMode = (newMode: "highlight" | "clear") => {
@@ -81,11 +90,6 @@ const Question: React.FC<QuestionProps> = ({
   };
 
   // Check if text is highlighted
-  const isTextHighlighted = (start: number, end: number) =>
-    highlights.some(
-      (highlight) =>
-        highlight.startOffset <= start && highlight.endOffset >= end
-    );
 
   // Render text with highlights
   const renderHighlightedText = () => {
@@ -121,7 +125,7 @@ const Question: React.FC<QuestionProps> = ({
   };
 
   // Handle answer click
-  const handleAnswerClick = (answer: string) => {
+  const handleAnswerClick = (answer: Answers) => {
     setSelectedAnswer(answer);
   };
 
@@ -155,10 +159,12 @@ const Question: React.FC<QuestionProps> = ({
             mode === "highlight" ? "bg-blue-500 text-white" : "bg-gray-300"
           }`}
         >
-          <img
-            src={mode !== "highlight" ? "/highlighter.png" : "/full.png"}
+          <Image
+            src={mode !== "highlight" ? "/icons/highlighter.png" : "/icons/full.png"}
             alt="Toggle highlight mode"
             className="w-4 h-4"
+            width={500}
+            height={500}
           />
         </button>
 
@@ -169,10 +175,12 @@ const Question: React.FC<QuestionProps> = ({
             mode === "clear" ? "bg-red-500 text-white" : "bg-gray-300"
           }`}
         >
-          <img
-            src={mode !== "clear" ? "/eraser.png" : "/colored.png"}
+          <Image
+            src={mode !== "clear" ? "/icons/eraser.png" : "/icons/colored.png"}
             alt="Toggle clear highlight mode"
             className="w-4 h-4"
+            width={500}
+            height={500}
           />
         </button>
 
@@ -197,89 +205,29 @@ const Question: React.FC<QuestionProps> = ({
 
       <span className="mb-3 text-sm font-semibold">Choose 1 answer:</span>
       <div className="w-full space-y-2">
-        {/* Option A */}
-        <div className="relative">
-          <AnswerOption
-            label={"A"}
-            text={optionA}
-            onClick={() => handleAnswerClick("A")}
-            isSelected={selectedAnswer === "A"}
-          />
-          {crossOffMode && (
-            <button
-              onClick={() => handleCrossOff("A")}
-              className="absolute top-0 right-0 text-red-500"
-            >
-              {crossedOffOptions.has("A") ? "Remove Cross-off" : "✖"}
-            </button>
-          )}
-          {crossedOffOptions.has("A") && (
-            <span className="line-through text-gray-500">{optionA}</span>
-          )}
-        </div>
+        <AnswerOption
+          text={optionA}
+          onClick={() => handleAnswerClick("A")}
+          isSelected={selectedAnswer === "A"}
+        />
 
-        {/* Option B */}
-        <div className="relative">
-          <AnswerOption
-            label={"B"}
-            text={optionB}
-            onClick={() => handleAnswerClick("B")}
-            isSelected={selectedAnswer === "B"}
-          />
-          {crossOffMode && (
-            <button
-              onClick={() => handleCrossOff("B")}
-              className="absolute top-0 right-0 text-red-500"
-            >
-              {crossedOffOptions.has("B") ? "Remove Cross-off" : "✖"}
-            </button>
-          )}
-          {crossedOffOptions.has("B") && (
-            <span className="line-through text-gray-500">{optionB}</span>
-          )}
-        </div>
+        <AnswerOption
+          text={optionB}
+          onClick={() => handleAnswerClick("B")}
+          isSelected={selectedAnswer === "B"}
+        />
 
-        {/* Option C */}
-        <div className="relative">
-          <AnswerOption
-            label={"C"}
-            text={optionC}
-            onClick={() => handleAnswerClick("C")}
-            isSelected={selectedAnswer === "C"}
-          />
-          {crossOffMode && (
-            <button
-              onClick={() => handleCrossOff("C")}
-              className="absolute top-0 right-0 text-red-500"
-            >
-              {crossedOffOptions.has("C") ? "Remove Cross-off" : "✖"}
-            </button>
-          )}
-          {crossedOffOptions.has("C") && (
-            <span className="line-through text-gray-500">{optionC}</span>
-          )}
-        </div>
+        <AnswerOption
+          text={optionC}
+          onClick={() => handleAnswerClick("C")}
+          isSelected={selectedAnswer === "C"}
+        />
 
-        {/* Option D */}
-        <div className="relative">
-          <AnswerOption
-            label={"D"}
-            text={optionD}
-            onClick={() => handleAnswerClick("D")}
-            isSelected={selectedAnswer === "D"}
-          />
-          {crossOffMode && (
-            <button
-              onClick={() => handleCrossOff("D")}
-              className="absolute top-0 right-0 text-red-500"
-            >
-              {crossedOffOptions.has("D") ? "Remove Cross-off" : "✖"}
-            </button>
-          )}
-          {crossedOffOptions.has("D") && (
-            <span className="line-through text-gray-500">{optionD}</span>
-          )}
-        </div>
+        <AnswerOption
+          text={optionD}
+          onClick={() => handleAnswerClick("D")}
+          isSelected={selectedAnswer === "D"}
+        />
       </div>
 
       {/* Submit Button */}

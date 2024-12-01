@@ -1,5 +1,5 @@
 const BookSVG = () => (
-    <svg viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+    <svg viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000" height="30px" width="35px">
       <title>book-album</title>
       <desc>Created with Sketch Beta.</desc>
       <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
