@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Header from '../components/features/Questions/Header';
 import Question from '../components/features/Questions/Question';
 import { useAnswerCounterStore, useScoreStore } from '@/store/score';
@@ -50,6 +50,8 @@ const Home = () => {
   const isAnnouncerModalOpen = useStreakAnnouncerModalStore((state) => state.isOpen);
   const openStreakModal = useStreakCounterModalStore((state) => state.openModal);
   const isStreakModalOpen = useStreakCounterModalStore((state) => state.isOpen);
+
+  const answerComponent = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (correctCount === 3) {
@@ -102,6 +104,10 @@ const Home = () => {
         fetchRandomQuestion(selectedTopic);
       }, 1500);
     }
+
+    setTimeout(() => {
+      answerComponent.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 100)
   };
 
   const handleToggleEditorial = () => {
@@ -168,7 +174,7 @@ const Home = () => {
             ) : (
               <p>Loading question...</p>
             )}
-            <div className="mt-4 pl-7">
+            <div className="mt-4 pl-7 pb-10" ref={answerComponent}>
               {isAnswerCorrect !== null && (
                 <>
                   {isAnswerCorrect ? (
