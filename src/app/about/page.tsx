@@ -130,7 +130,7 @@ const About = () => {
                 />
                 <div>
                     <h3 className="text-2xl font-bold tracking-tight text-gray-900">{member.name}</h3>
-                    <p>{member.role}</p>
+                    <p className="text-sm">{member.role}</p>
                     <ul className="flex justify-center mt-4 space-x-4">
                     <li>
                         <a href={member.linkedIn} className="text-[#0e76a8] hover:text-gray-900">
