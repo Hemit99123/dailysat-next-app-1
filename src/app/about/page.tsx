@@ -22,7 +22,7 @@ const About = () => {
     {
       name: "Lakshaya Jain",
       role: "Intern",
-      imgSrc: "https://media.licdn.com/dms/image/v2/D4E35AQE94v14CxnoKA/profile-framedphoto-shrink_200_200/profile-framedphoto-shrink_200_200/0/1712092985933?e=1733508000&v=beta&t=5a4g6lkHC-vQfmIaZkp5fPlIR8uA4jcxo7UKfRV-3NE",
+      imgSrc: "./people/lakshya.png",
       linkedIn: "https://www.linkedin.com/in/lakshya-jain-9a66a22a5/"
     },
     

@@ -3,6 +3,7 @@ import AnswerOption from "../shared-components/AnswerOption";
 import { Answers } from "@/types/answer";
 import { useAnswerStore } from "@/store/answer";
 import Image from "next/image";
+import axios, { AxiosResponse } from "axios";
 
 interface QuestionProps {
   title: string;
@@ -11,6 +12,7 @@ interface QuestionProps {
   optionB: string;
   optionC: string;
   optionD: string;
+  id: string;
 }
 
 interface Highlight {
@@ -25,6 +27,7 @@ const Question: React.FC<QuestionProps> = ({
   optionB,
   optionC,
   optionD,
+  id,
   onAnswerSubmit,
 }) => {
   const [selectedAnswer, setSelectedAnswer] = useState<Answers | null>(null);
@@ -40,14 +43,14 @@ const Question: React.FC<QuestionProps> = ({
   useEffect(() => {
     if (isAnswerCorrect) {
       setSelectedAnswer(null);
-      setCrossedOffOptions(new Set())
+      setCrossedOffOptions(new Set());
     }
   }, [isAnswerCorrect]);
 
   // useEffect(() => {
   //   setCrossedOffOptions(new Set())
-  // }, [title])
-  
+  //   setSelectedAnswer(null);
+  // }, [id])
 
   // Toggle highlight/clear mode
   const toggleMode = (newMode: "highlight" | "clear") => {
@@ -137,6 +140,11 @@ const Question: React.FC<QuestionProps> = ({
     }
   };
 
+  const betaBugReport = async () => {
+    await axios.get("/api/beta/bug?id=" + id);
+    window.location.reload();
+  };
+
   // Toggle cross-off for an option
   const toggleCrossOffOption = (option: Answers) => {
     setCrossedOffOptions((prev) => {
@@ -168,7 +176,11 @@ const Question: React.FC<QuestionProps> = ({
           }`}
         >
           <Image
-            src={mode !== "highlight" ? "/icons/highlighter.png" : "/icons/full.png"}
+            src={
+              mode !== "highlight"
+                ? "/icons/highlighter.png"
+                : "/icons/full.png"
+            }
             alt="Toggle highlight mode"
             className="w-4 h-4"
             width={500}
@@ -203,8 +215,16 @@ const Question: React.FC<QuestionProps> = ({
         </button>
       </div>
 
+      {/* Bug Report */}
       <p
-        className="mb-5 text-lg relative"
+        className="text-xs font-extralight hover:text-red-500 hover:cursor-pointer transition-all"
+        onClick={() => betaBugReport()}
+      >
+        {id} Report this question as bugged
+      </p>
+
+      <p
+        className="mb-5 text-xl relative"
         ref={textRef}
         onMouseUp={handleMouseUp}
       >
