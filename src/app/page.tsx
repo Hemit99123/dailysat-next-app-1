@@ -18,13 +18,13 @@ import StreakModal from "@/components/features/Questions/Modals/StreakModal";
 import { Answers } from "@/types/answer";
 import { useAnswerStore } from "@/store/answer";
 
-interface Topic {
+export interface Topic {
   id: number;
   name: string;
   description: string;
 }
 
-interface QuestionData {
+export interface QuestionData {
   id: string;
   question: string;
   optionA: string;

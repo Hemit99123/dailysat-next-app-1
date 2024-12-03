@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import CookieConsent from "react-cookie-consent";
 
 // Define the menu items for navigation
 const menuItems = [
@@ -42,13 +43,35 @@ const NavBar = () => {
           <span className="sr-only">Open main menu</span>
           {isMenuOpen ? (
             // Close Icon when menu is open
-            <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+            <svg
+              className="w-6 h-6"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           ) : (
             // Hamburger Icon when menu is closed
-            <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+            <svg
+              className="w-6 h-6"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
             </svg>
           )}
         </button>
@@ -104,6 +127,26 @@ const NavBar = () => {
           </li>
         </ul>
       </div>
+
+      {/* Smart thing to do would be to add this directly to layout.tsx */}
+      <CookieConsent
+        location="bottom"
+        buttonText="I Accept"
+        cookieName="userData"
+        style={{
+          background: "#b5d4f9",
+          borderRadius: "25px",
+          color: "black",
+          marginBottom: "5px",
+          fontSize:"15px",
+          textAlign:"center",
+        }}
+        buttonStyle={{ color: "#4e503b", fontSize: "15px", borderRadius:"25px", paddingLeft:"20px", paddingRight:"20px" }}
+        expires={150}
+      >
+        <b>This website uses cookies to enhance the user experience.{" "}</b>
+        <span style={{ fontSize: "10px" }}>We use these to make the website more enjoyable!</span>
+      </CookieConsent>
     </nav>
   );
 };
