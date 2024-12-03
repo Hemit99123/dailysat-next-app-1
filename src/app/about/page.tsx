@@ -27,7 +27,7 @@ const About = () => {
     },
         {
       name: "Lakshaya Jain",
-      role: "Intern",
+      role: "Software Engineer",
       imgSrc: "./people/Lakshaya.png",
       linkedIn: "https://www.linkedin.com/in/lakshya-jain-9a66a22a5/"
     },
