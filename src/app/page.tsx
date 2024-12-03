@@ -1,26 +1,30 @@
 "use client";
 
-import { useEffect, useRef, useState } from 'react';
-import Header from '../components/features/Questions/Header';
-import Question from '../components/features/Questions/Question';
-import { useAnswerCounterStore, useScoreStore } from '@/store/score';
-import ScoreModal from '@/components/features/Questions/Modals/ScoreModal';
-import BookSVG from '@/components/features/Questions/icons/BookSVG';
-import { useScoreModalStore, useStreakAnnouncerModalStore, useStreakCounterModalStore } from '@/store/modals';
-import StreakAnnouncer from '@/components/features/Questions/Modals/StreakAnnouncer';
-import CTASideBar from '@/components/features/shared-components/CTASideBar';
-import StreakModal from '@/components/features/Questions/Modals/StreakModal';
-import { Answers } from '@/types/answer';
-import questions from '@/data/questions';
-import { useAnswerStore } from '@/store/answer';
+import axios, { AxiosResponse } from "axios";
+import { useEffect, useRef, useState } from "react";
+import Header from "../components/features/Questions/Header";
+import Question from "../components/features/Questions/Question";
+import { useAnswerCounterStore, useScoreStore } from "@/store/score";
+import ScoreModal from "@/components/features/Questions/Modals/ScoreModal";
+import BookSVG from "@/components/features/Questions/icons/BookSVG";
+import {
+  useScoreModalStore,
+  useStreakAnnouncerModalStore,
+  useStreakCounterModalStore,
+} from "@/store/modals";
+import StreakAnnouncer from "@/components/features/Questions/Modals/StreakAnnouncer";
+import CTASideBar from "@/components/features/shared-components/CTASideBar";
+import StreakModal from "@/components/features/Questions/Modals/StreakModal";
+import { Answers } from "@/types/answer";
+import { useAnswerStore } from "@/store/answer";
 
-interface Topic {
+export interface Topic {
   id: number;
   name: string;
   description: string;
 }
 
-interface QuestionData {
+export interface QuestionData {
   id: string;
   question: string;
   optionA: string;
@@ -34,21 +38,35 @@ interface QuestionData {
 
 const Home = () => {
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
-  const [randomQuestion, setRandomQuestion] = useState<QuestionData | null>(null);
-  const isAnswerCorrect = useAnswerStore((state) => state.isAnswerCorrect)
-  const setIsAnswerCorrect = useAnswerStore((state) => state.setIsAnswerCorrect)
+  const [randomQuestion, setRandomQuestion] = useState<QuestionData | null>(
+    null
+  );
+  const isAnswerCorrect = useAnswerStore((state) => state.isAnswerCorrect);
+  const setIsAnswerCorrect = useAnswerStore(
+    (state) => state.setIsAnswerCorrect
+  );
   const [openEditorial, setOpenEditorial] = useState<boolean>(false);
 
   const increaseScore = useScoreStore((state) => state.increaseScore);
-  const increaseCorrectCounter = useAnswerCounterStore((state) => state.increaseCount);
-  const resetCorrectCounter = useAnswerCounterStore((state) => state.resetCount);
+  const increaseCorrectCounter = useAnswerCounterStore(
+    (state) => state.increaseCount
+  );
+  const resetCorrectCounter = useAnswerCounterStore(
+    (state) => state.resetCount
+  );
   const correctCount = useAnswerCounterStore((state) => state.count);
 
   const openScoreModal = useScoreModalStore((state) => state.openModal);
   const isScoreModalOpen = useScoreModalStore((state) => state.isOpen);
-  const openAnnouncerModal = useStreakAnnouncerModalStore((state) => state.openModal);
-  const isAnnouncerModalOpen = useStreakAnnouncerModalStore((state) => state.isOpen);
-  const openStreakModal = useStreakCounterModalStore((state) => state.openModal);
+  const openAnnouncerModal = useStreakAnnouncerModalStore(
+    (state) => state.openModal
+  );
+  const isAnnouncerModalOpen = useStreakAnnouncerModalStore(
+    (state) => state.isOpen
+  );
+  const openStreakModal = useStreakCounterModalStore(
+    (state) => state.openModal
+  );
   const isStreakModalOpen = useStreakCounterModalStore((state) => state.isOpen);
 
   const answerComponent = useRef<HTMLDivElement | null>(null);
@@ -57,13 +75,17 @@ const Home = () => {
     if (correctCount === 3) {
       openAnnouncerModal();
     }
+
+    if (correctCount === 7) {
+      openAnnouncerModal();
+    }
   }, [correctCount, openAnnouncerModal]);
 
   const topics: Topic[] = [
-    { id: 1, name: 'Information and Ideas', description: 'Topic 1' },
-    { id: 2, name: 'Craft and Structure', description: 'Topic 2' },
-    { id: 3, name: 'Expression of Ideas', description: 'Topic 3' },
-    { id: 4, name: 'Standard English Conventions', description: 'Topic 4' },
+    { id: 1, name: "Information and Ideas", description: "Topic 1" },
+    { id: 2, name: "Craft and Structure", description: "Topic 2" },
+    { id: 3, name: "Expression of Ideas", description: "Topic 3" },
+    { id: 4, name: "Standard English Conventions", description: "Topic 4" },
   ];
 
   const handleTopicClick = (topic: Topic) => {
@@ -72,21 +94,23 @@ const Home = () => {
   };
 
   const fetchRandomQuestion = async (topic: Topic) => {
-    const topicName = topic.name;
-    const filteredQuestions = questions.filter((question) => question.skill === topicName);
-
+    setIsAnswerCorrect(null);
+  
     try {
-      if (filteredQuestions.length > 0) {
-        const questionData: QuestionData = filteredQuestions[Math.floor(Math.random() * filteredQuestions.length)];
-        setRandomQuestion(questionData);
-      } else {
-        alert('No questions available');
-      }
-      setIsAnswerCorrect(null);
+      // Specify the expected response type
+      const response: AxiosResponse<{ doc_array: QuestionData[] }> = await axios.get(
+        "/api/get/question?topic=" + topic.name
+      );
+  
+      // Ensure you access the data properly
+      const questionData = response.data.doc_array[0];
+      setRandomQuestion(questionData);
     } catch (error) {
-      console.error('Error fetching question:', error);
+      console.error("Error fetching question:", error);
+      setRandomQuestion(null);
     }
   };
+  
 
   const answerCorrectRef: Record<Answers, number> = { A: 0, B: 1, C: 2, D: 3 };
 
@@ -106,8 +130,11 @@ const Home = () => {
     }
 
     setTimeout(() => {
-      answerComponent.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }, 100)
+      answerComponent.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 100);
   };
 
   const handleToggleEditorial = () => {
@@ -135,24 +162,33 @@ const Home = () => {
             </div>
             <p className="uppercase text-[12px] text-gray-400 mt-1">4 topics</p>
           </div>
-          
         </div>
         <div className="mt-5">
           {topics.map((topic) => (
             <div
               key={topic.id}
               className={`bg-blue-50 py-3 px-3 mb-2 cursor-pointer ${
-                selectedTopic?.id === topic.id ? 'border-l-4 border-blue-500' : ''
+                selectedTopic?.id === topic.id
+                  ? "border-l-4 border-blue-500"
+                  : ""
               }`}
               onClick={() => handleTopicClick(topic)}
             >
-              <p className="text-[11px] text-gray-400 uppercase">{topic.description}</p>
+              <p className="text-[11px] text-gray-400 uppercase">
+                {topic.description}
+              </p>
               <p className="text-[16px] font-semibold">{topic.name}</p>
             </div>
           ))}
         </div>
-        <CTASideBar open={openScoreModal} text="Click to open the scoreboard!" />
-        <CTASideBar open={openStreakModal} text="Click to see your current streak!" />
+        <CTASideBar
+          open={openScoreModal}
+          text="Click to open the scoreboard!"
+        />
+        <CTASideBar
+          open={openStreakModal}
+          text="Click to see your current streak!"
+        />
       </div>
 
       {/* Main Content */}
@@ -160,7 +196,10 @@ const Home = () => {
         {selectedTopic ? (
           <div className="w-full mx-auto">
             <div className="text-center mb-16">
-              <Header name={selectedTopic.name} question={randomQuestion?.question}/>
+              <Header
+                name={selectedTopic.name}
+                question={randomQuestion?.question}
+              />
             </div>
             {randomQuestion ? (
               <Question
@@ -170,6 +209,7 @@ const Home = () => {
                 optionC={randomQuestion.optionC}
                 optionD={randomQuestion.optionD}
                 onAnswerSubmit={handleAnswerSubmit}
+                id={randomQuestion.id}
               />
             ) : (
               <p>Loading question...</p>
@@ -178,14 +218,20 @@ const Home = () => {
               {isAnswerCorrect !== null && (
                 <>
                   {isAnswerCorrect ? (
-                    <p className="text-green-500 text-lg font-semibold">You are correct!</p>
+                    <p className="text-green-500 text-lg font-semibold">
+                      You are correct!
+                    </p>
                   ) : (
                     <div>
-                      <p className="text-red-500 text-lg font-semibold">You are wrong :(</p>
+                      <p className="text-red-500 text-lg font-semibold">
+                        You are wrong :(
+                      </p>
                       <button onClick={handleToggleEditorial}>
                         Do you want to see the editorials? Click here!
                       </button>
-                      {openEditorial && <p className="mt-6">{randomQuestion?.explanation}</p>}
+                      {openEditorial && (
+                        <p className="mt-6">{randomQuestion?.explanation}</p>
+                      )}
                     </div>
                   )}
                 </>
@@ -197,7 +243,9 @@ const Home = () => {
             <div className="mt-16 text-center">
               <hr className="mx-8 my-5 h-px border-0 bg-gray-200" />
               <p className="text-xl font-medium">Select a topic to start</p>
-              <p className="text-gray-400">Get started by selecting a topic from the left.</p>
+              <p className="text-gray-400">
+                Get started by selecting a topic from the left.
+              </p>
             </div>
           </div>
         )}

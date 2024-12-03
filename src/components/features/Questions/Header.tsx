@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/router";
 
 interface HeaderProps {
   name: string;
@@ -8,6 +8,7 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ name, question }) => {
+
   const router = useRouter()
 
   const linkedInShare = `https://www.linkedin.com/feed/?shareActive=true&text=${question} https://dailysat.org %23DailySAT`
