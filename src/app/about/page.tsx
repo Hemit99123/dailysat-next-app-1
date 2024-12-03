@@ -25,12 +25,18 @@ const About = () => {
       imgSrc: "https://media.licdn.com/dms/image/v2/D5603AQFMtNWPnihUBg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1718285605821?e=1738800000&v=beta&t=A2mf419HvUG8s4vdNi_10pq1VRPljzekz7BtfqWrImU",
       linkedIn: "https://www.linkedin.com/in/wilman-chan-03a468286/"
     },
-        {
+      {
       name: "Lakshaya Jain",
       role: "Software Engineer",
       imgSrc: "./people/Lakshaya.png",
       linkedIn: "https://www.linkedin.com/in/lakshya-jain-9a66a22a5/"
     },
+    {
+      name: "Devesh Khilnani",
+      role: "Business Lead",
+      imgSrc: "https://media.licdn.com/dms/image/v2/D4D03AQHp9U6V0ER0bw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1724947190257?e=1738800000&v=beta&t=HcqzWskjTN-TnRsu9sfjUdFe-aTl2S2ZrSUojpB4UJw",
+      linkedIn: "https://www.linkedin.com/in/dkhilnani/"
+    }
     
   ];
 
