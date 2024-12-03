@@ -95,11 +95,22 @@ const Home = () => {
 
   const fetchRandomQuestion = async (topic: Topic) => {
     setIsAnswerCorrect(null);
-    const question : AxiosResponse<any, any> = await axios.get("/api/get/question?topic=" + topic.name);
-    const dat : any = question.data["doc_array"][0];
-    const questionData : QuestionData = dat;
-    setRandomQuestion(questionData);
+  
+    try {
+      // Specify the expected response type
+      const response: AxiosResponse<{ doc_array: QuestionData[] }> = await axios.get(
+        "/api/get/question?topic=" + topic.name
+      );
+  
+      // Ensure you access the data properly
+      const questionData = response.data.doc_array[0];
+      setRandomQuestion(questionData);
+    } catch (error) {
+      console.error("Error fetching question:", error);
+      setRandomQuestion(null);
+    }
   };
+  
 
   const answerCorrectRef: Record<Answers, number> = { A: 0, B: 1, C: 2, D: 3 };
 

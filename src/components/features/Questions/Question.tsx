@@ -3,7 +3,7 @@ import AnswerOption from "../shared-components/AnswerOption";
 import { Answers } from "@/types/answer";
 import { useAnswerStore } from "@/store/answer";
 import Image from "next/image";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 
 interface QuestionProps {
   title: string;
@@ -34,7 +34,7 @@ const Question: React.FC<QuestionProps> = ({
   const [highlights, setHighlights] = useState<Highlight[]>([]);
   const [mode, setMode] = useState<"highlight" | "clear" | null>(null); // Current mode
   const [crossOffMode, setCrossOffMode] = useState(false); // Cross-off mode
-  const [crossedOffOptions, setCrossedOffOptions] = useState<Set<Answers>>(
+  const [crossedOffOptions, setCrossedOffOptions] = useState<Set<Answers> | null>(
     new Set()
   ); // To track crossed off options
   const textRef = useRef<HTMLParagraphElement | null>(null);
@@ -43,7 +43,10 @@ const Question: React.FC<QuestionProps> = ({
   useEffect(() => {
     if (isAnswerCorrect) {
       setSelectedAnswer(null);
-      setCrossedOffOptions(new Set());
+      setCrossedOffOptions(null)
+      setHighlights([])
+      toggleMode("clear")
+      toggleMode("highlight")
     }
   }, [isAnswerCorrect]);
 
@@ -237,28 +240,28 @@ const Question: React.FC<QuestionProps> = ({
           text={optionA}
           onClick={() => handleAnswerClick("A")}
           isSelected={selectedAnswer === "A"}
-          isCrossedOff={crossedOffOptions.has("A")}
+          isCrossedOff={crossedOffOptions?.has("A")}
         />
 
         <AnswerOption
           text={optionB}
           onClick={() => handleAnswerClick("B")}
           isSelected={selectedAnswer === "B"}
-          isCrossedOff={crossedOffOptions.has("B")}
+          isCrossedOff={crossedOffOptions?.has("B")}
         />
 
         <AnswerOption
           text={optionC}
           onClick={() => handleAnswerClick("C")}
           isSelected={selectedAnswer === "C"}
-          isCrossedOff={crossedOffOptions.has("C")}
+          isCrossedOff={crossedOffOptions?.has("C")}
         />
 
         <AnswerOption
           text={optionD}
           onClick={() => handleAnswerClick("D")}
           isSelected={selectedAnswer === "D"}
-          isCrossedOff={crossedOffOptions.has("D")}
+          isCrossedOff={crossedOffOptions?.has("D")}
         />
       </div>
 
