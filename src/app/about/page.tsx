@@ -20,9 +20,15 @@ const About = () => {
       linkedIn: "https://www.linkedin.com/in/hemit-patel-383ab3271/"
     }, 
     {
+      name: "William Chan",
+      role: "CMO",
+      imgSrc: "https://media.licdn.com/dms/image/v2/D5603AQFMtNWPnihUBg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1718285605821?e=1738800000&v=beta&t=A2mf419HvUG8s4vdNi_10pq1VRPljzekz7BtfqWrImU",
+      linkedIn: "https://www.linkedin.com/in/wilman-chan-03a468286/"
+    },
+        {
       name: "Lakshaya Jain",
       role: "Intern",
-      imgSrc: "./people/lakshya.png",
+      imgSrc: "./people/Lakshaya.png",
       linkedIn: "https://www.linkedin.com/in/lakshya-jain-9a66a22a5/"
     },
     
@@ -108,7 +114,7 @@ const About = () => {
       <section className="bg-white">
         <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-6">
             <div className="mx-auto mb-8 max-w-screen-sm lg:mb-16">
-            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900">Our team</h2>
+            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-blue-900">Our Team</h2>
             <p className="font-light text-gray-500 sm:text-xl">
                 These are the people behind DailySAT!
             </p>
@@ -124,7 +130,7 @@ const About = () => {
                 />
                 <div>
                     <h3 className="text-2xl font-bold tracking-tight text-gray-900">{member.name}</h3>
-                    <p>{member.role}</p>
+                    <p className="text-sm">{member.role}</p>
                     <ul className="flex justify-center mt-4 space-x-4">
                     <li>
                         <a href={member.linkedIn} className="text-[#0e76a8] hover:text-gray-900">

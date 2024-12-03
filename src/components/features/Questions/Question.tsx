@@ -45,8 +45,7 @@ const Question: React.FC<QuestionProps> = ({
       setSelectedAnswer(null);
       setCrossedOffOptions(null)
       setHighlights([])
-      toggleMode("clear")
-      toggleMode("highlight")
+      setMode(null)
     }
   }, [isAnswerCorrect]);
 
