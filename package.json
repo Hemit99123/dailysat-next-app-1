@@ -17,11 +17,13 @@
     "mongodb": "^6.11.0",
     "net": "^1.0.2",
     "next": "14.2.15",
+    "next-swagger-doc": "^0.4.0",
     "node-symspell": "^0.1.0",
     "react": "^18",
     "react-cookie-consent": "^9.0.0",
     "react-dom": "^18",
     "react-toastify": "^10.0.6",
+    "swagger-ui-react": "^5.18.2",
     "zustand": "^5.0.0-rc.2"
   },
   "devDependencies": {
@@ -29,6 +31,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/swagger-ui-react": "^4.18.3",
     "eslint": "^8",
     "eslint-config-next": "14.2.15",
     "postcss": "^8",
