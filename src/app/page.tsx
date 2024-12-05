@@ -6,7 +6,7 @@ const Home = () => {
     <div>
       dashboard
     </div>
-  );
+  )
 };
 
 export default Home;
