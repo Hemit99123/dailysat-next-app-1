@@ -17,24 +17,7 @@ import CTASideBar from "@/components/features/shared-components/CTASideBar";
 import StreakModal from "@/components/features/Questions/Modals/StreakModal";
 import { Answers } from "@/types/answer";
 import { useAnswerStore } from "@/store/answer";
-
-export interface Topic {
-  id: number;
-  name: string;
-  description: string;
-}
-
-export interface QuestionData {
-  id: string;
-  question: string;
-  optionA: string;
-  optionB: string;
-  optionC: string;
-  optionD: string;
-  correctAnswer: number;
-  explanation: string;
-  skill: string;
-}
+import { Topic, QuestionData } from "@/types/home";
 
 const ReadingSAT = () => {
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
