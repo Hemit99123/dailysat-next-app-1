@@ -92,6 +92,7 @@ export async function GET(request: Request) {
       return Response.json({
         code: 500,
         error: "Internal server error",
+        errorMsg: error
       });
     }
   }
