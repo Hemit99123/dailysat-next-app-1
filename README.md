@@ -6,7 +6,7 @@ Welcome to the codebase of DailySAT! Here you will find documentation from the d
 
 - Hemit Patel (President/COO)
 - Aarush Kute (Founder/CEO)
-- Laksyha Jain (Intern)
+- Laksyha Jain (Software Engineer II)
 
 ## 💻 Technology Stack:
 
