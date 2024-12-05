@@ -6,8 +6,8 @@ import CookieConsent from "react-cookie-consent";
 
 // Define the menu items for navigation
 const menuItems = [
+  { label: "Reading SAT", href: "/reading"},
   { label: "About", href: "/about" },
-  { label: "Reading SAT", href: "/reading"}
 ];
 
 const NavBar = () => {
