@@ -3,12 +3,14 @@
 import SwaggerUI from 'swagger-ui-react';
 import 'swagger-ui-react/swagger-ui.css';
 
-type SwaggerProps = {
-  spec: Record<string, any>; // You can refine this type if you have a more specific shape for the Swagger spec
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+type Props = {
+  spec: Record<string, any>,
 };
 
-const ReactSwagger: React.FC<SwaggerProps> = ({ spec }) => {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+function ReactSwagger({ spec }: Props) {
   return <SwaggerUI spec={spec} />;
-};
+}
 
 export default ReactSwagger;
