@@ -2,6 +2,7 @@
 
 Welcome to the codebase of DailySAT! Here you will find documentation from the developers!
 
+### To access the API documentation, navigate to: /api-docs
 ### Main devs:
 
 - Hemit Patel (President/COO)
