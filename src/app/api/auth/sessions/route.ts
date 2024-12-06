@@ -1,4 +1,4 @@
-import { getSession, setSession } from "@/lib/sessionManager"
+import { getSession, setSession } from "@/lib/employeeSession"
 
 export async function POST(request: Request) {
     const body = await request.json() // Await the request body
