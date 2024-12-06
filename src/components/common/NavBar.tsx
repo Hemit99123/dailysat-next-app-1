@@ -13,11 +13,6 @@ const NavBar = () => {
   const router = useRouter(); // Hook to navigate programmatically
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State to track if the mobile menu is open
 
-  // Handles navigation to an external form link
-  const handleGoToForm = () => {
-    router.push("https://evq73w1t59w.typeform.com/to/S0yXIWtD");
-  };
-
   // Toggles the mobile menu open/close state
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -95,7 +90,7 @@ const NavBar = () => {
         {/* Contact Button for Desktop View */}
         <div className="hidden md:block">
           <button
-            onClick={handleGoToForm}
+            onClick={() => handleGoToNewPage("https://evq73w1t59w.typeform.com/to/S0yXIWtD")}
             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
           >
             Contact
