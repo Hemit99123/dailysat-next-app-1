@@ -1,4 +1,5 @@
 import redis from '@/lib/redis'
+import email from '@/lib/mailgun';
 
 export async function POST(request: Request) {
     try {
@@ -20,8 +21,20 @@ export async function POST(request: Request) {
       await redis.expire(body.email, 300);
 
 
-      // send email to user through sendgrid api (NEXT STEP)
+      // send email to user through sendgrid api (NEXT )
 
+      email.messages.create('sandbox3a343c87b85d4de483f9e63e9140c228.mailgun.org', {
+        from: "Hemit Patel- Chief Operating Officer <hemitvpatel@gmail.com>",
+        to: [body.email],
+        subject: "Your OTP Code",
+        text: `Hi! Hope you are doing well :) Here is your code: ${otp}`,
+      })
+      .catch(err => {
+        return Response.json({
+          err
+        })
+      });
+      
       return Response.json({
         message: "Email sent successfully"
       })
