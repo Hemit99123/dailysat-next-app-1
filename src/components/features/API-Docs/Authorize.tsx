@@ -9,12 +9,10 @@ export default async function IndexPage() {
         const results = await axios.get(`/api/verification/find-employee?email=${email}`)
         
         if (results.data.result) {
-            // first generate the one time password for user and return it 
-            const otpCode = await axios.post(`/api/verification/generate-code`, {
+            // this will generate the code and send it to the email given through mailgrid
+            await axios.post(`/api/verification/generate-code`, {
                 email
-            })
-
-            // send the otpCode to the email of the user (NEXT STEP)
+            })            
         } else {
             // give a toast alert
             // currently just a simple alert but will change once toast is implemented
