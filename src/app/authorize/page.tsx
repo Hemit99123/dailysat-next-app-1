@@ -1,7 +1,9 @@
+"use client"
+
 import axios from "axios";
 import { useState } from "react";
 
-export default function IndexPage() {
+export default function Authorize() {
 
     const [email, setEmail] = useState("")
     const [otp, setOTP] = useState("")

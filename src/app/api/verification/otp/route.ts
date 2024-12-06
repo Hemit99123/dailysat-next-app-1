@@ -1,5 +1,5 @@
 import redis from '@/lib/redis'
-import email from '@/lib/mailgun'
+import { transporter } from '@/lib/nodemailer';
 
 export async function POST(request: Request) {
   try {
@@ -19,12 +19,81 @@ export async function POST(request: Request) {
     await redis.expire(body.email, 300); // 5 minutes expiry
     
     try {
-      await email.messages.create('sandbox3a343c87b85d4de483f9e63e9140c228.mailgun.org', {
-        from: "Hemit Patel- Chief Operating Officer <hemitvpatel@gmail.com>",
-        to: [body.email],
-        subject: "Your OTP Code",
-        text: `Hi! Hope you are doing well :) Here is your code: ${otp}`,
-      });
+      const mailOptions = {
+        from: 'hemitvpatel@gmail.com',
+        to: body.email,
+        subject: 'Your OTP',
+        html: `
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <style>
+              body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f9f9f9;
+              }
+              .email-container {
+                max-width: 600px;
+                margin: 20px auto;
+                padding: 20px;
+                background-color: #ffffff;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+              }
+              .header {
+                text-align: center;
+                padding-bottom: 20px;
+                border-bottom: 1px solid #ddd;
+              }
+              .header h1 {
+                margin: 0;
+                color: #333;
+              }
+              .otp {
+                font-size: 24px;
+                font-weight: bold;
+                color: #2c7dfa;
+                text-align: center;
+                margin: 20px 0;
+              }
+              .footer {
+                font-size: 14px;
+                color: #666;
+                text-align: center;
+                margin-top: 20px;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="email-container">
+              <div class="header">
+                <h1>DailySAT Employment System</h1>
+              </div>
+              <p>Hello,</p>
+              <p>Use the following One-Time Password (OTP) to complete your verification process:</p>
+              <div class="otp">${otp}</div>
+              <p>Please note that this OTP is valid for only 5 minutes. Do not share this code with anyone.</p>
+              <p>Thank you,<br>The Team</p>
+              <div class="footer">
+                <p>If you did not request this, please ignore this email.</p>
+              </div>
+            </div>
+          </body>
+          </html>
+        `,
+      };
+      
+    
+    await transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return console.error('Error sending email:', error);
+        }
+        console.log('Email sent:', info.response);
+    });
+    
     } catch (emailError) {
       return Response.json({
         code: 500,
