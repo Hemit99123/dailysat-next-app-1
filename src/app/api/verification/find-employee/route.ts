@@ -5,6 +5,7 @@ export async function GET(request: Request) {
     const url: URL = new URL(request.url);
     const searchParams: URLSearchParams = new URLSearchParams(url.search);
     const email: string = searchParams.get("email") || "";
+    let result;
   
     // Check if the topic query parameter is provided
     if (email === "") {
@@ -21,9 +22,17 @@ export async function GET(request: Request) {
           .aggregate([{ $match: { email } }, { $sample: { size: 1 } }]);
   
         const doc_array: Document[] = await doc.toArray();
+
+        if (doc_array) {
+            result = true
+        } else {
+            result = false
+        }
   
         // Return the result with the question document
-        return Response.json({ doc_array });
+        return Response.json({ 
+            result
+         });
       } catch (error) {
         // Handle any database errors
         return Response.json({
