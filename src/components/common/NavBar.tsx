@@ -117,7 +117,7 @@ const NavBar = () => {
           ))}
           <li>
             <button
-              onClick={handleGoToForm}
+              onClick={() => handleGoToNewPage("https://evq73w1t59w.typeform.com/to/S0yXIWtD")}
               className="w-full px-4 py-2 mt-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
             >
               Contact
