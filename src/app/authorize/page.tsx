@@ -1,53 +1,97 @@
-"use client"
+"use client";
 
 import axios from "axios";
 import { useState } from "react";
 
 export default function Authorize() {
+  const [email, setEmail] = useState("");
+  const [otp, setOTP] = useState("");
 
-    const [email, setEmail] = useState("")
-    const [otp, setOTP] = useState("")
+  const handleAuthorization = async () => {
+    try {
+      const response = await axios.get(`/api/verification/find-employee`, {
+        params: { email },
+      });
 
-    const handleAuthorization = async () => {
-        const results = await axios.get(`/api/verification/find-employee?email=${email}`)
-        
-        if (results.data.result) {
-            // this will generate the code and send it to the email given through mailgrid
-            await axios.post(`/api/verification/otp`, {
-                email
-            })            
-        } else {
-            // give a toast alert
-            // currently just a simple alert but will change once toast is implemented
-            alert("Unauthorized email, try it again or ask DailySAT staff to authorize you!")
-        }
-    }
-
-    const handleVerification = async () => {
-      // since we have email in this scp[e. the email variable within the next loc will take the value of 
-      // the variable within this function
-
-      const email = prompt("What is your email?")
-
-      const results = await axios.get(`/api/verification/otp?passwordAttempt=${otp}&&email=${email}`)
-    
-      if (results.data.result) {
-        // assign a session because user has been authorized
-
+      if (response.data.result) {
+        // Generate the OTP and send it via email
+        await axios.post(`/api/verification/otp`, { email });
+        alert("OTP sent to your email!");
       } else {
-        alert("Wrong OTP")
+        alert(
+          "Unauthorized email. Please try again or contact DailySAT staff for assistance!"
+        );
       }
+    } catch (error) {
+      console.error("Error during authorization:", error);
+      alert("An error occurred. Please try again.");
     }
+  };
+
+  const handleVerification = async () => {
+    try {
+      const response = await axios.get(`/api/verification/otp`, {
+        params: { passwordAttempt: otp, email },
+      });
+
+      if (response.data.result) {
+        alert("Verification successful!");
+      } else {
+        alert("Incorrect OTP. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error during verification:", error);
+      alert("An error occurred. Please try again.");
+    }
+  };
 
   return (
-    <section className="container">
-        <h1>Enter email: (to generate an OTP)</h1>
-      <input onChange={(e) => setEmail(e.target.value)}/>
-      <button onClick={handleAuthorization}>Submit</button>
+    <section className="flex flex-col items-center justify-center min-h-screen">
+      <div className="w-full max-w-md bg-white rounded-lg shadow-md p-6">
+        <h1 className="text-2xl font-bold text-gray-800 mb-4 text-center">
+          Authorization
+        </h1>
 
-      <h1>Enter one time password:</h1>
-      <input onChange={(e) => setOTP(e.target.value)}/>
-      <button onChange={handleVerification}>Verify code</button>
+        <div className="mb-6">
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            Enter your email:
+          </label>
+          <input
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="mt-1 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+        <button
+          onClick={handleAuthorization}
+          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition"
+        >
+          Submit
+        </button>
+
+        <div className="mt-8">
+          <label htmlFor="otp" className="block text-sm font-medium text-gray-700">
+            Enter OTP:
+          </label>
+          <input
+            type="text"
+            id="otp"
+            placeholder="Enter OTP"
+            value={otp}
+            onChange={(e) => setOTP(e.target.value)}
+            className="mt-1 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+        <button
+          onClick={handleVerification}
+          className="w-full bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition mt-4"
+        >
+          Verify Code
+        </button>
+      </div>
     </section>
   );
 }

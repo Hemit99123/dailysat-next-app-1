@@ -70,7 +70,7 @@ export async function POST(request: Request) {
           <body>
             <div class="email-container">
               <div class="header">
-                <h1>DailySAT Employment System</h1>
+                <h1>DailySAT Employment System </h1>
               </div>
               <p>Hello,</p>
               <p>Use the following One-Time Password (OTP) to complete your verification process:</p>
@@ -119,10 +119,10 @@ export async function POST(request: Request) {
 export async function GET(request: Request) {
   try {
     const url = new URL(request.url);
-    const otp = url.searchParams.get("otp");
+    const passwordAttempt = url.searchParams.get("passwordAttempt");
     const email = url.searchParams.get("email");
 
-    if (!email || !otp) {
+    if (!email || !passwordAttempt) {
       return Response.json({
         code: 400,
         error: "Both email and OTP parameters are required",
@@ -138,7 +138,7 @@ export async function GET(request: Request) {
       });
     }
 
-    const isValid = storedOtp === otp;
+    const isValid = storedOtp === passwordAttempt;
 
     if (isValid) {
       await redis.del(email); // Clear OTP after successful verification
