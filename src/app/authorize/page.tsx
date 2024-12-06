@@ -17,6 +17,7 @@ export default function Authorize() {
         // Generate the OTP and send it via email
         await axios.post(`/api/verification/otp`, { email });
         alert("OTP sent to your email!");
+        setEmail("")
       } else {
         alert(
           "Unauthorized email. Please try again or contact DailySAT staff for assistance!"
@@ -30,12 +31,14 @@ export default function Authorize() {
 
   const handleVerification = async () => {
     try {
+      const email = prompt("Enter email please")
       const response = await axios.get(`/api/verification/otp`, {
         params: { passwordAttempt: otp, email },
       });
 
       if (response.data.result) {
         alert("Verification successful!");
+        setOTP("")
       } else {
         alert("Incorrect OTP. Please try again.");
       }
