@@ -38,6 +38,8 @@ export default function Authorize() {
 
       if (response.data.result) {
         alert("Verification successful!");
+        // add session to the redis db 
+        
         setOTP("")
       } else {
         alert("Incorrect OTP. Please try again.");
