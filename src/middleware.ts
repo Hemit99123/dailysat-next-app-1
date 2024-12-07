@@ -3,13 +3,8 @@ import type { NextRequest } from 'next/server';
 import { getSession as getEmployeeSession } from './lib/employeeSession';
 
 export const middleware = async (request: NextRequest) => {
-  const protectedEmployeeBackendRoutes = [
-    '/api/employee',
-  ];
-
-  const protectedEmployeeFrontendRoutes = [
-    '/api-docs'
-  ]
+  const protectedEmployeeBackendRoutes = ['/api/employee'];
+  const protectedEmployeeFrontendRoutes = ['/api-docs'];
 
   // Check if the request path matches any protected route for backend (ONLY EMPLOYEES ALLOWED)
   const isProtectedEmployeeBackend = protectedEmployeeBackendRoutes.includes(request.nextUrl.pathname);
@@ -18,29 +13,45 @@ export const middleware = async (request: NextRequest) => {
     const isSessionValid = await getEmployeeSession();
 
     if (!isSessionValid) {
-      return Response.json({
-        error: "You do not have the proper employee authorization"
-      })
+      return NextResponse.json({
+        error: "You do not have the proper employee authorization",
+      });
     }
   }
 
-  // Now we handle frontend for employee unauthorization because the UI would be different
-  // It will redirect it to another page where it will say unauthorized
-  // This makes more sense for the frontend rather than spitting out some json that could confuse the user (better UX)
-
+  // Handle frontend for employee unauthorization (better UX with redirection)
   const isProtectedEmployeeFrontend = protectedEmployeeFrontendRoutes.includes(request.nextUrl.pathname);
 
   if (isProtectedEmployeeFrontend) {
     const isSessionValid = await getEmployeeSession();
 
-    // relative urls do not work (/authorized)
-    // so we have to augment it onto the url base itself which is what the nextUrl.clons() method does
-
-    const url = request.nextUrl.clone()
-    url.pathname = '/unauthorized'
+    const url = request.nextUrl.clone();
+    url.pathname = '/unauthorized';
 
     if (!isSessionValid) {
-      return Response.redirect(url)
+      return NextResponse.redirect(url);
+    }
+  }
+
+  // Special handling for employee-authorize or employee-authorize/destroy routes
+  if (request.nextUrl.pathname == "/employee-authorize") {
+    const isSessionValid = await getEmployeeSession();
+
+    const url = request.nextUrl.clone();
+
+    if (isSessionValid) {
+      url.pathname = '/employee-authorize/logout'; // Redirect to the dashboard or an appropriate page if authorized
+      return NextResponse.redirect(url);
+    } 
+  }
+
+  else if (request.nextUrl.pathname == "/employee-authorize/logout") {
+    const isSessionValid = await getEmployeeSession();
+    
+    const url = request.nextUrl.clone()
+
+    if (!isSessionValid) {
+      url.pathname = '/employee-authorize'
     }
   }
 
