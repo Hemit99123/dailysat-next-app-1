@@ -52,6 +52,7 @@ export const middleware = async (request: NextRequest) => {
 
     if (!isSessionValid) {
       url.pathname = '/employee-authorize'
+      return NextResponse.redirect(url);
     }
   }
 
