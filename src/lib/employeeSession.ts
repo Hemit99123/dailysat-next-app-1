@@ -12,7 +12,12 @@ const createSessionIDCookie = async (): Promise<string> => {
     // this sessionID will be used to store in redis
     const newSessionId = crypto.randomUUID();
     const cookieStore = await cookies();
-    cookieStore.set("employee-session-id", newSessionId);
+    cookieStore.set({
+        name:"employee-session-id", 
+        value: newSessionId,
+        httpOnly: true,
+        path: "/"
+    });
 
     return newSessionId
 };
