@@ -1,4 +1,4 @@
-import redis from '@/lib/redis'
+import { redis } from '@/lib/redis'
 import { transporter } from '@/lib/nodemailer';
 
 export async function POST(request: Request) {

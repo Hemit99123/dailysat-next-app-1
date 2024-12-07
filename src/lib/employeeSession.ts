@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import redis from './redis';
+import {redisSession as redis} from './redis';
 
 const getSessionIDCookie = async (): Promise<string | undefined> => {
     // we use the session id to find it within the redis db (the stored session)
