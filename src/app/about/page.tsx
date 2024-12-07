@@ -1,11 +1,9 @@
-'use client'
-
 import Image from 'next/image';
 import React from 'react';
-import { useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation'
 
 const About = () => {
-  // Array of team members
+  // Array of team members so we can dynamicaly update it easily, instead of continually adding more jsx
   const team = [
     {
       name: 'Aarush Kute',
@@ -40,10 +38,8 @@ const About = () => {
     
   ];
 
-  const router = useRouter()
-
   const handleGoToHome = () => {
-    router.push("/")
+    redirect("/")
   }
 
   return (
