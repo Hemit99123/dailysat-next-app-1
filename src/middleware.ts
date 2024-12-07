@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server';
 import { getSession as getEmployeeSession } from './lib/employeeSession';
 
 export const middleware = async (request: NextRequest) => {
-  const protectedEmployeeBackendRoutes = ['/api/employee'];
+  const protectedEmployeeBackendRoutes = ['/api/protected-employee'];
   const protectedEmployeeFrontendRoutes = ['/api-docs'];
 
   // Check if the request path matches any protected route for backend (ONLY EMPLOYEES ALLOWED)

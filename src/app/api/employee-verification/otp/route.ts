@@ -13,7 +13,7 @@ export async function GET(request: Request) {
       });
     }
 
-    const storedOtp = await redis.get(email);
+    const storedOtp = await redis.get(`employee-${email}`);
     
     if (!storedOtp) {
       return Response.json({

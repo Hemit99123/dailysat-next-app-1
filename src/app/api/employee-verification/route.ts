@@ -37,10 +37,10 @@ export async function POST(request: Request) {
     }
 
     // Generate OTP
-    const otp = await otpGenerate() 
+    const otp = await otpGenerate(12) 
 
     // Store OTP in Redis
-    await redis.set(email, otp);
+    await redis.set(`employee-${email}`, otp);
     await redis.expire(email, 300); // Expire in 5 minutes
 
     // Send OTP email
