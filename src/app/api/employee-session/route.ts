@@ -1,4 +1,4 @@
-import { getSession, setSession } from "@/lib/employeeSession"
+import { setSession } from "@/lib/employeeSession"
 
 export async function POST(request: Request) {
     const body = await request.json() // Await the request body
@@ -9,13 +9,5 @@ export async function POST(request: Request) {
     // Return a response with a status code and message
     return Response.json({
         result: message
-    })
-}
-
-export async function GET() {
-    const isSessionValid = await getSession()
-
-    return Response.json({
-        result: isSessionValid
     })
 }

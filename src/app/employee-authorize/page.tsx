@@ -32,14 +32,19 @@ export default function Authorize() {
   const handleVerification = async () => {
     try {
       const email = prompt("Enter email please")
+
+      // Here we see if email actually belongs to the user because the otp was sent to their email
       const response = await axios.get(`/api/verification/otp`, {
         params: { passwordAttempt: otp, email },
       });
 
+      // result is true meaning we are good to go to assign the session and stuff
       if (response.data.result) {
         alert("Verification successful!");
         // add session to the redis db 
-        
+        await axios.post('/api/employee-session', {
+          email
+        })
         setOTP("")
       } else {
         alert("Incorrect OTP. Please try again.");
