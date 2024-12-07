@@ -9,6 +9,11 @@ const getSessionIDCookie = async (): Promise<string | undefined> => {
     return cookieStore.get("employee-session-id")?.value;
 };
 
+export const deleteSessionIDCookie = async () => {
+    const cookieStore = await cookies()
+    return cookieStore.delete("employee-session-id")
+}
+
 const createSessionIDCookie = async (): Promise<string> => {
     // create a sessionID and store it in cookie
     // this sessionID will be used to store in redis
@@ -52,6 +57,9 @@ export const destorySession = async (): Promise<boolean> => {
     // deleting the redis session when needed (e.g. when user logs out)
     await redis.del(`employee-session-${sessionId}`)
 
+    // delete the cookie as well because its id is now obsolete
+
+    await deleteSessionIDCookie()
     // return true because operation was sucessfull
     return true
 }
