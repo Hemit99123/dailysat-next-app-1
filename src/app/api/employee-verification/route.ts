@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     }
 
     // Generate OTP
-    const otp = otpGenerate() 
+    const otp = await otpGenerate() 
 
     // Store OTP in Redis
     await redis.set(email, otp);
@@ -100,8 +100,6 @@ export async function POST(request: Request) {
             <p>Hello,</p>
             <p>Use the following One-Time Password (OTP) to complete your verification process:</p>
             <div class="otp">${otp}</div>
-            <p>Please note that this OTP is valid for only 5 minutes. Do not share this code with anyone.</p>
-            <p>Thank you,<br>The Team</p>
             <div class="footer">
               <p>If you did not request this, please ignore this email.</p>
             </div>
