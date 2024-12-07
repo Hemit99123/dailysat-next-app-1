@@ -50,7 +50,7 @@ export const destorySession = async (): Promise<boolean> => {
     const sessionId = await getSessionIDCookie()
 
     // deleting the redis session when needed (e.g. when user logs out)
-    await redis.del(sessionId as string)
+    await redis.del(`employee-session-${sessionId}`)
 
     // return true because operation was sucessfull
     return true
