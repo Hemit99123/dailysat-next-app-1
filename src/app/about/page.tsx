@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import React from 'react';
-import { redirect } from 'next/navigation'
 
 const About = () => {
   // Array of team members so we can dynamicaly update it easily, instead of continually adding more jsx
@@ -37,10 +36,6 @@ const About = () => {
     }
     
   ];
-
-  const handleGoToHome = () => {
-    redirect("/")
-  }
 
   return (
     <div>
