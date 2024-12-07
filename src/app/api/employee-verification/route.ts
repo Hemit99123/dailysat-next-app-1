@@ -1,6 +1,6 @@
 import client from "@/lib/mongo";
 import { Db, Document } from "mongodb";
-import { redisSession as redis } from "@/lib/redis";
+import { redis } from "@/lib/redis";
 import { transporter } from "@/lib/nodemailer";
 import otpGenerate from "@/lib/otpGenerate";
 

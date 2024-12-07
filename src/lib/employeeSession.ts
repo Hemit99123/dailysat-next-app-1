@@ -1,5 +1,7 @@
+"use server";
+
 import { cookies } from 'next/headers';
-import {redisSession as redis} from './redis';
+import { redis } from './redis';
 
 const getSessionIDCookie = async (): Promise<string | undefined> => {
     // we use the session id to find it within the redis db (the stored session)
@@ -40,5 +42,16 @@ export const setSession = async (email: string): Promise<boolean> => {
     await redis.set(`employee-session-${sessionId}`, {email: email });
     await redis.expire(`employee-session-${sessionId}`, 604800); // the session being expired in a week (in seconds)
  
+    // return true because operation was sucessfull
     return true;
 };
+
+export const destorySession = async (): Promise<boolean> => {
+    const sessionId = await getSessionIDCookie()
+
+    // deleting the redis session when needed (e.g. when user logs out)
+    await redis.del(sessionId as string)
+
+    // return true because operation was sucessfull
+    return true
+}
