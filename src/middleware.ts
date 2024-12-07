@@ -4,8 +4,12 @@ import { getSession as getEmployeeSession } from './lib/employeeSession';
 
 export const middleware = async (request: NextRequest) => {
   const protectedEmployeeBackendRoutes = [
-    '/contact',
+    '/api/employee',
   ];
+
+  const protectedEmployeeFrontendRoutes = [
+    '/api-docs'
+  ]
 
   // Check if the request path matches any protected route for backend (ONLY EMPLOYEES ALLOWED)
   const isProtectedEmployeeBackend = protectedEmployeeBackendRoutes.includes(request.nextUrl.pathname);
@@ -17,6 +21,20 @@ export const middleware = async (request: NextRequest) => {
       return Response.json({
         error: "You do not have the proper employee authorization"
       })
+    }
+  }
+
+  // Now we handle frontend for employee unauthorization because the UI would be different
+  // It will redirect it to another page where it will say unauthorized
+  // This makes more sense for the frontend rather than spitting out some json that could confuse the user (better UX)
+
+  const isProtectedEmployeeFrontend = protectedEmployeeFrontendRoutes.includes(request.nextUrl.pathname);
+
+  if (isProtectedEmployeeFrontend) {
+    const isSessionValid = await getEmployeeSession();
+
+    if (!isSessionValid) {
+      return Response.redirect("/unauthorized")
     }
   }
 
