@@ -33,8 +33,14 @@ export const middleware = async (request: NextRequest) => {
   if (isProtectedEmployeeFrontend) {
     const isSessionValid = await getEmployeeSession();
 
+    // relative urls do not work (/authorized)
+    // so we have to augment it onto the url base itself which is what the nextUrl.clons() method does
+
+    const url = request.nextUrl.clone()
+    url.pathname = '/unauthorized'
+
     if (!isSessionValid) {
-      return Response.redirect("/unauthorized")
+      return Response.redirect(url)
     }
   }
 
