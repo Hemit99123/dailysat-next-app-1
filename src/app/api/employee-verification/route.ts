@@ -9,10 +9,10 @@ export async function POST(request: Request) {
   const email = body.email;
 
   if (!email) {
-    return new Response(
-      JSON.stringify({ code: 400, error: "No email parameter specified" }),
-      { status: 400, headers: { "Content-Type": "application/json" } }
-    );
+    return Response.json({
+      code: 400,
+      error: "No email paramater"
+    })
   }
 
   try {
@@ -116,7 +116,8 @@ export async function POST(request: Request) {
 
     return Response.json({
       code: 200,
-      message: "OTP sent successfully"
+      message: "OTP sent successfully",
+      result: true
     })
   } catch (error) {
     return Response.json({
