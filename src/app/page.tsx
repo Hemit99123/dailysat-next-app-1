@@ -25,7 +25,7 @@ const Home = () => {
       <div className="p-5 flex flex-col lg:flex-row justify-between items-center space-y-5 lg:space-y-0 lg:space-x-10">
         <div className="text-center lg:text-left">
           <h1 className="text-4xl font-bold">{greeting == "" ? "Loading greeting..." : greeting}</h1>
-          <p className="text-gray-500 mt-2">Welcome to DailySAT! Let's continue your SAT journey, imporved!</p>
+          <p className="text-gray-500 mt-2">Welcome to DailySAT! Let&apos;s continue your SAT journey, imporved!</p>
         </div>
         <div className="flex space-x-3 justify-center lg:justify-start">
           <button className="border px-10 py-2 bg-gray-50 font-bold hover:bg-gray-200 transition-colors">
