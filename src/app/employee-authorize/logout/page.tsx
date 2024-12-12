@@ -12,7 +12,7 @@ const Logout = () => {
         try {
             setIsLoading(true)
             await axios.post("/api/session/employee/destroy")
-            router.push('/login') // Redirect to login page after logout
+            router.push('/') // Redirect back to homepage so user can be back at starting point :)
         } catch (error) {
             console.error('Logout failed:', error)
         } finally {
