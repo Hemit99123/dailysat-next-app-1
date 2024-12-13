@@ -25,7 +25,7 @@ const NavBar = () => {
   return (
     <nav className="bg-white w-full border-b border-gray-200">
       {/* Container for the main navigation bar */}
-      <div className="max-w-screen-xl mx-auto flex justify-between items-center p-4">
+      <div className="max-w-screen-xl flex justify-between items-center p-4 mx-10">
         {/* Logo Section */}
         <div onClick={() => handleGoToNewPage('/')} className="flex items-center cursor-pointer">
           <Image src="/logo/dailysat.png" width={50} height={50} alt="Logo" />
@@ -86,16 +86,6 @@ const NavBar = () => {
             </div>
           ))}
         </div>
-
-        {/* Contact Button for Desktop View */}
-        <div className="hidden md:block">
-          <button
-            onClick={() => handleGoToNewPage("https://evq73w1t59w.typeform.com/to/S0yXIWtD")}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-          >
-            Contact
-          </button>
-        </div>
       </div>
 
       {/* Mobile Menu Items with transition effect */}
@@ -115,14 +105,6 @@ const NavBar = () => {
               </div>
             </li>
           ))}
-          <li>
-            <button
-              onClick={() => handleGoToNewPage("https://evq73w1t59w.typeform.com/to/S0yXIWtD")}
-              className="w-full px-4 py-2 mt-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-            >
-              Contact
-            </button>
-          </li>
         </ul>
       </div>
 
