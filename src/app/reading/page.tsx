@@ -19,7 +19,7 @@ import { Answers } from "@/types/answer";
 import { useAnswerStore } from "@/store/answer";
 import { Topic, QuestionData } from "@/types/home";
 
-const ReadingSAT = () => {
+const Reading = () => {
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
   const [randomQuestion, setRandomQuestion] = useState<QuestionData | null>(
     null
@@ -239,4 +239,4 @@ const ReadingSAT = () => {
   );
 };
 
-export default ReadingSAT;
+export default Reading;
