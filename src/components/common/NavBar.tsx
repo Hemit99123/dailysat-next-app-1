@@ -143,7 +143,7 @@ const NavBar = () => {
         expires={150}
       >
         <b>This website uses cookies to enhance the user experience.{" "}</b>
-        <span style={{ fontSize: "10px" }}>We use these to make the website more enjoyable!</span>
+        <span className="text-[10px]">We use these to make the website more enjoyable!</span>
       </CookieConsent>
     </nav>
   );
