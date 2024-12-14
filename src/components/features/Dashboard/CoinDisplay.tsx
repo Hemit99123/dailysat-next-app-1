@@ -1,14 +1,16 @@
 import React from 'react';
+import { trend } from '@/types/trend';
 
 interface ElementProps {
     header: string;
     coins: number;
+    status: trend;
 }
 
 const Element: React.FC<ElementProps> = ({ header, coins }) => { 
     return (
         <div className="shadow-lg rounded-lg w-full bg-white p-4">
-            <div className="flex items-center mb-2">
+            <div className="flex items-center mb-3">
                 <svg 
                     viewBox="0 0 20 20" 
                     fill="none" 
@@ -24,6 +26,11 @@ const Element: React.FC<ElementProps> = ({ header, coins }) => {
                     </g>
                 </svg>
                 <p className="text-sm font-bold text-gray-600">{header}</p>
+            </div>
+            <div>
+                <p className="text-6xl font-bold">
+                    {coins} <span className="text-xl text-gray-400">coins</span>
+                </p>
             </div>
         </div>
     );

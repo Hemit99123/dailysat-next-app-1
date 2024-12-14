@@ -1,0 +1,1 @@
+export type trend = "upward" | "downward"
