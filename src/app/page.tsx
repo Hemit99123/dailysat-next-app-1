@@ -44,7 +44,7 @@ const Home = () => {
           <button 
             className="border px-10 py-2 bg-blue-500 text-white font-bold hover:bg-blue-600 transition-colors rounded-lg"
           >
-            something
+            Contact
           </button>
         </div>
       </div>

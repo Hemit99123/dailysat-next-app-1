@@ -90,14 +90,9 @@ const NavBar = () => {
           ))}
         </div>
 
-        {/* Contact Button for Desktop View */}
-        <div className="hidden md:block">
-          <button
-            onClick={handleGoToForm}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-          >
-            Contact
-          </button>
+        {/* Placeholder element for Desktop View */}
+        <div className="mr-8 hidden md:block">
+          <p>  </p>
         </div>
       </div>
 
@@ -118,14 +113,6 @@ const NavBar = () => {
               </a>
             </li>
           ))}
-          <li>
-            <button
-              onClick={handleGoToForm}
-              className="w-full px-4 py-2 mt-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-            >
-              Contact
-            </button>
-          </li>
         </ul>
       </div>
 
