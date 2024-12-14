@@ -5,9 +5,10 @@ interface ElementProps {
     header: string;
     coins: number;
     status: trend;
+    amountChange: number;
 }
 
-const Element: React.FC<ElementProps> = ({ header, coins }) => { 
+const Element: React.FC<ElementProps> = ({ header, coins, status, amountChange }) => { 
     return (
         <div className="shadow-lg rounded-lg w-full bg-white p-4">
             <div className="flex items-center mb-3">
@@ -30,6 +31,14 @@ const Element: React.FC<ElementProps> = ({ header, coins }) => {
             <div>
                 <p className="text-6xl font-bold">
                     {coins} <span className="text-xl text-gray-400">coins</span>
+                </p>
+
+                {/* The amount changed view render */}
+
+                <p 
+                    className={`mt-5 font-semibold ${status == "downward" ? "text-red-500": "text-green-500"}`}
+                >
+                    {status == "downward" ? "-" : "+"}{amountChange}% this week
                 </p>
             </div>
         </div>
