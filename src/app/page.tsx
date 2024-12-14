@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Element from "@/components/features/Dashboard/CoinDisplay";
+import CoinDisplay from "@/components/features/Dashboard/CoinDisplay";
 
 const Home = () => {
   const [greeting, setGreeting] = useState("");
@@ -47,12 +47,8 @@ const Home = () => {
         </div>
       </div>
       <div className="lg:flex lg:space-x-2 mt-10">
-        <Element header="DailySAT Coins:">
-          <p></p>
-        </Element>
-        <Element header="Streaks Coins:">
-          <p>yo</p>
-        </Element>
+        <CoinDisplay header="DailySAT Coins:" />
+        <CoinDisplay header="Streaks Coins:" />
       </div>
 
     </div>

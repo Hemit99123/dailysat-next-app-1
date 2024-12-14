@@ -2,10 +2,9 @@ import React from 'react';
 
 interface ElementProps {
     header: string;
-    children: React.ReactElement; 
 }
 
-const Element: React.FC<ElementProps> = ({ header, children }) => { 
+const Element: React.FC<ElementProps> = ({ header }) => { 
     return (
         <div className="shadow-lg rounded-lg w-full bg-white p-4">
             <div className="flex items-center mb-2">
@@ -26,7 +25,6 @@ const Element: React.FC<ElementProps> = ({ header, children }) => {
                 </svg>
                 <p className="text-sm font-bold text-gray-600">{header}</p>
             </div>
-            <div>{children}</div>
         </div>
     );
 }
