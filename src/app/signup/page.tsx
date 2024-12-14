@@ -9,8 +9,11 @@ import { jwtDecode } from "jwt-decode";
 import React from "react";  
 import { getCookieConsentValue, resetCookieConsentValue } from "react-cookie-consent";
 import { QuestionData } from "../page";
+import axios from "axios";
+import useUserStore, { useLoggedInStore } from "@/store/user";
 
 export interface User {
+    id : string,
     email : string,
     name : string,
     picture : string,
@@ -25,14 +28,43 @@ export interface User {
     questionsAnswered : QuestionData[]
 }
 
+// Endstate of API request
+export type AuthCode = "login" | "signup";
+
+// The type of the return data
+export interface AuthResponse{
+  user? : User,
+  code? : number,
+  message?: string,
+  status? : AuthCode,
+  ts? : string
+}
+
 export default function Signup() {
-    function successCallback(token : CredentialResponse){
+    async function successCallback(token : CredentialResponse){
         const str : string = token.credential  || "";
         const user : User = jwtDecode<User>(str);
+        
         if(getCookieConsentValue("userData") == "true"){
-            // save
-            document.cookie = JSON.stringify(user);
+          // get userData
+          const userData : AuthResponse = await (await axios.post("/api/auth",user)).data;
+
+          if(userData.code != 200)
+            window.alert(userData.message)
+          else{ 
+            // Save
+            document.cookie = JSON.stringify({"user":userData.user,"jwt":userData.ts});
+            useUserStore.setState({user : userData});
+            useLoggedInStore.setState({loggedIn : true});
+            
+            // TODO : Redirect to dashboard
             window.location.replace("/");
+          }
+        }
+
+        else{
+          // Alert
+          window.alert("Enable the cookies, or else we won't be able to create an account!");
         }
     }
 

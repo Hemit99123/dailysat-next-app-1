@@ -1,4 +1,4 @@
-const questions = [
+[
     {
         "id": "de55ec71",
         "question": "Generations of mystery and horror ______ have been inuenced by the dark, gothic stories of celebrated American author Edgar Allan Poe (1809–1849). Which choice completes the text so that it conforms to the conventions of Standard English?",
@@ -13883,4 +13883,3 @@ const questions = [
     }
 ]
 
-export default questions;

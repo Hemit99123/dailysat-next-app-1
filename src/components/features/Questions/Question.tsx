@@ -37,22 +37,19 @@ const Question: React.FC<QuestionProps> = ({
   const [crossedOffOptions, setCrossedOffOptions] = useState<Set<Answers> | null>(
     new Set()
   ); // To track crossed off options
+  const [bugReportText, setBugReportText] = useState(""); // Text input for bug report
+  const [showBugReportInput, setShowBugReportInput] = useState(false); // Show/hide input field for bug report
   const textRef = useRef<HTMLParagraphElement | null>(null);
   const isAnswerCorrect = useAnswerStore((state) => state.isAnswerCorrect);
 
   useEffect(() => {
     if (isAnswerCorrect) {
       setSelectedAnswer(null);
-      setCrossedOffOptions(null)
-      setHighlights([])
-      setMode(null)
+      setCrossedOffOptions(null);
+      setHighlights([]);
+      setMode(null);
     }
   }, [isAnswerCorrect]);
-
-  // useEffect(() => {
-  //   setCrossedOffOptions(new Set())
-  //   setSelectedAnswer(null);
-  // }, [id])
 
   // Toggle highlight/clear mode
   const toggleMode = (newMode: "highlight" | "clear") => {
@@ -143,7 +140,9 @@ const Question: React.FC<QuestionProps> = ({
   };
 
   const betaBugReport = async () => {
-    await axios.get("/api/beta/bug?id=" + id);
+    setShowBugReportInput(false); // Hide input after submission
+    setBugReportText(""); // Reset input field
+    await axios.get("/api/beta/bug?id=" + id + "&text=" + bugReportText);
     window.location.reload();
   };
 
@@ -167,22 +166,21 @@ const Question: React.FC<QuestionProps> = ({
     }
   };
 
+  // Handle bug report text change
+  const handleBugReportChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setBugReportText(event.target.value);
+  };
+
   return (
     <div className="flex flex-col items-start px-8 -mt-6">
       <div className="flex items-center mb-2 space-x-4">
         {/* Highlight Mode Button */}
         <button
           onClick={() => toggleMode("highlight")}
-          className={`p-1 rounded ${
-            mode === "highlight" ? "bg-blue-500 text-white" : "bg-gray-300"
-          }`}
+          className={`p-1 rounded ${mode === "highlight" ? "bg-blue-500 text-white" : "bg-gray-300"}`}
         >
           <Image
-            src={
-              mode !== "highlight"
-                ? "/icons/highlighter.png"
-                : "/icons/full.png"
-            }
+            src={mode !== "highlight" ? "/icons/highlighter.png" : "/icons/full.png"}
             alt="Toggle highlight mode"
             className="w-4 h-4"
             width={500}
@@ -193,9 +191,7 @@ const Question: React.FC<QuestionProps> = ({
         {/* Clear Highlight Button */}
         <button
           onClick={() => toggleMode("clear")}
-          className={`p-1 rounded ${
-            mode === "clear" ? "bg-red-500 text-white" : "bg-gray-300"
-          }`}
+          className={`p-1 rounded ${mode === "clear" ? "bg-red-500 text-white" : "bg-gray-300"}`}
         >
           <Image
             src={mode !== "clear" ? "/icons/eraser.png" : "/icons/colored.png"}
@@ -209,9 +205,7 @@ const Question: React.FC<QuestionProps> = ({
         {/* Cross-Off Mode Button */}
         <button
           onClick={toggleCrossOffMode}
-          className={`p-1 rounded ${
-            crossOffMode ? "bg-blue-300 text-white" : "bg-gray-300"
-          }`}
+          className={`p-1 rounded ${crossOffMode ? "bg-blue-300 text-white" : "bg-gray-300"}`}
         >
           Cross off
         </button>
@@ -220,10 +214,28 @@ const Question: React.FC<QuestionProps> = ({
       {/* Bug Report */}
       <p
         className="text-xs font-extralight hover:text-red-500 hover:cursor-pointer transition-all"
-        onClick={() => betaBugReport()}
+        onClick={() => setShowBugReportInput(true)}
       >
         {id} Report this question as bugged
       </p>
+
+      {showBugReportInput && (
+        <div className="mb-4">
+          <input
+            type="text"
+            value={bugReportText}
+            onChange={handleBugReportChange}
+            placeholder="Describe the issue..."
+            className="p-2 border border-gray-300 rounded sm:w-80 sm:mt-0 w-full mt-3"
+          />
+          <button
+            onClick={betaBugReport}
+            className="block mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Submit Report
+          </button>
+        </div>
+      )}
 
       <p
         className="mb-5 text-xl relative"

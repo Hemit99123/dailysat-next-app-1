@@ -1,4 +1,5 @@
 "use client"; // Indicates this is a client-side component
+import useUserStore, { useLoggedInStore } from "@/store/user";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -89,20 +90,25 @@ const NavBar = () => {
 
         {/* Contact Button for Desktop View */}
         <div className="hidden md:block">
-          <button
-            onClick={() => handleGoToNewPage("https://evq73w1t59w.typeform.com/to/S0yXIWtD")}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-          >
-            Contact
-          </button>
+          {useLoggedInStore.getState().loggedIn == true ? (
+            <>
+              <img src={useUserStore.getState().user.user?.picture} className="w-32 h-32" />
+            </>
+          ) : (
+            <button
+              onClick={() => handleGoToNewPage("https://evq73w1t59w.typeform.com/to/S0yXIWtD")}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            >
+              Contact
+            </button>
+          )}
         </div>
       </div>
 
       {/* Mobile Menu Items with transition effect */}
       <div
-        className={`md:hidden overflow-hidden transition-max-height duration-500 ease-in-out ${
-          isMenuOpen ? "max-h-96" : "max-h-0"
-        }`}
+        className={`md:hidden overflow-hidden transition-max-height duration-500 ease-in-out ${isMenuOpen ? "max-h-96" : "max-h-0"
+          }`}
       >
         <ul className="space-y-2 p-4 bg-gray-100">
           {menuItems.map((item, index) => (
@@ -136,10 +142,10 @@ const NavBar = () => {
           borderRadius: "25px",
           color: "black",
           marginBottom: "5px",
-          fontSize:"15px",
-          textAlign:"center",
+          fontSize: "15px",
+          textAlign: "center",
         }}
-        buttonStyle={{ color: "#4e503b", fontSize: "15px", borderRadius:"25px", paddingLeft:"20px", paddingRight:"20px" }}
+        buttonStyle={{ color: "#4e503b", fontSize: "15px", borderRadius: "25px", paddingLeft: "20px", paddingRight: "20px" }}
         expires={150}
       >
         <b>This website uses cookies to enhance the user experience.{" "}</b>
