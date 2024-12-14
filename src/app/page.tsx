@@ -46,11 +46,11 @@ const Home = () => {
           </button>
         </div>
       </div>
-      <div className="flex space-x-2">
-        <Element>
+      <div className="flex space-x-2 mt-10">
+        <Element header="DailySAT Coins:">
           <p>yo</p>
         </Element>
-        <Element>
+        <Element header="Streaks Coins:">
           <p>yo</p>
         </Element>
       </div>
