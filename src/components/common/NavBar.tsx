@@ -6,6 +6,8 @@ import CookieConsent from "react-cookie-consent";
 
 // Define the menu items for navigation
 const menuItems = [
+  { label: "Reading SAT", href: "/reading"},
+  { label: "Math SAT", href: "/math"},
   { label: "About", href: "/about" },
 ];
 
@@ -13,24 +15,25 @@ const NavBar = () => {
   const router = useRouter(); // Hook to navigate programmatically
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State to track if the mobile menu is open
 
+  // Handles navigation to an external form link
+  const handleGoToForm = () => {
+    router.push("https://evq73w1t59w.typeform.com/to/S0yXIWtD");
+  };
+
   // Toggles the mobile menu open/close state
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-
-  const handleGoToNewPage = (link: string) => {
-    router.push(link)
-  }
 
   return (
     <nav className="bg-white w-full border-b border-gray-200">
       {/* Container for the main navigation bar */}
       <div className="max-w-screen-xl mx-auto flex justify-between items-center p-4">
         {/* Logo Section */}
-        <div onClick={() => handleGoToNewPage('/')} className="flex items-center cursor-pointer">
+        <a href="/" className="flex items-center">
           <Image src="/logo/dailysat.png" width={50} height={50} alt="Logo" />
           <span className="text-2xl font-semibold ml-2">DailySAT</span>
-        </div>
+        </a>
 
         {/* Mobile Menu Button */}
         <button
@@ -77,20 +80,20 @@ const NavBar = () => {
         {/* Menu Items for Desktop View */}
         <div className="hidden md:flex md:space-x-8">
           {menuItems.map((item, index) => (
-            <div
+            <a
               key={index}
-              onClick={() => handleGoToNewPage(item.href)}
-              className="py-2 px-4 text-gray-900 hover:text-blue-600 transition cursor-pointer"
+              href={item.href}
+              className="py-2 px-4 text-gray-900 hover:text-blue-600 transition"
             >
               {item.label}
-            </div>
+            </a>
           ))}
         </div>
 
         {/* Contact Button for Desktop View */}
         <div className="hidden md:block">
           <button
-            onClick={() => handleGoToNewPage("https://evq73w1t59w.typeform.com/to/S0yXIWtD")}
+            onClick={handleGoToForm}
             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
           >
             Contact
@@ -107,17 +110,17 @@ const NavBar = () => {
         <ul className="space-y-2 p-4 bg-gray-100">
           {menuItems.map((item, index) => (
             <li key={index}>
-              <div
-                onClick={() => handleGoToNewPage(item.href)}
-                className="block py-2 px-3 text-gray-900 hover:bg-gray-200 rounded-lg cursor-pointer"
+              <a
+                href={item.href}
+                className="block py-2 px-3 text-gray-900 hover:bg-gray-200 rounded-lg"
               >
                 {item.label}
-              </div>
+              </a>
             </li>
           ))}
           <li>
             <button
-              onClick={() => handleGoToNewPage("https://evq73w1t59w.typeform.com/to/S0yXIWtD")}
+              onClick={handleGoToForm}
               className="w-full px-4 py-2 mt-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
             >
               Contact
