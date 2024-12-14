@@ -29,24 +29,26 @@ const Home = () => {
 
   return (
     <div className="bg-gray-50 h-screen">
-      <div className="p-5 flex flex-col lg:flex-row justify-between items-center space-y-5 lg:space-y-0 lg:space-x-10">
+      <div className="p-7 mp-5 flex flex-col lg:flex-row justify-between items-center space-y-5 lg:space-y-0 lg:space-x-10">
         <div className="text-center lg:text-left">
           <h1 className="text-4xl font-bold text-gray-800">{greeting == "" ? "Loading greeting..." : greeting}</h1>
           <p className="text-gray-500 mt-2">Let&apos;s continue your SAT journey, imporved!</p>
         </div>
         <div className="flex space-x-3 justify-center lg:justify-start">
           <button 
-            className="border px-10 py-2 bg-white font-bold hover:bg-gray-100 transition-colors"
+            className="border px-10 py-2 bg-white font-bold hover:bg-gray-100 transition-colors rounded-lg"
             onClick={() => handleRedirect("/referral")}
           >
             Referral 
           </button>
-          <button className="border px-10 py-2 bg-blue-500 text-white font-bold hover:bg-blue-600 transition-colors">
+          <button 
+            className="border px-10 py-2 bg-blue-500 text-white font-bold hover:bg-blue-600 transition-colors rounded-lg"
+          >
             something
           </button>
         </div>
       </div>
-      <div className="lg:flex lg:space-x-2 mt-10">
+      <div className="lg:flex lg:space-x-2 mt-1.5 p-3.5">
 
         {/* amountChange prop needs to have a percentage NOT the amount */}
 
