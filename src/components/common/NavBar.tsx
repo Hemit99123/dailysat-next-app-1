@@ -18,15 +18,19 @@ const NavBar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const handleGoToNewPage = (link: string) => {
+    router.push(link)
+  }
+
   return (
     <nav className="bg-white w-full border-b border-gray-200">
       {/* Container for the main navigation bar */}
       <div className="max-w-screen-xl mx-auto flex justify-between items-center p-4">
         {/* Logo Section */}
-        <a href="/" className="flex items-center">
+        <div onClick={() => handleGoToNewPage('/')} className="flex items-center cursor-pointer">
           <Image src="/logo/dailysat.png" width={50} height={50} alt="Logo" />
           <span className="text-2xl font-semibold ml-2">DailySAT</span>
-        </a>
+        </div>
 
         {/* Mobile Menu Button */}
         <button
@@ -73,13 +77,13 @@ const NavBar = () => {
         {/* Menu Items for Desktop View */}
         <div className="hidden md:flex md:space-x-8">
           {menuItems.map((item, index) => (
-            <a
+            <div
               key={index}
-              href={item.href}
-              className="py-2 px-4 text-gray-900 hover:text-blue-600 transition"
+              onClick={() => handleGoToNewPage(item.href)}
+              className="py-2 px-4 text-gray-900 hover:text-blue-600 transition cursor-pointer"
             >
               {item.label}
-            </a>
+            </div>
           ))}
         </div>
 
@@ -98,12 +102,12 @@ const NavBar = () => {
         <ul className="space-y-2 p-4 bg-gray-100">
           {menuItems.map((item, index) => (
             <li key={index}>
-              <a
-                href={item.href}
-                className="block py-2 px-3 text-gray-900 hover:bg-gray-200 rounded-lg"
+              <div
+                onClick={() => handleGoToNewPage(item.href)}
+                className="block py-2 px-3 text-gray-900 hover:bg-gray-200 rounded-lg cursor-pointer"
               >
                 {item.label}
-              </a>
+              </div>
             </li>
           ))}
         </ul>
@@ -126,7 +130,7 @@ const NavBar = () => {
         expires={150}
       >
         <b>This website uses cookies to enhance the user experience.{" "}</b>
-        <span style={{ fontSize: "10px" }}>We use these to make the website more enjoyable!</span>
+        <span className="text-[10px]">We use these to make the website more enjoyable!</span>
       </CookieConsent>
     </nav>
   );

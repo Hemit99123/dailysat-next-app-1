@@ -1,27 +1,24 @@
-'use client'
-
 import Image from 'next/image';
 import React from 'react';
-import { useRouter } from 'next/navigation';
 
 const About = () => {
-  // Array of team members
+  // Array of team members so we can dynamicaly update it easily, instead of continually adding more jsx
   const team = [
     {
       name: 'Aarush Kute',
-      role: 'CEO',
+      role: 'Chief Executive Officer',
       imgSrc: './people/aarush.png',
       linkedIn: "https://www.linkedin.com/in/aarush-kute-1639a525b/"
     },
     {
       name: 'Hemit Patel',
-      role: 'COO/President',
+      role: 'President & Chief Operating Officer',
       imgSrc: 'https://media.licdn.com/dms/image/v2/D5603AQFDJxp7vmgX0Q/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1695640460890?e=1738195200&v=beta&t=sfsEBemwKB0_r70CJcFTqoBPOa2LgWU46Tq-CtjgJek',
       linkedIn: "https://www.linkedin.com/in/hemit-patel-383ab3271/"
     }, 
     {
       name: "William Chan",
-      role: "CMO",
+      role: "Head of Marketing",
       imgSrc: "https://media.licdn.com/dms/image/v2/D5603AQFMtNWPnihUBg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1718285605821?e=1738800000&v=beta&t=A2mf419HvUG8s4vdNi_10pq1VRPljzekz7BtfqWrImU",
       linkedIn: "https://www.linkedin.com/in/wilman-chan-03a468286/"
     },
@@ -40,12 +37,6 @@ const About = () => {
     
   ];
 
-  const router = useRouter()
-
-  const handleGoToHome = () => {
-    router.push("/")
-  }
-
   return (
     <div>
         <section className="py-24 relative">
@@ -56,9 +47,6 @@ const About = () => {
                         <h2 className="text-gray-900 text-4xl font-bold font-manrope leading-normal lg:text-start text-center">ACE the SAT.</h2>
                         <p className="text-gray-500 text-base font-normal leading-relaxed lg:text-start text-center">Our product will help you prep for the SAT through providing a question bank! You will have annotation and other tools available to aid you in your SAT journey to your dream school 🚀</p>
                     </div>
-                    <button className="sm:w-fit w-full px-3.5 py-2 bg-blue-600 hover:bg-blue-800 transition-all duration-700 ease-in-out rounded-lg shadow-[0px_1px_2px_0px_rgba(16,_24,_40,_0.05)] justify-center items-center flex" onClick={handleGoToHome}>
-                        <span className="px-1.5 text-white text-sm font-medium leading-6">Get Started</span>
-                    </button>
                 </div>
                 <Image 
                     className='lg:mx-0 mx-auto h-full rounded-3xl object-cover" src="https://pagedone.io/asset/uploads/1717751272.png'
