@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import CoinDisplay from "@/components/features/Dashboard/CoinDisplay";
+import Option from "@/components/features/Dashboard/Option";
 
 const Home = () => {
   const [greeting, setGreeting] = useState("");
@@ -47,6 +48,28 @@ const Home = () => {
           >
             Contact
           </button>
+        </div>
+      </div>
+
+      <div>
+        {/* CTA to either go to Math SAT or Reading SAT */}
+
+        <div className="px-16 p-6 flex space-x-3">
+        <Option
+          svg={
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14.4207 5.63965H21.7007" stroke="#0891b2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M2.29956 5.64014H9.57956" stroke="#0891b2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M14.4207 15.3301H21.7007" stroke="#0891b2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M14.4207 21.3896H21.7007" stroke="#0891b2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M18.0894 9.27V2" stroke="#0891b2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M2.29956 22L9.57956 14.73" stroke="#0891b2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M9.57956 22L2.29956 14.73" stroke="#0891b2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+          }
+          header="Math SAT"
+          redirect="/math"
+        />
+
+        <Option
+          svg={
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14.4207 5.63965H21.7007" stroke="#0891b2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M2.29956 5.64014H9.57956" stroke="#0891b2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M14.4207 15.3301H21.7007" stroke="#0891b2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M14.4207 21.3896H21.7007" stroke="#0891b2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M18.0894 9.27V2" stroke="#0891b2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M2.29956 22L9.57956 14.73" stroke="#0891b2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M9.57956 22L2.29956 14.73" stroke="#0891b2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+          }
+          header="Reading SAT"
+          redirect="/reading"
+        />
         </div>
       </div>
       <div className="lg:flex lg:space-x-2 mt-1.5 p-3.5">
