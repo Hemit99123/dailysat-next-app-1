@@ -47,8 +47,8 @@ const Home = () => {
         </div>
       </div>
       <div className="lg:flex lg:space-x-2 mt-10">
-        <CoinDisplay header="DailySAT Coins:" />
-        <CoinDisplay header="Streaks Coins:" />
+        <CoinDisplay header="DailySAT Coins:" coins={30}/>
+        <CoinDisplay header="Streaks Coins:" coins={30}/>
       </div>
 
     </div>
