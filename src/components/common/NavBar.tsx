@@ -1,6 +1,6 @@
 "use client"; // Indicates this is a client-side component
 import Image from "next/image";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import CookieConsent from "react-cookie-consent";
 
@@ -14,7 +14,7 @@ const menuItems = [
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State to track if the mobile menu is open
   const router = useRouter()
-  
+
   // Toggles the mobile menu open/close state
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
