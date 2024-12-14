@@ -1,11 +1,18 @@
+// NOTE : THESE FILES ARE NOT FOR THE WEB APP. THESE ARE FEEDER SCRIPTS
 const SymSpell = require("node-symspell");
 const { MongoClient, ServerApiVersion } = require("mongodb");
-import questions from "dailysat\src\data\questions2.json" with { type: "json" };
 
 const uri =
-  "mongodb+srv://ljain1234512345:wVb75LLJSXnkQtBe@dailysat.rbxoj.mongodb.net/?retryWrites=true&w=majority&appName=DailySAT";
+  process.env.mongoURL;
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+// Read Questions
+let questions;
+try {
+  questions = JSON.parse(readFileSync('initial-RW-questions.json', 'utf8'));
+} catch (e) {
+}
+
+// Create a MongoClient 
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -14,13 +21,15 @@ const client = new MongoClient(uri, {
   },
 });
 
-const whole = async() => {
+// Main is wrapped in a function because it is async
+const main = async() => {
     try {
         await client.connect();
-        console.log("client connected")
         // database and collection code goes here
       
-        async function fun(thingy) {
+        async function is_not_bugged(question) {
+
+          // Spell-Check the question. If the difference between the spellchecked version and the actual question is greater than some constant, the question is bugged and we discard it.
           const maxEditDistance = 2;
           const prefixLength = 7;
           const symSpell = new SymSpell(maxEditDistance, prefixLength);
@@ -31,7 +40,8 @@ const whole = async() => {
             2
           );
       
-          const typo = thingy.question
+          // Replace punctuation because symspell counts those too.
+          const typo = question.question
             .replaceAll(",", "")
             .replaceAll("_", "")
             .replaceAll("’", "'")
@@ -52,48 +62,52 @@ const whole = async() => {
             .replaceAll("”", "");
           const results = symSpell.lookupCompound(typo, maxEditDistance);
       
+          // Normalize the score
           const len = typo.split(" ").length;
           const score = results[0].distance / len;
-          console.log(
-            "Score for " + thingy.question + " .... = " + score.toString()
-          );
-          // {
-          // 	term: 'can you read this message despite the horrible spelling mistakes',
-          // 	distance: 10,
-          // 	count: 0
-          // }
+
+          // Debug statement when running the code
+          // console.log(
+          //   "Score for " + question.question + " .... = " + score.toString()
+          // );
+          // 
+
+          // Count the question only if the normalized score is less than this
           if (score < 0.3) {
             return true;
           }
           return false;
         }
       
-        async function func() {
+        async function record_questions() {
           let idx = 0;
           let nArray_local = [];
           for (const l in questions) {
-            const answer = await fun(questions[l]);
+            const answer = await is_not_bugged(questions[l]);
             if (answer === true) {
               nArray_local.push(questions[l]);
               idx += 1
+
+              // Send the results in batches of 10 to reduce time.
               if (idx >= 10) {
                 //
                 idx = 0;
                 const db = client.db("DailySAT");
                 const coll = db.collection("questions");
-                const result = await coll.insertMany(nArray_local);
+                
+                await coll.insertMany(nArray_local);
                 // display the results of the operation
-                console.log(result.insertedIds);
+                // console.log(result.insertedIds);
                 nArray_local = []
               }
             }
           }
         }
-        func();
+        record_questions();
       } finally {
-        // Ensures that the client will close when you finish/error
-        // await client.close();
+        // Ensures that the client closes when we finish/error
+        await client.close();
       }
 }
 
-whole()
+main()

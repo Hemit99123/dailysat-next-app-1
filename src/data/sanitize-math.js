@@ -10,7 +10,7 @@ try {
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const uri =
-  "mongodb+srv://ljain1234512345:wVb75LLJSXnkQtBe@dailysat.rbxoj.mongodb.net/?retryWrites=true&w=majority&appName=DailySAT";
+  process.env.mongoURL;
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
