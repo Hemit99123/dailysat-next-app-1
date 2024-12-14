@@ -38,7 +38,7 @@ const Element: React.FC<ElementProps> = ({ header, coins, status, amountChange }
                 <p 
                     className={`mt-5 font-semibold ${status == "downward" ? "text-red-500": "text-green-500"}`}
                 >
-                    {status == "downward" ? "-" : "+"}{amountChange}% this week
+                    {status == "downward" ? "-" : "+"}{amountChange}% change this week
                 </p>
             </div>
         </div>
