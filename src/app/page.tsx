@@ -5,9 +5,34 @@ import { useEffect, useState } from "react";
 import Option from "@/components/features/Dashboard/Option";
 import CoinDisplay from "@/components/features/Dashboard/CoinDisplay";
 import items from "@/data/items";
+import axios from "axios";
+import Quotes from "@/types/quotes";
+import Spinner from "@/components/common/Spinner";
 
 const Home = () => {
   const [greeting, setGreeting] = useState("");
+  const [quote, setQuote] = useState<Quotes | null>(null)
+
+  // Get the random quote once the component has been mounted and no more after
+  // Hence the [] dependency 
+
+  useEffect(() => {
+    const handleFetchQuote = async () => {
+      try {
+        const randomQuote = await axios.get("https://api.realinspire.tech/v1/quotes/random", {
+          params: {
+            maxLength: 50
+          }
+        });
+        setQuote(randomQuote.data[0]);
+      } catch (error) {
+        alert("Something went wrong when retrieving your quote :(")
+        alert("Error is" + error)
+      }
+    }
+    
+    handleFetchQuote()
+  }, [])
 
   // Getting the greeting based on what time of day it is
   useEffect(() => {
@@ -98,7 +123,11 @@ const Home = () => {
 
         {/* The element ( undecided yet :( ) */}
         <div className="w-full md:w-1/3 rounded-lg shadow-lg">
-          
+          {quote !== null ? (
+            <p>{quote.content}</p>
+          ) : (
+            <Spinner />
+          )}
         </div>
 
         {/* Items List */}
