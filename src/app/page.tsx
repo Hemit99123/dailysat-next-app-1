@@ -4,36 +4,10 @@ import OwnedItem from "@/components/features/Dashboard/OwnedItem";
 import { useEffect, useState } from "react";
 import Option from "@/components/features/Dashboard/Option";
 import CoinDisplay from "@/components/features/Dashboard/CoinDisplay";
+import items from "@/data/items";
+
 const Home = () => {
   const [greeting, setGreeting] = useState("");
-
-  // Dummy data for the items
-  const items = [
-    {
-      url: "https://t3.ftcdn.net/jpg/07/72/92/66/360_F_772926641_alrxTW34hAXt6Xnnb1mRfD6PrgzwlFLN.jpg",
-      name: "Penguin",
-      category: "Pets",
-      worth: 20,
-    },
-    {
-      url: "https://t3.ftcdn.net/jpg/07/72/92/66/360_F_772926641_alrxTW34hAXt6Xnnb1mRfD6PrgzwlFLN.jpg",
-      name: "Seal",
-      category: "Pets",
-      worth: 25,
-    },
-    {
-      url: "https://t3.ftcdn.net/jpg/07/72/92/66/360_F_772926641_alrxTW34hAXt6Xnnb1mRfD6PrgzwlFLN.jpg",
-      name: "Polar Bear",
-      category: "Pets",
-      worth: 30,
-    },
-    {
-      url: "https://t3.ftcdn.net/jpg/07/72/92/66/360_F_772926641_alrxTW34hAXt6Xnnb1mRfD6PrgzwlFLN.jpg",
-      name: "Fox",
-      category: "Pets",
-      worth: 15,
-    },
-  ];
 
   // Getting the greeting based on what time of day it is
   useEffect(() => {
