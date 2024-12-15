@@ -93,13 +93,13 @@ const Home = () => {
           header="DailySAT Coins:" 
           coins={30} 
           status="downward" 
-          amountChange={500}
+          percentage={500}
         />
         <CoinDisplay 
           header="Streaks Coins:" 
           coins={60} 
           status="upward" 
-          amountChange={20}
+          percentage={20}
         />
       </div>
 
