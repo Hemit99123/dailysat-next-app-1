@@ -126,7 +126,9 @@ const Home = () => {
           {quote !== null ? (
             <p>{quote.content}</p>
           ) : (
-            <Spinner />
+            <div className="flex justify-center">
+              <Spinner />
+            </div>
           )}
         </div>
 
