@@ -39,11 +39,11 @@ const Home = () => {
     const getGreeting = () => {
       const hours = new Date().getHours();
       if (hours < 12) {
-        return "Good morning!";
+        return "Good morning";
       } else if (hours < 18) {
-        return "Good afternoon!";
+        return "Good afternoon";
       } else {
-        return "Good evening!";
+        return "Good evening";
       }
     };
     setGreeting(getGreeting());
@@ -52,9 +52,9 @@ const Home = () => {
   return (
     <div>
       {/* Greeting Section */}
-      <div className="mt-5 text-center">
+      <div className="mt-8 text-center">
         <h1 className="text-4xl font-bold text-gray-800">
-          {greeting === "" ? "Loading greeting..." : greeting}
+          {greeting === "" ? "Loading greeting..." : greeting + " :)"}
         </h1>
         <p className="text-gray-600 font-light">
           Choose what SAT to study and start practicing...
@@ -101,8 +101,30 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Stats Section */}
-      <h1 className="pl-3.5 font-bold text-2xl">Explore your stats:</h1>
+      {/* The Explore Section - includes stats and other features like learning*/}
+      <div className="flex items-center pl-5 mt-9">
+        <svg 
+          viewBox="0 0 48 48" 
+          xmlns="http://www.w3.org/2000/svg" 
+          fill="#1e3a8a" 
+          height="40px" 
+          width="40px"
+        >
+          <g id="SVGRepo_bgCarrier" stroke-width="0" />
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+          <g id="SVGRepo_iconCarrier"> <title>explore-solid</title> <g id="Layer_2" data-name="Layer 2"> 
+            <g id="invisible_box" data-name="invisible box"> <rect width="48" height="48" fill="none"></rect> 
+          </g> 
+          <g id="icons_Q2" data-name="icons Q2">
+            <path d="M24,2A22,22,0,1,0,46,24,21.9,21.9,0,0,0,24,2ZM34.7,14.7,28,28,14.7,34.7a1.1,1.1,0,0,1-1.4-1.4L20,20l13.3-6.7A1.1,1.1,0,0,1,34.7,14.7ZM24,22a2,2,0,1,0,2,2A2,2,0,0,0,24,22Z" />
+            <path d="M24,22a2,2,0,1,0,2,2A2,2,0,0,0,24,22Zm0,0a2,2,0,1,0,2,2A2,2,0,0,0,24,22Z" /> 
+          </g>
+          </g> 
+          </g>
+        </svg>
+        <h1 className="pl-3.5 font-bold text-4xl text-blue-900">Explore!</h1>
+      </div>
+
       <div className="lg:flex lg:space-x-2 mt-1.5 p-3.5">
         <CoinDisplay
           header="DailySAT Coins:"
@@ -118,8 +140,8 @@ const Home = () => {
         />
       </div>
 
-      {/* Items Section */}
-      <div className="flex flex-col md:flex-row p-3.5 w-full space-y-3 md:space-y-0 md:space-x-3">
+      {/* Second row of boxes area */}
+      <div className="mt-4 flex flex-col md:flex-row p-3.5 w-full space-y-3 md:space-y-0 md:space-x-3">
 
         {/* Motivational quote section */}
         <div className="w-full md:w-1/3 rounded-lg shadow-lg flex items-center justify-center">
