@@ -86,9 +86,6 @@ const Home = () => {
 
       </div>
       <div className="lg:flex lg:space-x-2 mt-1.5 p-3.5">
-
-        {/* amountChange prop needs to have a percentage NOT the amount */}
-
         <CoinDisplay 
           header="DailySAT Coins:" 
           coins={30} 
