@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import OwnedItem from "@/components/features/Dashboard/OwnedItem";
 import { useEffect, useState } from "react";
@@ -26,9 +26,14 @@ const Home = () => {
 
   return (
     <div>
+      {/* Greeting Section */}
       <div className="mt-5 text-center">
-        <h1 className="text-4xl font-bold text-gray-800">{greeting === "" ? "Loading greeting..." : greeting}</h1>
-        <p className="text-gray-600 font-light">Choose what SAT to study and start practicing...</p>
+        <h1 className="text-4xl font-bold text-gray-800">
+          {greeting === "" ? "Loading greeting..." : greeting}
+        </h1>
+        <p className="text-gray-600 font-light">
+          Choose what SAT to study and start practicing...
+        </p>
       </div>
 
       {/* CTA Section */}
@@ -63,7 +68,7 @@ const Home = () => {
                   <path d="M2.29956 22L9.57956 14.73" stroke="#0891b2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                   <path d="M9.57956 22L2.29956 14.73" stroke="#0891b2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                 </g>
-              </svg>            
+              </svg>    
             }
             header="Math"
             redirect="/math"
@@ -71,40 +76,43 @@ const Home = () => {
         </div>
       </div>
 
+      {/* Stats Section */}
       <h1 className="pl-3.5 font-bold text-2xl">Explore your stats:</h1>
       <div className="lg:flex lg:space-x-2 mt-1.5 p-3.5">
-        <CoinDisplay 
-          header="DailySAT Coins:" 
-          coins={30} 
-          status="downward" 
+        <CoinDisplay
+          header="DailySAT Coins:"
+          coins={30}
+          status="downward"
           percentage={500}
         />
-        <CoinDisplay 
-          header="Streaks Coins:" 
-          coins={60} 
-          status="upward" 
+        <CoinDisplay
+          header="Streaks Coins:"
+          coins={60}
+          status="upward"
           percentage={20}
         />
       </div>
 
       {/* Items Section */}
-      <div className="p-3.5">
-        <div className="flex justify-end">
-          <div className="w-full rounded-lg shadow-md bg-white p-5 max-h-80 overflow-y-auto">
-            <div>
-              <p className="font-bold text-lg">Your Items:</p>
-              <hr className="h-px bg-gray-300 border-0" />
-            </div>
-            {items.map((item, index) => (
-              <OwnedItem
-                key={index}
-                url={item.url}
-                name={item.name}
-                category={item.category}
-                worth={item.worth}
-              />
-            ))}
+      <div className="flex p-3.5 w-full space-x-3">
+        <div className="w-1/3 rounded-lg shadow-lg bg-white"></div>
+        <div className="w-2/3 rounded-lg shadow-lg bg-white p-5 max-h-80 overflow-y-auto">
+          <div>
+            <p className="font-bold text-xl text-blue-700">Your Items:</p>
+            <p className="text-gray-500 text-sm">
+              These are the items that you own from your grind...
+            </p>
+            <hr className="h-px bg-gray-300 border-0" />
           </div>
+          {items.map((item, index) => (
+            <OwnedItem
+              key={index}
+              url={item.url}
+              name={item.name}
+              category={item.category}
+              worth={item.worth}
+            />
+          ))}
         </div>
       </div>
     </div>
