@@ -121,7 +121,7 @@ const Home = () => {
       {/* Items Section */}
       <div className="flex flex-col md:flex-row p-3.5 w-full space-y-3 md:space-y-0 md:space-x-3">
 
-        {/* The element ( undecided yet :( ) */}
+        {/* Motivational quote section */}
         <div className="w-full md:w-1/3 rounded-lg shadow-lg flex items-center justify-center">
           {quote !== null ? (
             <div className="flex flex-col items-center">
