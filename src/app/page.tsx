@@ -1,13 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import CoinDisplay from "@/components/features/Dashboard/CoinDisplay";
 import Option from "@/components/features/Dashboard/Option";
 
 const Home = () => {
   const [greeting, setGreeting] = useState("");
-  const router = useRouter()
 
   // Getting the greeting based on what time of day it is
   useEffect(() => {
@@ -24,35 +22,16 @@ const Home = () => {
     setGreeting(getGreeting());
   }, []);
 
-  const handleRedirect = (url: string) => {
-    router.push(url)
-  }
-
   return (
-    <div className="bg-gray-50 h-screen">
-      <div className="p-7 mp-5 flex flex-col lg:flex-row justify-between items-center space-y-5 lg:space-y-0 lg:space-x-10">
-        <div className="text-center lg:text-left">
+    <div>
+        <div className="mt-5  text-center">
           <h1 className="text-4xl font-bold text-gray-800">{greeting == "" ? "Loading greeting..." : greeting}</h1>
-          <p className="text-gray-500 mt-2">Let&apos;s continue your SAT journey, imporved!</p>
+          <p className="text-gray-600 font-light">Choose what SAT to study and start practicing...</p>
         </div>
-        <div className="flex space-x-3 justify-center lg:justify-start">
-          <button 
-            className="border px-10 py-2 bg-white font-bold hover:bg-gray-100 transition-colors rounded-lg"
-            onClick={() => handleRedirect("/referral")}
-          >
-            Referral 
-          </button>
-          <button 
-            className="border px-10 py-2 bg-blue-500 text-white font-bold hover:bg-blue-600 transition-colors rounded-lg"
-            onClick={() => handleRedirect("https://evq73w1t59w.typeform.com/to/S0yXIWtD")}
-          >
-            Contact
-          </button>
-        </div>
-      </div>
+
       {/* CTA to either go to Math SAT or Reading SAT */}
 
-      <div className="px-16 p-6">
+      <div className="lg:px-16 lg:p-6 px-2">
         <div className="flex space-x-2 mt-px">
           <Option
             svg={
@@ -85,6 +64,7 @@ const Home = () => {
 
 
       </div>
+      <h1 className="pl-3.5 font-bold text-2xl">Explore your stats:</h1>
       <div className="lg:flex lg:space-x-2 mt-1.5 p-3.5">
         <CoinDisplay 
           header="DailySAT Coins:" 
@@ -100,6 +80,19 @@ const Home = () => {
         />
       </div>
 
+      {/* Added list of all items that the user might have */}
+      <div className="p-3.5">
+        <div className="flex justify-end">
+          <div className="w-2/3 rounded-lg shadow-md bg-white p-4">
+              <div className="">
+                <p className="font-bold text-lg">Your Items:</p>
+                <hr className="h-px bg-gray-300 border-0" />
+              </div>
+
+gjjgj
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

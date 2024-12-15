@@ -15,7 +15,7 @@ const Option: React.FC<OptionProps> = ({ svg, header, redirect }) => {
   }
   return (
     <div 
-        className="flex border-gray-400 border bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow space-x-4 w-full cursor-pointer"
+        className="flex border p-4 rounded-lg hover:shadow-sm transition-shadow space-x-4 w-full cursor-pointer"
         onClick={handleRedirect} 
     >
       <div className="icon">{svg}</div>
