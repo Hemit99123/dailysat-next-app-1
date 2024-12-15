@@ -95,13 +95,14 @@ const Home = () => {
 
       {/* Items Section */}
       <div className="flex flex-col md:flex-row p-3.5 w-full space-y-3 md:space-y-0 md:space-x-3">
+
         {/* The element ( undecided yet :( ) */}
-        <div className="w-full md:w-1/3 rounded-lg shadow-lg bg-white">
+        <div className="w-full md:w-1/3 rounded-lg shadow-lg">
           
         </div>
 
         {/* Items List */}
-        <div className="w-full md:w-2/3 rounded-lg shadow-lg bg-white p-5 max-h-80 overflow-y-auto">
+        <div className="w-full md:w-2/3 rounded-lg shadow-lg p-5 max-h-80 overflow-y-auto">
           <div>
             <p className="font-bold text-xl text-blue-700">Your Items:</p>
             <p className="text-gray-500 text-sm">
