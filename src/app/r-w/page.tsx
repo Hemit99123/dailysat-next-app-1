@@ -2,8 +2,8 @@
 
 import axios, { AxiosResponse } from "axios";
 import { useEffect, useRef, useState } from "react";
-import Header from "../components/features/Questions/Header";
-import Question from "../components/features/Questions/Question";
+import Header from "../../components/features/Questions/Header";
+import Question from "../../components/features/Questions/Question";
 import { useAnswerCounterStore, useScoreStore } from "@/store/score";
 import ScoreModal from "@/components/features/Questions/Modals/ScoreModal";
 import BookSVG from "@/components/features/Questions/icons/BookSVG";

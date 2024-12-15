@@ -8,11 +8,13 @@ import {
 import { jwtDecode } from "jwt-decode";
 import React from "react";
 import { getCookieConsentValue, resetCookieConsentValue } from "react-cookie-consent";
-import { QuestionData } from "../page";
+import { QuestionData } from "../r-w/page";
 import axios from "axios";
 import useUserStore, { useLoggedInStore } from "@/store/user";
 
 export interface User {
+  // MongoDB string 
+  _id? : string,
   id: string,
   email: string,
   name: string,
@@ -98,26 +100,6 @@ export default function Signup() {
 
         ;
       </GoogleOAuthProvider>
-
-      <div className="bg-white p-8 rounded-lg shadow-md w-96">
-        <div className="flex mb-6">
-          <button
-            className={`flex-1 py-2 ${activeTab === 'login'
-                ? 'text-blue-600 border-b-2 border-blue-600'
-                : 'text-gray-500'
-              }`}
-            onClick={() => setActiveTab('login')}
-          >
-            Login
-          </button>
-          <button
-            className={`flex-1 py-2 text-blue-600 border-b-2 border-blue-600'`}
-            onClick={() => setActiveTab('signup')}
-          >
-            Sign Up
-          </button>
-        </div>
       </div>
-    </div>
   );
 }
