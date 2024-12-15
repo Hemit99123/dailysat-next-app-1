@@ -53,7 +53,6 @@ const Home = () => {
       {/* CTA to either go to Math SAT or Reading SAT */}
 
       <div className="px-16 p-6">
-        <h1 className="text-2xl font-bold text-blue-900">Practice...</h1>
         <div className="flex space-x-2 mt-px">
           <Option
             svg={
