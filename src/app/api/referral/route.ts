@@ -1,6 +1,5 @@
 import client from "../../../lib/mongo";
-import { Db, Document, InsertOneResult, WithId } from "mongodb";
-import { User } from "@/app/signup/page";
+import { Db, Document, WithId } from "mongodb";
 import { REFERRAL_BONUS_REFERRED_PERSON, REFERRAL_BONUS_REFERREE } from "@/lib/CONSTANTS";
 
 interface ReferralUpdate {
