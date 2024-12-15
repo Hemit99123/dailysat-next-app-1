@@ -1,14 +1,14 @@
 import React from 'react';
 import { trend } from '@/types/trend';
 
-interface ElementProps {
+interface CoinDisplayProps {
     header: string;
     coins: number;
     status: trend;
     percentage: number;
 }
 
-const Element: React.FC<ElementProps> = ({ header, coins, status, percentage }) => { 
+const CoinDisplay: React.FC<CoinDisplayProps> = ({ header, coins, status, percentage }) => { 
     return (
         <div className="shadow-lg rounded-lg w-full bg-white p-4">
             <div className="flex items-center mb-3">
@@ -45,4 +45,4 @@ const Element: React.FC<ElementProps> = ({ header, coins, status, percentage }) 
     );
 }
 
-export default Element;
+export default CoinDisplay;
