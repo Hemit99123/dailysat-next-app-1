@@ -21,6 +21,7 @@ import Sidebar from "@/components/features/Sidebar/Sidebar"; // Import Sidebar
 import {readingTopics} from '@/data/topics'
 import GetStarted from "@/components/features/Questions/GetStarted";
 import Spinner from "@/components/common/Spinner";
+import Result from "@/components/features/Questions/Results";
 
 export interface QuestionData {
   id: string;
@@ -173,27 +174,12 @@ const Home = () => {
               <Spinner />
             )}
             <div className="mt-4 pl-7 pb-10" ref={answerComponent}>
-              {isAnswerCorrect !== null && (
-                <>
-                  {isAnswerCorrect ? (
-                    <p className="text-green-500 text-lg font-semibold">
-                      You are correct!
-                    </p>
-                  ) : (
-                    <div>
-                      <p className="text-red-500 text-lg font-semibold">
-                        You are wrong :(
-                      </p>
-                      <button onClick={handleToggleEditorial}>
-                        Do you want to see the editorials? Click here!
-                      </button>
-                      {openEditorial && (
-                        <p className="mt-6">{randomQuestion?.explanation}</p>
-                      )}
-                    </div>
-                  )}
-                </>
-              )}
+              <Result 
+                isAnswerCorrect={isAnswerCorrect}
+                openEditorial={openEditorial}
+                handleToggleEditorial={handleToggleEditorial}
+                explanation={randomQuestion?.explanation || ""}
+              />
             </div>
           </div>
         ) : (
