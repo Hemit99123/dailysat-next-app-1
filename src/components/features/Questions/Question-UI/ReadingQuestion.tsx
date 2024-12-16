@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import AnswerOption from "../shared-components/AnswerOption";
+import AnswerOption from "../../shared-components/AnswerOption";
 import { Answers } from "@/types/answer";
 import { useAnswerStore } from "@/store/answer";
 import Image from "next/image";
