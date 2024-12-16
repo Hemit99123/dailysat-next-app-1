@@ -196,7 +196,7 @@ const Home = () => {
         {/* Items List */}
         <div className="w-full md:w-2/3 rounded-lg shadow-lg p-5 max-h-80 overflow-y-auto">
           <div>
-            <p className="font-bold text-xl text-blue-700">Your Items:</p>
+            <p className="font-bold text-xl text-gray-700">Your Items:</p>
             <p className="text-gray-500 text-sm">
               These are the items that you own from your grind...
             </p>
