@@ -6,14 +6,14 @@ import CookieConsent from "react-cookie-consent";
 
 // Define the menu items for navigation
 const menuItems = [
-  { label: "Reading SAT", href: "/reading"},
-  { label: "Math SAT", href: "/math"},
+  { label: "Reading", href: "/reading" },
+  { label: "Math", href: "/math" },
   { label: "About", href: "/about" },
 ];
 
 const NavBar = () => {
+  const router = useRouter(); // Hook to navigate programmatically
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State to track if the mobile menu is open
-  const router = useRouter()
 
   // Toggles the mobile menu open/close state
   const toggleMenu = () => {
@@ -89,9 +89,14 @@ const NavBar = () => {
           ))}
         </div>
 
-        {/* Placeholder element for Desktop View */}
-        <div className="mr-8 hidden md:block">
-          <p>  </p>
+        {/* Contact Button for Desktop View */}
+        <div className="hidden md:block">
+          <button
+            onClick={() => handleGoToNewPage("https://evq73w1t59w.typeform.com/to/S0yXIWtD")}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          >
+            Contact
+          </button>
         </div>
       </div>
 
@@ -112,6 +117,14 @@ const NavBar = () => {
               </div>
             </li>
           ))}
+          <li>
+            <button
+              onClick={() => handleGoToNewPage("https://evq73w1t59w.typeform.com/to/S0yXIWtD")}
+              className="w-full px-4 py-2 mt-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            >
+              Contact
+            </button>
+          </li>
         </ul>
       </div>
 
