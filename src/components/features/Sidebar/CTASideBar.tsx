@@ -10,23 +10,24 @@ interface CTASideBarProps {
 }
 
 const CTASideBar: React.FC<CTASideBarProps> = ({ open, text }) => {
+
     // State to manage visibility of the sidebar
     const [isVisible, setIsVisible] = useState<sidebar>("loading");
-    const name = `${text}-visible`; // Key for localStorage
+    const nameLocalStorage = `${text}-visible`; // Key for localStorage
 
     // Run once component is mounted to ensure proper hydration
     useEffect(() => {
-        const localStorageItem = window.localStorage.getItem(name);
+        const localStorageItem = window.localStorage.getItem(nameLocalStorage);
 
         if (!localStorageItem) {
             // If localStorage item doesn't exist, set default state to "show"
-            window.localStorage.setItem(name, "show");
+            window.localStorage.setItem(nameLocalStorage, "show");
             setIsVisible("show");
         } else {
             // Set state based on the stored value
             setIsVisible(localStorageItem as "show" | "hide");
         }
-    }, [name]);
+    }, []);
 
     // Toggle between "show" and "hide" states through the ? operator
     // If isVisible is show make it hide otherwise it is hide so then make it show
@@ -34,7 +35,7 @@ const CTASideBar: React.FC<CTASideBarProps> = ({ open, text }) => {
 
     const toggleVisibility = () => {
         const newValue: sidebar = isVisible === "show" ? "hide" : "show";
-        window.localStorage.setItem(name, newValue);
+        window.localStorage.setItem(nameLocalStorage, newValue);
         setIsVisible(newValue);
     };
 
