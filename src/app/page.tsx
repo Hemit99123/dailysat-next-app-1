@@ -89,7 +89,7 @@ const Home = () => {
     try {
       // Specify the expected response type
       const response: AxiosResponse<{ doc_array: QuestionData[] }> = await axios.get(
-        "/api/get/question?topic=" + topic.name
+        "/api/questions/reading?topic=" + topic.name
       );
 
       // Ensure you access the data properly
