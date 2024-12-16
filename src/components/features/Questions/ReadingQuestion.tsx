@@ -4,6 +4,7 @@ import { Answers } from "@/types/answer";
 import { useAnswerStore } from "@/store/answer";
 import Image from "next/image";
 import axios from "axios";
+import { Highlight } from "@/types/questions";
 
 interface ReadingQuestionProps {
   title: string;
@@ -13,12 +14,6 @@ interface ReadingQuestionProps {
   optionC: string;
   optionD: string;
   id: string;
-}
-
-interface Highlight {
-  text: string;
-  startOffset: number;
-  endOffset: number;
 }
 
 const ReadingQuestion: React.FC<ReadingQuestionProps> = ({
