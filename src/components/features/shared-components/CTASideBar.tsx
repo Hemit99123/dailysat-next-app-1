@@ -6,15 +6,36 @@ interface CTASideBarProps {
 }
 
 const CTASideBar: React.FC<CTASideBarProps> = ({ open, text }) => {
-    const [isVisible, setIsVisible] = useState(true);
+    
+    // This is to force a re-render of this component
+    const [key, setKey] = useState(0)
+
+    const name = `${text}-visible`
+
+    const isVisible = localStorage.getItem(name)
+
+    if (!isVisible) {
+        localStorage.setItem(name, "true")
+    }
 
     const toggleVisibility = () => {
-        setIsVisible(!isVisible);
+        let value;
+
+        if (isVisible == "true") {
+            value = "false"
+        } else {
+            value = "true"
+        }
+
+        localStorage.setItem(name, value)
+        setKey(prevKey => prevKey + 1); // Changing the key forces a remount as it changes the state and state changes cause re-render
+
     };
 
+
     return (
-        <>
-            {isVisible && (
+        <React.Fragment key={key}>
+            {isVisible == "true" ? (
                 <div className="flex flex-col border border-gray-200 rounded-sm px-1.5 py-3 mt-8">
                     <div className="flex items-center mb-0.5">
                         <p className="font-medium uppercase text-[12px]">{text}</p>
@@ -27,8 +48,7 @@ const CTASideBar: React.FC<CTASideBarProps> = ({ open, text }) => {
                         <span className="mr-2">👋</span> Hide
                     </button>
                 </div>
-            )}
-            {!isVisible && (
+            ) : (
                 <button
                     className="font-semibold text-blue-600 hover:text-blue-800 transition duration-300"
                     onClick={toggleVisibility}
@@ -36,7 +56,7 @@ const CTASideBar: React.FC<CTASideBarProps> = ({ open, text }) => {
                     Show Sidebar
                 </button>
             )}
-        </>
+        </React.Fragment>
     )
 }
 
