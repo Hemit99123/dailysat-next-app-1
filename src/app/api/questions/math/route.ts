@@ -1,6 +1,6 @@
 // backend work for math questions :)
 
-export async function GET(request: Request) {
+export async function GET() {
 
     try {
         // Return the result with the question document
