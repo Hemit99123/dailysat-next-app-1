@@ -24,7 +24,7 @@ const CTASideBar: React.FC<CTASideBarProps> = ({ open, text }) => {
             setIsVisible("show");
         } else {
             // Set state based on the stored value
-            setIsVisible(localStorageItem as "show" | "hide");
+            setIsVisible(localStorageItem as sidebar);
         }
     }, []);
 
