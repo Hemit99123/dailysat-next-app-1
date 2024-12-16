@@ -1,6 +1,5 @@
 "use client";
 
-import Spinner from "@/components/common/Spinner";
 import React, { useEffect, useState } from "react";
 import sidebar from "@/types/sidebar";
 
@@ -64,9 +63,7 @@ const CTASideBar: React.FC<CTASideBarProps> = ({ open, text }) => {
                     Show Sidebar
                 </button>
             ) : (
-                <div className="flex justify-center mb-8">
-                    <Spinner />
-                </div>
+                <></>
             )}
         </>
     );
