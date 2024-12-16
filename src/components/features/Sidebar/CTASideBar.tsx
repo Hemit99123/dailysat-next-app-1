@@ -9,11 +9,8 @@ interface CTASideBarProps {
 
 const CTASideBar: React.FC<CTASideBarProps> = ({ open, text }) => {
     
-    // This is to force a re-render of this component
-    const [key, setKey] = useState(0)
-
     // To keep what localstorage said
-    const [isVisible, setIsVisible] = useState("")
+    const [isVisible, setIsVisible] = useState("loading")
     const name = `${text}-visible`
 
     // Run this once component is mounted so that it doesn't run on server-side (windows not available in server)
@@ -43,13 +40,13 @@ const CTASideBar: React.FC<CTASideBarProps> = ({ open, text }) => {
         }
 
         window.localStorage.setItem(name, value)
-        setKey(prevKey => prevKey + 1); // Changing the key forces a remount as it changes the state and state changes cause re-render
+        setIsVisible(value)
 
     };
 
 
     return (
-        <Fragment key={key}>
+        <>
             {isVisible == "show" ? (
                 <div className="flex flex-col border border-gray-200 rounded-sm px-1.5 py-3 mt-8">
                     <div className="flex items-center mb-0.5">
@@ -71,7 +68,7 @@ const CTASideBar: React.FC<CTASideBarProps> = ({ open, text }) => {
                     Show Sidebar
                 </button>
             )}
-        </Fragment>
+        </>
     )
 }
 
