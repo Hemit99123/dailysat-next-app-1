@@ -20,6 +20,7 @@ import { Topic } from "@/types/topic";
 import Sidebar from "@/components/features/Sidebar/Sidebar"; // Import Sidebar
 import {readingTopics} from '@/data/topics'
 import GetStarted from "@/components/features/Questions/GetStarted";
+import Spinner from "@/components/common/Spinner";
 
 export interface QuestionData {
   id: string;
@@ -154,12 +155,10 @@ const Home = () => {
       <div className="flex flex-col flex-grow p-5 md:p-10">
         {selectedTopic ? (
           <div className="w-full mx-auto">
-            <div className="text-center mb-16">
-              <Header
+            <Header
                 name={selectedTopic.name}
                 question={randomQuestion?.question}
-              />
-            </div>
+            />
             {randomQuestion ? (
               <ReadingQuestion
                 title={randomQuestion.question}
@@ -171,7 +170,7 @@ const Home = () => {
                 id={randomQuestion.id}
               />
             ) : (
-              <p>Loading question...</p>
+              <Spinner />
             )}
             <div className="mt-4 pl-7 pb-10" ref={answerComponent}>
               {isAnswerCorrect !== null && (
