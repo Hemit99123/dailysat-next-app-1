@@ -23,7 +23,7 @@ const Sidebar: React.FC<SideBarProps> = ({ svg, title, topics, selectedTopic, ha
             {svg}
             <p className="font-semibold text-2xl">{title}</p>
           </div>
-          <p className="uppercase text-[12px] text-gray-400 mt-1">4 topics</p>
+          <p className="uppercase text-[12px] text-gray-400 mt-1">{topics.length} topics</p>
         </div>
       </div>
 
