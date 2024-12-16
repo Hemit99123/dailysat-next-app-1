@@ -13,7 +13,7 @@ import {
   useStreakCounterModalStore,
 } from "@/store/modals";
 import StreakAnnouncer from "@/components/features/Questions/Modals/StreakAnnouncer";
-import CTASideBar from "@/components/features/shared-components/CTASideBar";
+import CTASideBar from "@/components/features/Sidebar/CTASideBar";
 import StreakModal from "@/components/features/Questions/Modals/StreakModal";
 import { Answers } from "@/types/answer";
 import { useAnswerStore } from "@/store/answer";
@@ -181,14 +181,17 @@ const Home = () => {
             </div>
           ))}
         </div>
-        <CTASideBar
-          open={openScoreModal}
-          text="Click to open the scoreboard!"
-        />
-        <CTASideBar
-          open={openStreakModal}
-          text="Click to see your current streak!"
-        />
+        <div className="flex flex-col">
+          <CTASideBar
+            open={openScoreModal}
+            text="Click to open the scoreboard!"
+          />
+          <CTASideBar
+            open={openStreakModal}
+            text="Click to see your current streak!"
+          />
+        </div>
+
       </div>
 
       {/* Main Content */}
