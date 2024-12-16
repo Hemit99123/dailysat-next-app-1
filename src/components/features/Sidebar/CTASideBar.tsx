@@ -16,7 +16,7 @@ const CTASideBar: React.FC<CTASideBarProps> = ({ open, text }) => {
     const [isVisible, setIsVisible] = useState("")
     const name = `${text}-visible`
 
-    // run this once component is mounted so that it doesn't run on server-side (windows not available in server)
+    // Run this once component is mounted so that it doesn't run on server-side (windows not available in server)
     // We are checking if the localstorage item exists, if not create if and then setIsvisible to show
     // If it DOES, set isvisible to the localstorage item itself
 
