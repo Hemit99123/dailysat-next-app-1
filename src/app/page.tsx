@@ -18,6 +18,7 @@ import { Answers } from "@/types/answer";
 import { useAnswerStore } from "@/store/answer";
 import { Topic } from "@/types/topic";
 import Sidebar from "@/components/features/Sidebar/Sidebar"; // Import Sidebar
+import {readingTopics} from '@/data/topics'
 
 export interface QuestionData {
   id: string;
@@ -73,13 +74,6 @@ const Home = () => {
       openAnnouncerModal();
     }
   }, [correctCount, openAnnouncerModal]);
-
-  const topics: Topic[] = [
-    { id: 1, name: "Information and Ideas", description: "Topic 1" },
-    { id: 2, name: "Craft and Structure", description: "Topic 2" },
-    { id: 3, name: "Expression of Ideas", description: "Topic 3" },
-    { id: 4, name: "Standard English Conventions", description: "Topic 4" },
-  ];
 
   const handleTopicClick = (topic: Topic) => {
     setSelectedTopic(topic);
@@ -148,7 +142,7 @@ const Home = () => {
       <Sidebar
         title="Reading SAT"
         svg={<BookSVG />}
-        topics={topics}
+        topics={readingTopics}
         selectedTopic={selectedTopic!}
         handleTopicClick={handleTopicClick}
         openScoreModal={openScoreModal}
