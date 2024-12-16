@@ -1,15 +1,16 @@
-import React from "react"
+import React, { MutableRefObject } from "react"
 
 interface ResultProps {
+    answerComponent: MutableRefObject<HTMLDivElement | null>
     isAnswerCorrect: boolean | null;
     handleToggleEditorial: () => void;
     openEditorial: boolean
     explanation: string | undefined;
 }
 
-const Result: React.FC<ResultProps> = ({isAnswerCorrect, handleToggleEditorial, openEditorial, explanation}) => {
+const Result: React.FC<ResultProps> = ({answerComponent, isAnswerCorrect, handleToggleEditorial, openEditorial, explanation}) => {
     return (
-        <>
+        <div className="mt-4 pl-7 pb-10" ref={answerComponent}>
             {isAnswerCorrect ? (
                 <p className="text-green-500 text-lg font-semibold">
                     You are correct!
@@ -27,7 +28,7 @@ const Result: React.FC<ResultProps> = ({isAnswerCorrect, handleToggleEditorial, 
                     )}
                     </div>
                   )}
-        </>
+        </div>
     )
 }
 

@@ -173,14 +173,13 @@ const Home = () => {
             ) : (
               <Spinner />
             )}
-            <div className="mt-4 pl-7 pb-10" ref={answerComponent}>
               <Result 
+                answerComponent={answerComponent}
                 isAnswerCorrect={isAnswerCorrect}
                 openEditorial={openEditorial}
                 handleToggleEditorial={handleToggleEditorial}
                 explanation={randomQuestion?.explanation || ""}
               />
-            </div>
           </div>
         ) : (
           <GetStarted />
