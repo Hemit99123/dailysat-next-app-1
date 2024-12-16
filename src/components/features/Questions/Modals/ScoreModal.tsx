@@ -2,7 +2,7 @@ import { useScoreModalStore } from "@/store/modals";
 import {useScoreStore} from "@/store/score";
 import React from "react";
 import CloseButton from '@/components/features/shared-components/Cancel'; 
-import ScoreShower from "../../shared-components/ScoreShower";
+import ScoreShower from "../../Sidebar/ScoreShower";
 
 const ScoreModal = () => {
     // Retrieve score from score store

@@ -13,7 +13,7 @@ import {
   useStreakCounterModalStore,
 } from "@/store/modals";
 import StreakAnnouncer from "@/components/features/Questions/Modals/StreakAnnouncer";
-import CTASideBar from "@/components/features/shared-components/CTASideBar";
+import CTASideBar from "@/components/features/Sidebar/CTASideBar";
 import StreakModal from "@/components/features/Questions/Modals/StreakModal";
 import { Answers } from "@/types/answer";
 import { useAnswerStore } from "@/store/answer";
