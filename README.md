@@ -19,7 +19,7 @@ Our mission is to build an app that is free and accessible! This means we love i
 - fix: (for a refactor of the code)
 - chore: (for mudane tasks such as updating documentation)
 
-# 👷 Maintainers:
+## 👷 Maintainers:
 - Hemit Patel (President/COO)
 - Laksyha Jain (Software Engineer II)
 - Aarush Kute (Founder AND Chief Executive)
