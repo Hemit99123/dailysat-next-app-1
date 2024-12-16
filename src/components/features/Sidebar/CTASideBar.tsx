@@ -1,58 +1,52 @@
-"use client"
+"use client";
 
-import React, { useEffect, useState, Fragment } from 'react'
+import Spinner from "@/components/common/Spinner";
+import React, { useEffect, useState } from "react";
 
 interface CTASideBarProps {
-    open: () => void
-    text: string
+    open: () => void;
+    text: string;
 }
 
 const CTASideBar: React.FC<CTASideBarProps> = ({ open, text }) => {
-    
-    // To keep what localstorage said
-    const [isVisible, setIsVisible] = useState("loading")
-    const name = `${text}-visible`
+    // State to manage visibility of the sidebar
+    const [isVisible, setIsVisible] = useState<"show" | "hide" | "loading">("loading");
+    const name = `${text}-visible`; // Key for localStorage
 
-    // Run this once component is mounted so that it doesn't run on server-side (windows not available in server)
-    // We are checking if the localstorage item exists, if not create if and then setIsvisible to show
-    // If it DOES, set isvisible to the localstorage item itself
-
+    // Run once component is mounted to ensure proper hydration
     useEffect(() => {
-        const localStorageItem = window.localStorage.getItem(name)
-    
+        const localStorageItem = window.localStorage.getItem(name);
+
         if (!localStorageItem) {
-            window.localStorage.setItem(name, "show")
-            setIsVisible("show")
+            // If localStorage item doesn't exist, set default state to "show"
+            window.localStorage.setItem(name, "show");
+            setIsVisible("show");
         } else {
-            setIsVisible(localStorageItem)
+            // Set state based on the stored value
+            setIsVisible(localStorageItem as "show" | "hide");
         }
-    } , [])
+    }, [name]);
 
-
-
+    // Toggle between "show" and "hide" states through the ? operator
+    // If isVisible is show make it hide otherwise it is hide so then make it show
+    // Because we do the opposite of the current value :)
+    
     const toggleVisibility = () => {
-        let value;
-
-        if (isVisible == "show") {
-            value = "noshow"
-        } else {
-            value = "show"
-        }
-
-        window.localStorage.setItem(name, value)
-        setIsVisible(value)
-
+        const newValue = isVisible === "show" ? "hide" : "show";
+        window.localStorage.setItem(name, newValue);
+        setIsVisible(newValue);
     };
-
 
     return (
         <>
-            {isVisible == "show" ? (
+            {isVisible === "show" ? (
                 <div className="flex flex-col border border-gray-200 rounded-sm px-1.5 py-3 mt-8">
                     <div className="flex items-center mb-0.5">
                         <p className="font-medium uppercase text-[12px]">{text}</p>
                     </div>
-                    <button className="font-semibold" onClick={open}>Click here!</button>
+                    <button className="font-semibold" onClick={open}>
+                        Click here!
+                    </button>
                     <button
                         className="mt-2 text-sm text-white bg-blue-400 hover:bg-red-400 px-3 py-1 rounded-full transition ease-in-out duration-300 transform hover:scale-105 shadow-md"
                         onClick={toggleVisibility}
@@ -60,16 +54,20 @@ const CTASideBar: React.FC<CTASideBarProps> = ({ open, text }) => {
                         <span className="mr-2">👋</span> Hide
                     </button>
                 </div>
-            ) : (
+            ) : isVisible === "hide" ? (
                 <button
                     className="font-semibold text-blue-600 hover:text-blue-800 transition duration-300"
                     onClick={toggleVisibility}
                 >
                     Show Sidebar
                 </button>
+            ) : (
+                <div className="flex justify-center mb-8">
+                    <Spinner />
+                </div>
             )}
         </>
-    )
-}
+    );
+};
 
-export default CTASideBar
+export default CTASideBar;
