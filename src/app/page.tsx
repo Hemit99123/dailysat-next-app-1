@@ -3,7 +3,7 @@
 import axios, { AxiosResponse } from "axios";
 import { useEffect, useRef, useState } from "react";
 import Header from "@/components/features/Questions/Header";
-import Question from "@/components/features/Questions/Question";
+import ReadingQuestion from "@/components/features/Questions/ReadingQuestion";
 import { useAnswerCounterStore, useScoreStore } from "@/store/score";
 import ScoreModal from "@/components/features/Questions/Modals/ScoreModal";
 import BookSVG from "@/components/features/Questions/icons/BookSVG";
@@ -160,7 +160,7 @@ const Home = () => {
               />
             </div>
             {randomQuestion ? (
-              <Question
+              <ReadingQuestion
                 title={randomQuestion.question}
                 optionA={randomQuestion.optionA}
                 optionB={randomQuestion.optionB}

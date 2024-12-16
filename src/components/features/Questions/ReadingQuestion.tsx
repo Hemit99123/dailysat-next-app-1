@@ -5,7 +5,7 @@ import { useAnswerStore } from "@/store/answer";
 import Image from "next/image";
 import axios from "axios";
 
-interface QuestionProps {
+interface ReadingQuestionProps {
   title: string;
   onAnswerSubmit: (answer: Answers) => void;
   optionA: string;
@@ -21,7 +21,7 @@ interface Highlight {
   endOffset: number;
 }
 
-const Question: React.FC<QuestionProps> = ({
+const ReadingQuestion: React.FC<ReadingQuestionProps> = ({
   title,
   optionA,
   optionB,
@@ -276,4 +276,4 @@ const Question: React.FC<QuestionProps> = ({
   );
 };
 
-export default Question;
+export default ReadingQuestion;
