@@ -2,6 +2,7 @@
 
 import Spinner from "@/components/common/Spinner";
 import React, { useEffect, useState } from "react";
+import sidebar from "@/types/sidebar";
 
 interface CTASideBarProps {
     open: () => void;
@@ -10,7 +11,7 @@ interface CTASideBarProps {
 
 const CTASideBar: React.FC<CTASideBarProps> = ({ open, text }) => {
     // State to manage visibility of the sidebar
-    const [isVisible, setIsVisible] = useState<"show" | "hide" | "loading">("loading");
+    const [isVisible, setIsVisible] = useState<sidebar>("loading");
     const name = `${text}-visible`; // Key for localStorage
 
     // Run once component is mounted to ensure proper hydration
@@ -30,9 +31,9 @@ const CTASideBar: React.FC<CTASideBarProps> = ({ open, text }) => {
     // Toggle between "show" and "hide" states through the ? operator
     // If isVisible is show make it hide otherwise it is hide so then make it show
     // Because we do the opposite of the current value :)
-    
+
     const toggleVisibility = () => {
-        const newValue = isVisible === "show" ? "hide" : "show";
+        const newValue: sidebar = isVisible === "show" ? "hide" : "show";
         window.localStorage.setItem(name, newValue);
         setIsVisible(newValue);
     };
