@@ -140,7 +140,7 @@ const Home = () => {
     <div className="flex flex-col md:flex-row h-screen">
       {/* Replace Sidebar with the new Sidebar component */}
       <Sidebar
-        title="Reading SAT"
+        title="Reading"
         svg={<BookSVG />}
         topics={readingTopics}
         selectedTopic={selectedTopic!}
