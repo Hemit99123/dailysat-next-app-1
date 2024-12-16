@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 interface CTASideBarProps {
     open: () => void
@@ -12,21 +12,34 @@ const CTASideBar: React.FC<CTASideBarProps> = ({ open, text }) => {
     // This is to force a re-render of this component
     const [key, setKey] = useState(0)
 
+    // To keep what localstorage said
+    const [isVisible, setIsVisible] = useState("")
     const name = `${text}-visible`
 
-    const isVisible = window.localStorage.getItem(name)
+    // run this once component is mounted so that it doesn't run on server-side (windows not available in server)
+    // We are checking if the localstorage item exists, if not create if and then setIsvisible to show
+    // If it DOES, set isvisible to the localstorage item itself
 
-    if (!isVisible) {
-        window.localStorage.setItem(name, "true")
-    }
+    useEffect(() => {
+        const localStorageItem = window.localStorage.getItem(name)
+    
+        if (!localStorageItem) {
+            window.localStorage.setItem(name, "show")
+            setIsVisible("show")
+        } else {
+            setIsVisible(localStorageItem)
+        }
+    } , [])
+
+
 
     const toggleVisibility = () => {
         let value;
 
-        if (isVisible == "true") {
-            value = "false"
+        if (isVisible == "show") {
+            value = "noshow"
         } else {
-            value = "true"
+            value = "show"
         }
 
         window.localStorage.setItem(name, value)
@@ -37,7 +50,7 @@ const CTASideBar: React.FC<CTASideBarProps> = ({ open, text }) => {
 
     return (
         <React.Fragment key={key}>
-            {isVisible == "true" ? (
+            {isVisible == "show" ? (
                 <div className="flex flex-col border border-gray-200 rounded-sm px-1.5 py-3 mt-8">
                     <div className="flex items-center mb-0.5">
                         <p className="font-medium uppercase text-[12px]">{text}</p>
