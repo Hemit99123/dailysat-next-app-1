@@ -12,10 +12,10 @@ const CTASideBar: React.FC<CTASideBarProps> = ({ open, text }) => {
 
     const name = `${text}-visible`
 
-    const isVisible = localStorage.getItem(name)
+    const isVisible = window.localStorage.getItem(name)
 
     if (!isVisible) {
-        localStorage.setItem(name, "true")
+        window.localStorage.setItem(name, "true")
     }
 
     const toggleVisibility = () => {
@@ -27,7 +27,7 @@ const CTASideBar: React.FC<CTASideBarProps> = ({ open, text }) => {
             value = "true"
         }
 
-        localStorage.setItem(name, value)
+        window.localStorage.setItem(name, value)
         setKey(prevKey => prevKey + 1); // Changing the key forces a remount as it changes the state and state changes cause re-render
 
     };
