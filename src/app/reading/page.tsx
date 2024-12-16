@@ -164,14 +164,18 @@ const Reading = () => {
             </div>
           ))}
         </div>
-        <CTASideBar
-          open={openScoreModal}
-          text="Click to open the scoreboard!"
-        />
-        <CTASideBar
-          open={openStreakModal}
-          text="Click to see your current streak!"
-        />
+        
+        <div className="flex flex-col">
+          <CTASideBar
+            open={openScoreModal}
+            text="Click to open the scoreboard!"
+          />
+          <CTASideBar
+            open={openStreakModal}
+            text="Click to see your current streak!"
+          />
+        </div>
+
       </div>
 
       {/* Main Content */}
