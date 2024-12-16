@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Fragment } from 'react'
 
 interface CTASideBarProps {
     open: () => void
@@ -49,7 +49,7 @@ const CTASideBar: React.FC<CTASideBarProps> = ({ open, text }) => {
 
 
     return (
-        <React.Fragment key={key}>
+        <Fragment key={key}>
             {isVisible == "show" ? (
                 <div className="flex flex-col border border-gray-200 rounded-sm px-1.5 py-3 mt-8">
                     <div className="flex items-center mb-0.5">
@@ -71,7 +71,7 @@ const CTASideBar: React.FC<CTASideBarProps> = ({ open, text }) => {
                     Show Sidebar
                 </button>
             )}
-        </React.Fragment>
+        </Fragment>
     )
 }
 
