@@ -5,18 +5,9 @@ import { useAnswerStore } from "@/store/answer";
 import Image from "next/image";
 import axios from "axios";
 import { Highlight } from "@/types/questions";
+import { QuestionsProps } from "@/types/questions";
 
-interface ReadingQuestionProps {
-  title: string;
-  onAnswerSubmit: (answer: Answers) => void;
-  optionA: string;
-  optionB: string;
-  optionC: string;
-  optionD: string;
-  id: string;
-}
-
-const ReadingQuestion: React.FC<ReadingQuestionProps> = ({
+const ReadingQuestion: React.FC<QuestionsProps> = ({
   title,
   optionA,
   optionB,
