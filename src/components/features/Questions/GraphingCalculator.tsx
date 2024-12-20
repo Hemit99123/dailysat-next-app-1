@@ -2,12 +2,16 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { X } from 'lucide-react';
+import { DesmosCalculator } from '@/types/desmos';
+
+// Define interface for Desmos Calculator instance
+
 
 // Define the Desmos type
 declare global {
   interface Window {
     Desmos: {
-      GraphingCalculator: (element: HTMLElement) => any;
+      GraphingCalculator: (element: HTMLElement) => DesmosCalculator;
     };
   }
 }
@@ -27,7 +31,7 @@ const GraphCalculator: React.FC<GraphCalculatorProps> = ({ handleEndState }) => 
   const [position, setPosition] = useState<Position>({ x: 50, y: 50 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState<Position>({ x: 0, y: 0 });
-  const calculatorRef = useRef<any>(null);
+  const calculatorRef = useRef<DesmosCalculator | null>(null);
 
   useEffect(() => {
     const script = document.createElement('script');
