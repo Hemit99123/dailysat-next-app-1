@@ -6,6 +6,9 @@ import axios from "axios";
 import { QuestionsProps } from "@/types/questions";
 import Calculator  from "@/components/features/Questions/Calculator";
 import { toggleCrossOffMode, toggleCrossOffOption } from "@/lib/crossOff";
+import { CalculatorIcon } from "lucide-react";
+import { useCalcOptionModalStore } from "@/store/modals";
+import CalcOption from "../Modals/CalcOption";
 
 const ReadingQuestion: React.FC<QuestionsProps> = ({
   title,
@@ -53,11 +56,16 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({
     }
   };
 
+  const handleOpenCalcModal = useCalcOptionModalStore((state) => state.openModal)
+
   return (
     <div className="flex flex-col items-start px-8 -mt-6">
       <div className="flex items-center mb-2 space-x-4">
         {/* Highlight Mode Button */}
-        <Calculator />
+        <button onClick={handleOpenCalcModal}>
+          <CalculatorIcon />
+        </button>
+
 
         {/* Cross-Off Mode Button */}
         <button
@@ -124,6 +132,8 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({
       >
         Submit Answer
       </button>
+      <CalcOption />
+
     </div>
   );
 };

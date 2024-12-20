@@ -23,3 +23,9 @@ export const useStreakCounterModalStore = create<ModalProps>((set) => ({
   openModal: () => set(() => ({ isOpen: true })),
   closeModal: () => set(() => ({ isOpen: false }))
 }))
+
+export const useCalcOptionModalStore = create<ModalProps>((set) => ({
+  isOpen: false,
+  openModal: () => set(() => ({ isOpen: true })),
+  closeModal: () => set(() => ({ isOpen: false }))
+}))
