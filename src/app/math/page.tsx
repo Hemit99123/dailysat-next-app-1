@@ -5,6 +5,9 @@ import { mathTopics } from '@/data/topics'; // Assuming readingTopics is an arra
 import MathSVG from "@/components/features/Questions/icons/MathSVG"
 import { Topic } from "@/types/topic";
 import { useState } from "react";
+import Calculator  from "@/components/features/Questions/Calculator";
+import MathQuestion from "@/components/features/Questions/Question-UI/MathQuestion";
+import Header from "@/components/features/Questions/Header";
 
 const Home = () => {
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
@@ -34,6 +37,21 @@ const Home = () => {
         openStreakModal={openStreakModal}
       />
       {/* Main content goes here */}
+      <div className="flex flex-col flex-grow p-5 md:p-10">
+        <Header
+            name={"test"}
+            question={"What is 2+2"}
+        />
+        <MathQuestion 
+          title="What is 2+2"
+          onAnswerSubmit={() => alert("sigma")}
+          optionA="2"
+          optionB="4"
+          optionC="3"
+          optionD="3"
+          id="2"
+        />
+      </div>
     </div>
   );
 };

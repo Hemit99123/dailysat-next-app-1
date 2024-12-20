@@ -17,6 +17,7 @@
     "i": "^0.3.7",
     "install": "^0.13.0",
     "jwt-decode": "^4.0.0",
+    "lucide-react": "^0.468.0",
     "mailgun.js": "^10.2.4",
     "mongodb": "^6.11.0",
     "net": "^1.0.2",
