@@ -8,13 +8,13 @@ import {
 import { jwtDecode } from "jwt-decode";
 import React from "react";
 import { getCookieConsentValue, resetCookieConsentValue } from "react-cookie-consent";
-import { QuestionData } from "../r-w/page";
+import { QuestionData } from "../reading-writing/page";
 import axios from "axios";
 import useUserStore, { useLoggedInStore } from "@/store/user";
 
 export interface User {
   // MongoDB string 
-  _id? : string,
+  _id?: string,
   id: string,
   email: string,
   name: string,
@@ -46,6 +46,8 @@ export default function Signup() {
   async function successCallback(token: CredentialResponse) {
     const str: string = token.credential || "";
     const user: User = jwtDecode<User>(str);
+    user.currency = 0;
+    user.questionsAnswered = [];
 
     if (getCookieConsentValue("userData") == "true") {
       // get userData
@@ -55,7 +57,7 @@ export default function Signup() {
         window.alert(userData.message)
       else {
         // Save
-        document.cookie = JSON.stringify({ "user": userData.user, "jwt": userData.ts });
+        document.cookie = JSON.stringify({ "user": userData.user, "jwt": JSON.stringify(userData.user) });
         useUserStore.setState({ user: userData });
         useLoggedInStore.setState({ loggedIn: true });
 
@@ -81,18 +83,22 @@ export default function Signup() {
       <GoogleOAuthProvider
         clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ""}
       >
-        <div className="bg-white p-8 rounded-lg shadow-md w-96">
+        <div className="bg-white p-8">
           <div className="flex mb-6">
             <button
-              className={`flex-1 py-2 text-blue-600 border-b-2 border-blue-600'`}
+              className={`flex-1 py-2 text-blue-600 text-3xl border-b-2 border-blue-600'`}
             >
               Sign Up
 
-              <GoogleLogin
-                onSuccess={successCallback}
-                onError={() => errorCallback()}
-              //   useOneTap
-              />
+              <div className="flex justify-center mt-5">
+                <GoogleLogin
+                  onSuccess={successCallback}
+                  onError={() => errorCallback()}
+                  //   useOneTap
+                  shape="pill"
+                  width={500}
+                />
+              </div>
             </button>
           </div>
         </div>
@@ -100,6 +106,6 @@ export default function Signup() {
 
         ;
       </GoogleOAuthProvider>
-      </div>
+    </div>
   );
 }
