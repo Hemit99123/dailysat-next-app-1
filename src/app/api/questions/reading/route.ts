@@ -1,5 +1,4 @@
-import {client, getQuestion} from "../../../../lib/mongo";
-import { Db, Document } from "mongodb";
+import { getQuestion } from "../../../../lib/mongo";
 
 /**
  * @swagger
