@@ -4,7 +4,7 @@ import { Answers } from "@/types/answer";
 import { useAnswerStore } from "@/store/answer";
 import axios from "axios";
 import { QuestionsProps } from "@/types/questions";
-import Calculator  from "@/components/features/Questions/Calculator";
+import Calculator  from "@/components/features/Questions/GraphingCalculator";
 import { toggleCrossOffMode, toggleCrossOffOption } from "@/lib/crossOff";
 import { CalculatorIcon } from "lucide-react";
 import { useCalcOptionModalStore } from "@/store/modals";

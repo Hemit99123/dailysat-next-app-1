@@ -1,11 +1,17 @@
 import { useCalcOptionModalStore } from '@/store/modals';
-import React from 'react';
+import React, { useState } from 'react';
 import Options from './Components/Options';
+import { calc } from '@/types/calc';
+import Calculator from '../GraphingCalculator';
 
 const CalcOption = () => {
   const isOpen = useCalcOptionModalStore((state) => state.isOpen);
   const closeModal = useCalcOptionModalStore((state) => state.closeModal);
-
+  const [calcMode, setCalcMode] = useState<calc>("none")
+  
+  const handleChangeCalcMode = (calcMode: calc) => {
+    setCalcMode(calcMode)
+  }
   return (
     <div>
       {/* Modal */}
@@ -19,8 +25,9 @@ const CalcOption = () => {
             onClick={(e) => e.stopPropagation()} // Prevent modal from closing when clicking inside (like the buttons)
           >
             <h2 className="text-2xl font-bold">Calculator Options</h2>
-            <p className="text-sm text-gray-500">Select one of the following options:</p>
-            <Options 
+            <p className="text-sm text-gray-500">Select one of the following options and start working 🚀</p>
+            <Options
+              handleClick={() => handleChangeCalcMode("graphing")} 
               title='Graphing'
               description='Use this to graph equations'
               icon={
@@ -36,6 +43,7 @@ const CalcOption = () => {
               }
             />
             <Options 
+              handleClick={() => handleChangeCalcMode("regular")}
               title='Regular'
               description='Use this for everyday calculations'
               icon={
@@ -53,6 +61,12 @@ const CalcOption = () => {
           </div>
         </div>
       )}
+
+      {calcMode == "graphing" &&
+        <Calculator 
+            handleEndState={() => handleChangeCalcMode("none")}
+        />
+      }
     </div>
   );
 };

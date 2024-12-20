@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { CalculatorIcon, X } from 'lucide-react';
+import { X } from 'lucide-react';
 
 // Define the Desmos type
 declare global {
@@ -17,35 +17,43 @@ interface Position {
   y: number;
 }
 
-const Calculator = () => {
+interface GraphCalculatorProps {
+  handleEndState: () => void;
+}
+
+const GraphCalculator: React.FC<GraphCalculatorProps> = ({ handleEndState }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isReady, setIsReady] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
   const [position, setPosition] = useState<Position>({ x: 50, y: 50 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState<Position>({ x: 0, y: 0 });
+  const calculatorRef = useRef<any>(null);
 
   useEffect(() => {
-    if (!isOpen) return;
-
     const script = document.createElement('script');
     script.src = 'https://www.desmos.com/api/v1.10/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6';
     script.async = true;
 
     script.onload = () => {
       if (containerRef.current && window.Desmos) {
-        const calculator = window.Desmos.GraphingCalculator(containerRef.current);
-        setIsReady(true);
-        return () => calculator.destroy();
+        // Only initialize the calculator if it's not already initialized
+        if (!calculatorRef.current) {
+          calculatorRef.current = window.Desmos.GraphingCalculator(containerRef.current);
+          setIsReady(true);
+        }
       }
     };
 
     document.body.appendChild(script);
 
     return () => {
+      // Cleanup calculator if it was initialized
+      if (calculatorRef.current) {
+        calculatorRef.current.destroy();
+      }
       document.body.removeChild(script);
     };
-  }, [isOpen]);
+  }, []);
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target instanceof HTMLElement && e.target.closest('.calculator-content')) return;
@@ -81,48 +89,36 @@ const Calculator = () => {
   }, [isDragging, dragOffset]);
 
   return (
-    <>
-      <button
-        onClick={() => setIsOpen(true)}
-        className="px-4 py-2"
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div
+        className="bg-white rounded-lg shadow-xl"
+        style={{
+          position: 'absolute',
+          left: `${position.x}px`,
+          top: `${position.y}px`,
+        }}
       >
-        <CalculatorIcon />
-      </button>
-
-      {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div
-            className="bg-white rounded-lg shadow-xl"
-            style={{
-              position: 'absolute',
-              left: `${position.x}px`,
-              top: `${position.y}px`,
-            }}
+        <div
+          className="flex items-center justify-between p-2 bg-gray-100 cursor-move"
+          onMouseDown={handleMouseDown}
+        >
+          <h3 className="font-medium">Graphing Calculator</h3>
+          <button
+            onClick={handleEndState}
+            className="p-1 hover:bg-gray-200 rounded transition-colors"
           >
-            <div
-              className="flex items-center justify-between p-2 bg-gray-100 cursor-move"
-              onMouseDown={handleMouseDown}
-            >
-              <h3 className="font-medium">Calculator</h3>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="p-1 hover:bg-gray-200 rounded transition-colors"
-              >
-                <X size={20} />
-              </button>
-            </div>
-            <div className="calculator-content">
-              <div
-                ref={containerRef}
-                className={`w-[600px] h-[400px] ${!isReady ? 'invisible' : ''}`}
-              />
-            </div>
-          </div>
+            <X size={20} />
+          </button>
         </div>
-      )}
-    </>
+        <div className="calculator-content">
+          <div
+            ref={containerRef}
+            className={`w-[600px] h-[400px] ${!isReady ? 'invisible' : ''}`}
+          />
+        </div>
+      </div>
+    </div>
   );
 };
 
-export default Calculator;
-
+export default GraphCalculator;

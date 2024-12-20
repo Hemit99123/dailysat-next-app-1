@@ -5,7 +5,7 @@ import { mathTopics } from '@/data/topics'; // Assuming readingTopics is an arra
 import MathSVG from "@/components/features/Questions/icons/MathSVG"
 import { Topic } from "@/types/topic";
 import { useState } from "react";
-import Calculator  from "@/components/features/Questions/Calculator";
+import Calculator  from "@/components/features/Questions/GraphingCalculator";
 import MathQuestion from "@/components/features/Questions/Question-UI/MathQuestion";
 import Header from "@/components/features/Questions/Header";
 

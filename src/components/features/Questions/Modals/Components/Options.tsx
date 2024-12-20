@@ -1,14 +1,16 @@
 import React from 'react'
 
 interface OptionsProps {
-    icon: React.ReactNode;
-    title: string;
-    description: string;
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  handleClick: () => void;  
 }
 
-const Options: React.FC<OptionsProps> = ({icon, title, description}) => {
+
+const Options: React.FC<OptionsProps> = ({icon, title, description, handleClick}) => {
   return (
-    <div className="flex  rounded-lg border border-gray-300 px-2 py-10 cursor-pointer mt-4">
+    <div className="flex  rounded-lg border border-gray-300 px-2 py-10 cursor-pointer mt-4" onClick={handleClick}>
         <div className="ml-2">
             {icon}
         </div>
