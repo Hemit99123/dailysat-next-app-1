@@ -1,4 +1,4 @@
-# DailySAT
+# DailySAT Website Platform
 Welcome to the codebase of **DailySAT**! Here you will find a quickstart to our application! For a more technical guide on the DailySAT web platform, check out our wiki on the `Wiki` tab in our Github repo 😊
 
 ### 📚 To access the API documentation, navigate to: /api-docs
