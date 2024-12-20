@@ -24,7 +24,7 @@ const About = () => {
     },
       {
       name: "Lakshaya Jain",
-      role: "Chief Technology Officer",
+      role: "Senior Software Engineer",
       imgSrc: "./people/Lakshaya.png",
       linkedIn: "https://www.linkedin.com/in/lakshya-jain-9a66a22a5/"
     },
