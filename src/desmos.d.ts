@@ -1,7 +1,10 @@
+import { DesmosCalculator } from "./types/desmos";
+
+
 declare global {
     interface Window {
       Desmos: {
-        GraphingCalculator: (element: HTMLElement) => any;
+        GraphingCalculator: (element: HTMLElement) => DesmosCalculator;
       };
     }
   }
