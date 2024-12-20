@@ -19,7 +19,7 @@ export default function RootLayout({
           <NavBar />
           {children}
           <Analytics />
-        </GoogleOAuthProvider>;
+        </GoogleOAuthProvider>
       </body>
     </html>
   );
