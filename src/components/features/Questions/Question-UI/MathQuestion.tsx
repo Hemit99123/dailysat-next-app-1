@@ -5,6 +5,7 @@ import { useAnswerStore } from "@/store/answer";
 import axios from "axios";
 import { QuestionsProps } from "@/types/questions";
 import Calculator  from "@/components/features/Questions/Calculator";
+import { toggleCrossOffMode, toggleCrossOffOption } from "@/lib/crossOff";
 
 const ReadingQuestion: React.FC<QuestionsProps> = ({
   title,
@@ -30,15 +31,10 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({
     }
   }, [isAnswerCorrect]);
 
-  // Toggle cross-off mode
-  const toggleCrossOffMode = () => {
-    setCrossOffMode((prevMode) => !prevMode);
-  };
-
   // Handle answer click
   const handleAnswerClick = (answer: Answers) => {
     if (crossOffMode) {
-      toggleCrossOffOption(answer);
+      toggleCrossOffOption(setCrossedOffOptions, answer);
     } else {
       setSelectedAnswer(answer);
     }
@@ -49,18 +45,6 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({
     window.location.reload();
   };
 
-  // Toggle cross-off for an option
-  const toggleCrossOffOption = (option: Answers) => {
-    setCrossedOffOptions((prev) => {
-      const updated = new Set(prev);
-      if (updated.has(option)) {
-        updated.delete(option);
-      } else {
-        updated.add(option);
-      }
-      return updated;
-    });
-  };
 
   // Handle answer submit
   const handleSubmit = () => {
@@ -77,7 +61,7 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({
 
         {/* Cross-Off Mode Button */}
         <button
-          onClick={toggleCrossOffMode}
+          onClick={() => toggleCrossOffMode(setCrossOffMode)}
           className={`p-1 rounded ${
             crossOffMode ? "bg-blue-300 text-white" : "bg-gray-300"
           }`}
