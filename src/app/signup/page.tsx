@@ -6,7 +6,7 @@ import {
   GoogleOAuthProvider
 } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
-import React from "react";
+import React, {useEffect} from "react";
 import { getCookieConsentValue, resetCookieConsentValue } from "react-cookie-consent";
 import { QuestionData } from "../reading-writing/page";
 import axios from "axios";
@@ -43,6 +43,9 @@ export interface AuthResponse {
 }
 
 export default function Signup() {
+  useEffect(() => {
+  }, [])
+  
   async function successCallback(token: CredentialResponse) {
     const str: string = token.credential || "";
     const user: User = jwtDecode<User>(str);
@@ -86,11 +89,11 @@ export default function Signup() {
         <div className="bg-white p-8">
           <div className="flex mb-6">
             <button
-              className={`flex-1 py-2 text-blue-600 text-3xl border-b-2 border-blue-600'`}
+              className={`flex-1 py-2 text-blue-600 text-4xl font-bold`}
             >
-              Sign Up
+              Sign In 
 
-              <div className="flex justify-center mt-5">
+              <div className="flex justify-center mt-10">
                 <GoogleLogin
                   onSuccess={successCallback}
                   onError={() => errorCallback()}

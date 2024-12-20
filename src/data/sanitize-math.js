@@ -42,7 +42,7 @@ const addQuestions = async() => {
                 // Insert Docs in Batches of 10 to minimize overhead.
                 idx = 0;
                 const db = client.db("DailySAT");
-                const coll = db.collection("questions");
+                const coll = db.collection("questions-math");
                 const result = await coll.insertMany(nArray_local);
 
                 // display the results of the operation (FOR DEBUG)
