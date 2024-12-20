@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { X } from 'lucide-react';
+import { useCalcOptionModalStore } from '@/store/modals';
 
 // Define the Desmos type
 declare global {
@@ -22,6 +23,7 @@ interface GraphCalculatorProps {
 }
 
 const GraphCalculator: React.FC<GraphCalculatorProps> = ({ handleEndState }) => {
+  const closeModal = useCalcOptionModalStore((state) => state.closeModal);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isReady, setIsReady] = useState(false);
   const [position, setPosition] = useState<Position>({ x: 50, y: 50 });
@@ -30,6 +32,7 @@ const GraphCalculator: React.FC<GraphCalculatorProps> = ({ handleEndState }) => 
   const calculatorRef = useRef<any>(null);
 
   useEffect(() => {
+    closeModal()
     const script = document.createElement('script');
     script.src = 'https://www.desmos.com/api/v1.10/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6';
     script.async = true;
