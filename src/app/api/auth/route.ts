@@ -12,14 +12,14 @@ export async function POST(request: Request) {
             await client.connect();
 
             const db: Db = client.db("DailySAT");
-            const doc : WithId<Document> | null = await db.collection("users").findOne({id : user});
+            const doc : WithId<Document> | null = await db.collection("users").findOne({email : user.email});
 
             if(doc == null){
                 // Signup
                 const new_doc : InsertOneResult<Document> = await db.collection("users").insertOne({...user});
                 if(new_doc.acknowledged == true){
                     return Response.json({
-                        user : new_doc,
+                        user : user,
                         code : 200,
                         status : "signup",
                         ts : Date.now().toString()
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
                 return Response.json({
                     code : 200,
                     status : "login",
-                    user : doc,
+                    user : user,
                     ts : Date.now().toString()
                 })
             }
