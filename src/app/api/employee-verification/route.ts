@@ -1,4 +1,4 @@
-import client from "@/lib/mongo";
+import {client} from "@/lib/mongo";
 import { Db, Document } from "mongodb";
 import { redis } from "@/lib/redis";
 import { transporter } from "@/lib/nodemailer";

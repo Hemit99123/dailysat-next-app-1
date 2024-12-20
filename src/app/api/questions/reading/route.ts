@@ -1,4 +1,4 @@
-import client from "../../../../lib/mongo";
+import {client, getQuestion} from "../../../../lib/mongo";
 import { Db, Document } from "mongodb";
 
 /**
@@ -68,35 +68,7 @@ import { Db, Document } from "mongodb";
  *                   description: A generic error message for internal server issues.
  */
 export async function GET(request: Request) {
-  const url: URL = new URL(request.url);
-  const searchParams: URLSearchParams = new URLSearchParams(url.search);
-  const topic: string = searchParams.get("topic") || "";
+  const question = await getQuestion(request, "questions-reading")
 
-  // Check if the topic query parameter is provided
-  if (topic === "") {
-    return Response.json({
-      code: 400,
-      error: "no topic parameter specified", // Adjusted to 400 for client-side error
-    });
-  } else {
-    try {
-      await client.connect();
-      const db: Db = client.db("DailySAT");
-      const doc = db
-        .collection("questions-reading")
-        .aggregate([{ $match: { skill: topic } }, { $sample: { size: 1 } }]);
-
-      const doc_array: Document[] = await doc.toArray();
-
-      // Return the result with the question document
-      return Response.json({ doc_array });
-    } catch (error) {
-      // Handle any database errors
-      return Response.json({
-        code: 500,
-        error: "Internal server error",
-        errorMsg: error
-      });
-    }
-  }
+  return question
 }
