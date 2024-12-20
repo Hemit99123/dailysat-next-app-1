@@ -24,7 +24,7 @@ Our mission is to build an app that is free and accessible! This means we love i
 
 ## 👷 Maintainers:
 - Hemit Patel (President/COO)
-- Laksyha Jain (Software Engineer II)
+- Laksyha Jain (Chief Technology Officer)
 - Aarush Kute (Founder AND Chief Executive)
 
 ## 💻 Technology Stack:
