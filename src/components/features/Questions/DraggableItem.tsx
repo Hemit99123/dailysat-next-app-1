@@ -1,6 +1,6 @@
 import { useCalcModeModalStore } from '@/store/modals';
 import { X } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 interface DraggableItemProps {
     content: React.ReactNode;

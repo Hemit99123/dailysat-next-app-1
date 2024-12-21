@@ -1,18 +1,12 @@
-import { useCalcModeModalStore, useCalcOptionModalStore, useScoreModalStore } from '@/store/modals';
-import React, { useState } from 'react';
+import { useCalcModeModalStore, useCalcOptionModalStore } from '@/store/modals';
+import React from 'react';
 import Options from './Components/Options';
-import { calc } from '@/types/calc';
 import GraphingCalculator from '../GraphingCalculator';
 
 const CalcOption = () => {
   const isOpen = useCalcOptionModalStore((state) => state.isOpen);
   const closeModal = useCalcOptionModalStore((state) => state.closeModal);
   const calcMode = useCalcModeModalStore((state) => state.mode);
-  const setCalcMode = useCalcModeModalStore((state) => state.setMode);
-
-  const handleChangeCalcMode = (calcMode: calc) => {
-    setCalcMode(calcMode);
-  };
 
   return (
     <div>
