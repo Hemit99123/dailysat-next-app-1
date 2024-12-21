@@ -29,12 +29,12 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
     const [isDragging, setIsDragging] = useState(false);
     const [dragOffset, setDragOffset] = useState<Position>({ x: 0, y: 0 });
 
-    // Handle mouse down or touch start
+    // Handle mouse down or touch start on the outer draggable component
     const handleStart = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
         const clientX = isTouchEvent(e) ? e.touches[0].clientX : e.clientX;
         const clientY = isTouchEvent(e) ? e.touches[0].clientY : e.clientY;
 
-        // Start dragging from anywhere in the component
+        // Start dragging the whole component (ignoring inner content)
         setIsDragging(true);
         setDragOffset({
             x: clientX - position.x,
@@ -47,8 +47,10 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
         const handleMove = (e: MouseEvent | TouchEvent) => {
             if (!isDragging) return;
 
-            // Prevent page scrolling when dragging
-            e.preventDefault();
+            // Prevent page scrolling when dragging the outer component
+            if (e.target instanceof HTMLElement && !e.target.closest('.graph-content')) {
+                e.preventDefault();
+            }
 
             const clientX = e instanceof MouseEvent ? e.clientX : (e as TouchEvent).touches[0].clientX;
             const clientY = e instanceof MouseEvent ? e.clientY : (e as TouchEvent).touches[0].clientY;
@@ -79,6 +81,12 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
         };
     }, [isDragging, dragOffset]);
 
+    // Handle dragging inside the graph content (e.g., panning/zooming the graph)
+    const handleGraphInteraction = (e: React.MouseEvent | React.TouchEvent) => {
+        e.stopPropagation(); // Prevent the outer dragging from triggering
+        // Add logic for graph-specific interaction (e.g., panning or zooming)
+    };
+
     return (
         <div className="fixed z-50 flex items-center justify-center">
             <div
@@ -88,8 +96,8 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
                     left: `${position.x}px`,
                     top: `${position.y}px`,
                 }}
-                onMouseDown={handleStart}  // Allow dragging from anywhere in the component
-                onTouchStart={handleStart} // Allow dragging from anywhere in the component
+                onMouseDown={handleStart}  // Start dragging from anywhere in the component
+                onTouchStart={handleStart} // Start dragging from anywhere in the component
             >
                 <div className="flex items-center justify-between p-2 bg-gray-100 cursor-move">
                     <h3 className="font-medium">{title}</h3>
@@ -100,7 +108,13 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
                         <X size={20} />
                     </button>
                 </div>
-                {content}
+                <div
+                    className="graph-content"
+                    onMouseDown={handleGraphInteraction} // Handle dragging/interaction inside the graph
+                    onTouchStart={handleGraphInteraction} // Handle touch interaction inside the graph
+                >
+                    {content}
+                </div>
             </div>
         </div>
     );
