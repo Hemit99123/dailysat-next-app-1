@@ -34,7 +34,7 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
         const clientX = isTouchEvent(e) ? e.touches[0].clientX : e.clientX;
         const clientY = isTouchEvent(e) ? e.touches[0].clientY : e.clientY;
 
-        if (e.target instanceof HTMLElement && e.target.closest('.calculator-content')) return;
+        // Start dragging from anywhere in the component
         setIsDragging(true);
         setDragOffset({
             x: clientX - position.x,
@@ -46,6 +46,9 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
     useEffect(() => {
         const handleMove = (e: MouseEvent | TouchEvent) => {
             if (!isDragging) return;
+
+            // Prevent page scrolling when dragging
+            e.preventDefault();
 
             const clientX = e instanceof MouseEvent ? e.clientX : (e as TouchEvent).touches[0].clientX;
             const clientY = e instanceof MouseEvent ? e.clientY : (e as TouchEvent).touches[0].clientY;
@@ -62,7 +65,7 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
         };
 
         if (isDragging) {
-            window.addEventListener('mousemove', handleMove);
+            window.addEventListener('mousemove', handleMove, { passive: false });
             window.addEventListener('mouseup', handleEnd);
             window.addEventListener('touchmove', handleMove, { passive: false });
             window.addEventListener('touchend', handleEnd);
@@ -85,12 +88,10 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
                     left: `${position.x}px`,
                     top: `${position.y}px`,
                 }}
+                onMouseDown={handleStart}  // Allow dragging from anywhere in the component
+                onTouchStart={handleStart} // Allow dragging from anywhere in the component
             >
-                <div
-                    className="flex items-center justify-between p-2 bg-gray-100 cursor-move"
-                    onMouseDown={handleStart}
-                    onTouchStart={handleStart}
-                >
+                <div className="flex items-center justify-between p-2 bg-gray-100 cursor-move">
                     <h3 className="font-medium">{title}</h3>
                     <button
                         onClick={() => setCalcMode('none')}
