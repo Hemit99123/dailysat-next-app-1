@@ -4,28 +4,35 @@ import DraggableItem from './DraggableItem';
 const RegularCalculator = () => {
   const [input, setInput] = useState('');
 
-  const handleButtonClick = (value: string ) => {
-    if (value === 'C') {
+  const handleButtonClick = (value: string) => {
+    if (value === 'DEL') {
       setInput('');
     } else if (value === '=') {
       try {
-        setInput(eval(input).toString());
+        // Replace display operators with JavaScript operators for eval
+        const sanitizedInput = input.replace(/÷/g, '/').replace(/×/g, '*');
+        // Use eval to calculate the result
+        setInput(eval(sanitizedInput).toString());
       } catch {
         setInput('Error');
       }
     } else {
+      // Prevent multiple consecutive operators (e.g., "++", "--", "**", "//")
+      if (/[\+\-\×\÷\.]$/.test(input) && /[\+\-\×\÷\.]/.test(value)) {
+        return;
+      }
       setInput(input + value);
     }
   };
 
   const buttons = [
-    '7', '8', '9', '÷', 
-    '4', '5', '6', '×', 
-    '1', '2', '3', '-', 
-    '0', '.', '=', '+', 
+    '7', '8', '9', '÷',
+    '4', '5', '6', '×',
+    '1', '2', '3', '-',
+    '0', '.', '=', '+',
     'DEL'
   ];
-  
+
   return (
     <DraggableItem
       title="Regular Calculator"
