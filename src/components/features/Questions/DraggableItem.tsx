@@ -12,6 +12,11 @@ interface Position {
     y: number;
 }
 
+// Type guard to check if the event is a TouchEvent
+const isTouchEvent = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>): e is React.TouchEvent<HTMLDivElement> => {
+    return 'touches' in e;
+};
+
 const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
     const closeModal = useCalcOptionModalStore((state) => state.closeModal);
 
@@ -24,36 +29,50 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
     const [isDragging, setIsDragging] = useState(false);
     const [dragOffset, setDragOffset] = useState<Position>({ x: 0, y: 0 });
 
-    const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    // Handle mouse down or touch start
+    const handleStart = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
+        const clientX = isTouchEvent(e) ? e.touches[0].clientX : e.clientX;
+        const clientY = isTouchEvent(e) ? e.touches[0].clientY : e.clientY;
+
         if (e.target instanceof HTMLElement && e.target.closest('.calculator-content')) return;
         setIsDragging(true);
         setDragOffset({
-            x: e.clientX - position.x,
-            y: e.clientY - position.y,
+            x: clientX - position.x,
+            y: clientY - position.y,
         });
     };
 
+    // Handle mouse move or touch move
     useEffect(() => {
-        const handleMouseMove = (e: MouseEvent) => {
+        const handleMove = (e: MouseEvent | TouchEvent) => {
             if (!isDragging) return;
+
+            const clientX = e instanceof MouseEvent ? e.clientX : (e as TouchEvent).touches[0].clientX;
+            const clientY = e instanceof MouseEvent ? e.clientY : (e as TouchEvent).touches[0].clientY;
+
             setPosition({
-                x: e.clientX - dragOffset.x,
-                y: e.clientY - dragOffset.y,
+                x: clientX - dragOffset.x,
+                y: clientY - dragOffset.y,
             });
         };
 
-        const handleMouseUp = () => {
+        // Handle mouse up or touch end
+        const handleEnd = () => {
             setIsDragging(false);
         };
 
         if (isDragging) {
-            window.addEventListener('mousemove', handleMouseMove);
-            window.addEventListener('mouseup', handleMouseUp);
+            window.addEventListener('mousemove', handleMove);
+            window.addEventListener('mouseup', handleEnd);
+            window.addEventListener('touchmove', handleMove, { passive: false });
+            window.addEventListener('touchend', handleEnd);
         }
 
         return () => {
-            window.removeEventListener('mousemove', handleMouseMove);
-            window.removeEventListener('mouseup', handleMouseUp);
+            window.removeEventListener('mousemove', handleMove);
+            window.removeEventListener('mouseup', handleEnd);
+            window.removeEventListener('touchmove', handleMove);
+            window.removeEventListener('touchend', handleEnd);
         };
     }, [isDragging, dragOffset]);
 
@@ -69,7 +88,8 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
             >
                 <div
                     className="flex items-center justify-between p-2 bg-gray-100 cursor-move"
-                    onMouseDown={handleMouseDown}
+                    onMouseDown={handleStart}
+                    onTouchStart={handleStart}
                 >
                     <h3 className="font-medium">{title}</h3>
                     <button
