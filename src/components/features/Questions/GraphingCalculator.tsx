@@ -64,6 +64,8 @@ const GraphCalculator = () => {
     };
   }, []);
 
+  /* eslint-disable  no-explicit-any */
+
   const handleResizeStop = (e: any, data: any) => {
     setDimensions({
       width: data.size.width,
