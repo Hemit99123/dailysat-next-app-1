@@ -1,8 +1,16 @@
 import React from 'react'
+import DraggableItem from './DraggableItem'
 
 const RegularCalculator = () => {
   return (
-    <div>RegularCalculator</div>
+    <DraggableItem 
+        title="Regular Calculator"
+        content={
+            <div>
+                add content here
+            </div>
+        }
+    />
   )
 }
 

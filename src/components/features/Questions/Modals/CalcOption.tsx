@@ -2,6 +2,7 @@ import { useCalcModeModalStore, useCalcOptionModalStore } from '@/store/modals';
 import React from 'react';
 import Options from './Components/Options';
 import GraphingCalculator from '../GraphingCalculator';
+import RegularCalculator from '../RegularCalculator';
 
 const CalcOption = () => {
   const isOpen = useCalcOptionModalStore((state) => state.isOpen);
@@ -74,6 +75,12 @@ const CalcOption = () => {
       {calcMode == "graphing" && (
         <div>
           <GraphingCalculator />
+        </div>
+      )}
+
+      {calcMode == "regular" && (
+        <div>
+          <RegularCalculator />
         </div>
       )}
     </div>
