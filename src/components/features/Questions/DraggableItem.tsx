@@ -12,7 +12,6 @@ interface Position {
     y: number;
 }
 
-// Type guard to check if the event is a TouchEvent
 const isTouchEvent = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>): e is React.TouchEvent<HTMLDivElement> => {
     return 'touches' in e;
 };
@@ -25,12 +24,11 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
     }, []);
 
     const setCalcMode = useCalcModeModalStore((state) => state.setMode);
-    const [position, setPosition] = useState<Position>({ x: 0, y: -500 }); // Start with a higher Y position
+    const [position, setPosition] = useState<Position>({ x: 0, y: 0 });
     const [isDragging, setIsDragging] = useState(false);
     const [dragOffset, setDragOffset] = useState<Position>({ x: 0, y: 0 });
-    const [isMobile, setIsMobile] = useState(false); // Track mobile screen size
+    const [isMobile, setIsMobile] = useState(false);
 
-    // Check if screen width is mobile
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth <= 768) {
@@ -40,31 +38,28 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
             }
         };
 
-        handleResize(); // Initial check
-        window.addEventListener('resize', handleResize); // Listen for window resizing
+        handleResize(); 
+        window.addEventListener('resize', handleResize); 
 
         return () => {
             window.removeEventListener('resize', handleResize);
         };
     }, []);
 
-    // Effect to freeze/unfreeze the screen when the modal is shown or hidden
     useEffect(() => {
         if (isMobile) {
-            if (position.y !== -500) { // Check if the draggable item is visible
+            if (position.y !== -500) {
                 document.body.classList.add('freeze');
             } else {
                 document.body.classList.remove('freeze');
             }
         }
-    }, [position.y, isMobile]); // Apply only when position changes
+    }, [position.y, isMobile]);
 
-    // Handle mouse down or touch start on the outer draggable component
     const handleStart = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
         const clientX = isTouchEvent(e) ? e.touches[0].clientX : e.clientX;
         const clientY = isTouchEvent(e) ? e.touches[0].clientY : e.clientY;
 
-        // Start dragging the whole component (ignoring inner content)
         setIsDragging(true);
         setDragOffset({
             x: clientX - position.x,
@@ -72,12 +67,10 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
         });
     };
 
-    // Handle mouse move or touch move
     useEffect(() => {
         const handleMove = (e: MouseEvent | TouchEvent) => {
             if (!isDragging) return;
 
-            // Prevent page scrolling when dragging the outer component
             if (e.target instanceof HTMLElement && !e.target.closest('.graph-content')) {
                 e.preventDefault();
             }
@@ -91,7 +84,6 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
             });
         };
 
-        // Handle mouse up or touch end
         const handleEnd = () => {
             setIsDragging(false);
         };
@@ -111,20 +103,17 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
         };
     }, [isDragging, dragOffset]);
 
-    // Handle dragging inside the graph content (e.g., panning/zooming the graph)
     const handleGraphInteraction = (e: React.MouseEvent | React.TouchEvent) => {
-        e.stopPropagation(); // Prevent the outer dragging from triggering
-        // Add logic for graph-specific interaction (e.g., panning or zooming)
+        e.stopPropagation();
     };
 
-    // Close modal and unfreeze the screen when done
     const closeDraggableItem = () => {
         setCalcMode('none');
-        document.body.classList.remove('freeze'); // Unfreeze the screen when done
+        document.body.classList.remove('freeze');
     };
 
     return (
-        <div className="fixed z-50 flex items-center justify-center">
+        <div className="fixed z-50 flex items-center justify-center top-0 left-0 right-0 bottom-0">
             <div
                 className="bg-white rounded-lg shadow-xl"
                 style={{
@@ -132,13 +121,13 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
                     left: `${position.x}px`,
                     top: `${position.y}px`,
                 }}
-                onMouseDown={handleStart}  // Start dragging from anywhere in the component
-                onTouchStart={handleStart} // Start dragging from anywhere in the component
+                onMouseDown={handleStart}  
+                onTouchStart={handleStart} 
             >
                 <div className="flex items-center justify-between p-2 bg-gray-100 cursor-move">
                     <h3 className="font-medium">{title}</h3>
                     <button
-                        onClick={closeDraggableItem} // Close the modal and unfreeze the screen
+                        onClick={closeDraggableItem}
                         className="p-1 hover:bg-gray-200 rounded transition-colors"
                     >
                         <X size={20} />
@@ -146,8 +135,8 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
                 </div>
                 <div
                     className="graph-content"
-                    onMouseDown={handleGraphInteraction} // Handle dragging/interaction inside the graph
-                    onTouchStart={handleGraphInteraction} // Handle touch interaction inside the graph
+                    onMouseDown={handleGraphInteraction}
+                    onTouchStart={handleGraphInteraction}
                 >
                     {content}
                 </div>
