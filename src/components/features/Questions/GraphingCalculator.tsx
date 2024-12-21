@@ -39,16 +39,32 @@ const GraphCalculator = () => {
 
     document.body.appendChild(script);
 
+    // Set dimensions based on window size of the draggable item
+    const handleResize = () => {
+      if (window.innerWidth < 500) {
+        setDimensions({ width: 350, height: 400 });
+      } else {
+        setDimensions({ width: 800, height: 400 });
+      }
+    };
+
+    // Initial resize for loading 
+    handleResize();
+
+    // Add event listener for resizing
+    window.addEventListener('resize', handleResize);
+
     return () => {
       // Cleanup calculator if it was initialized
       if (calculatorRef.current) {
         calculatorRef.current.destroy();
       }
       document.body.removeChild(script);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
-  const handleResize = (e: any, data: any) => {
+  const handleResizeStop = (e: any, data: any) => {
     setDimensions({
       width: data.size.width,
       height: data.size.height,
@@ -67,7 +83,7 @@ const GraphCalculator = () => {
             maxConstraints={[1200, 800]} // Maximum size of the box
             axis="both"
             resizeHandles={['se']} // Resize from the bottom-right corner
-            onResizeStop={handleResize}
+            onResizeStop={handleResizeStop}
             className="resize-box"
           >
             <div
