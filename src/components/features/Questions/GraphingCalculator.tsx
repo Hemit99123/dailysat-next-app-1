@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import { ResizableBox } from 'react-resizable';
+import 'react-resizable/css/styles.css'; // Import the necessary styles
 import { DesmosCalculator } from '@/types/desmos';
 import DraggableItem from '@/components/features/Questions/DraggableItem';
 
@@ -13,11 +15,12 @@ declare global {
   }
 }
 
-
 const GraphCalculator = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isReady, setIsReady] = useState(false);
   const calculatorRef = useRef<DesmosCalculator | null>(null);
+
+  const [dimensions, setDimensions] = useState({ width: 800, height: 400 });
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -45,17 +48,33 @@ const GraphCalculator = () => {
     };
   }, []);
 
-
+  const handleResize = (e: any, data: any) => {
+    setDimensions({
+      width: data.size.width,
+      height: data.size.height,
+    });
+  };
 
   return (
-    <DraggableItem 
-      title='Graphing Calculator'
+    <DraggableItem
+      title="Graphing Calculator"
       content={
         <div className="calculator-content">
-          <div
-            ref={containerRef}
-            className={`w-[600px] h-[400px] ${!isReady ? 'invisible' : ''}`}
-          />
+          <ResizableBox
+            width={dimensions.width}
+            height={dimensions.height}
+            minConstraints={[300, 200]} // Minimum size of the box
+            maxConstraints={[1200, 800]} // Maximum size of the box
+            axis="both"
+            resizeHandles={['se']} // Resize from the bottom-right corner
+            onResizeStop={handleResize}
+            className="resize-box"
+          >
+            <div
+              ref={containerRef}
+              className={`w-full h-full ${!isReady ? 'invisible' : ''}`}
+            />
+          </ResizableBox>
         </div>
       }
     />
