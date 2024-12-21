@@ -83,7 +83,7 @@ export async function GET(request: Request) {
       await client.connect();
       const db: Db = client.db("DailySAT");
       const doc = db
-        .collection("questions")
+        .collection("questions-reading")
         .aggregate([{ $match: { skill: topic } }, { $sample: { size: 1 } }]);
 
       const doc_array: Document[] = await doc.toArray();
