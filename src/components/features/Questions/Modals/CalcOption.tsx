@@ -30,7 +30,7 @@ const CalcOption = () => {
               Select one of the following options and start working 🚀
             </p>
             <Options
-              handleClick={() => handleChangeCalcMode("graphing")}
+              type="graphing"
               title="Graphing"
               description="Use this to graph equations"
               icon={
@@ -46,7 +46,7 @@ const CalcOption = () => {
               }
             />
             <Options
-              handleClick={() => handleChangeCalcMode("regular")}
+              type="regular"
               title="Regular"
               description="Use this for everyday calculations"
               icon={
