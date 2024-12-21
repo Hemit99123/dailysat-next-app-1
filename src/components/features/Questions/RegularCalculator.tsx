@@ -16,6 +16,11 @@ const RegularCalculator = () => {
       } catch {
         setInput('Error');
       }
+    } else if (value == "C" && input !== "0") {
+        const arrayOfChars = input.split('')
+        const newExpression = arrayOfChars.slice(0, -1).join("")
+        
+        setInput(newExpression)
     } else {
       // Prevent multiple consecutive operators (e.g., "++", "--", "**", "//")
       if (/[\+\-\×\÷\.]$/.test(input) && /[\+\-\×\÷\.]/.test(value)) {
@@ -30,7 +35,7 @@ const RegularCalculator = () => {
     '4', '5', '6', '×',
     '1', '2', '3', '-',
     '0', '.', '=', '+',
-    'DEL'
+    'DEL', 'C'
   ];
 
   return (
