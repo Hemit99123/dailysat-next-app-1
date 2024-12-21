@@ -1,4 +1,4 @@
-import { useCalcModeModalStore } from '@/store/modals';
+import { useCalcModeModalStore, useCalcOptionModalStore } from '@/store/modals';
 import { X } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
 
@@ -13,6 +13,11 @@ interface Position {
 }
   
 const DraggableItem: React.FC<DraggableItemProps> = ({content, title}) => {
+    const closeModal = useCalcOptionModalStore((state) => state.closeModal)
+
+    useEffect(() => {
+      closeModal()
+    }, [])
 
     const setCalcMode = useCalcModeModalStore((state) => state.setMode)
     const [position, setPosition] = useState<Position>({ x: 50, y: 50 });
@@ -53,7 +58,7 @@ const DraggableItem: React.FC<DraggableItemProps> = ({content, title}) => {
         };
       }, [isDragging, dragOffset]);
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="fixed z-50 flex items-center justify-center">
         <div
             className="bg-white rounded-lg shadow-xl"
             style={{

@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { useCalcOptionModalStore } from '@/store/modals';
 import { DesmosCalculator } from '@/types/desmos';
 import DraggableItem from '@/components/features/Questions/DraggableItem';
 
@@ -16,13 +15,11 @@ declare global {
 
 
 const GraphCalculator = () => {
-  const closeModal = useCalcOptionModalStore((state) => state.closeModal);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isReady, setIsReady] = useState(false);
   const calculatorRef = useRef<DesmosCalculator | null>(null);
 
   useEffect(() => {
-    closeModal()
     const script = document.createElement('script');
     script.src = 'https://www.desmos.com/api/v1.10/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6';
     script.async = true;
