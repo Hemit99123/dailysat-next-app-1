@@ -29,6 +29,7 @@
     "react": "^18",
     "react-cookie-consent": "^9.0.0",
     "react-dom": "^18",
+    "react-latex-next": "^3.0.0",
     "react-resizable": "^3.0.5",
     "react-toastify": "^10.0.6",
     "swagger-ui-react": "^5.18.2",

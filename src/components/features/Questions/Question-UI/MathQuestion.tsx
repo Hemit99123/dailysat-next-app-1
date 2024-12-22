@@ -8,6 +8,7 @@ import { toggleCrossOffMode, toggleCrossOffOption } from "@/lib/crossOff";
 import { CalculatorIcon } from "lucide-react";
 import { useCalcOptionModalStore } from "@/store/modals";
 import CalcOption from "../Modals/CalcOption";
+import Latex from "react-latex-next";
 
 const ReadingQuestion: React.FC<QuestionsProps> = ({
   title,
@@ -89,7 +90,8 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({
         className="mb-5 text-xl relative"
         ref={textRef}
       >
-        {title}
+        <Latex>{title}</Latex>
+        
       </p>
 
       <span className="mb-3 text-sm font-semibold">Choose 1 answer:</span>
