@@ -15,6 +15,8 @@ import { Answers } from "@/types/answer";
 import { useScoreModalStore, useStreakAnnouncerModalStore, useStreakCounterModalStore } from "@/store/modals";
 import StreakAnnouncer from "@/components/features/Questions/Modals/StreakAnnouncer";
 import axios from "axios";
+import Spinner from "@/components/common/Spinner";
+import GetStarted from "@/components/features/Questions/GetStarted";
 
 export interface QuestionData {
   id: string;
@@ -135,11 +137,11 @@ const Math = () => {
                 id={randomQuestion.id}
               />
             ) : (
-              <div>Loading...</div>
+              <Spinner />
             )}
           </div>
         ) : (
-          <div>Select a topic to get started</div>
+          <GetStarted />
         )}
       </div>
 
