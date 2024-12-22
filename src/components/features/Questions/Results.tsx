@@ -1,5 +1,6 @@
 import { useAnswerStore } from "@/store/answer";
 import React, { MutableRefObject } from "react";
+import Latex from "react-latex-next";
 
 interface ResultProps {
     answerComponent: MutableRefObject<HTMLDivElement | null>;
@@ -35,7 +36,9 @@ const Result: React.FC<ResultProps> = ({
                             Do you want to see the editorials? Click here!
                         </button>
                         {openEditorial && explanation && (
-                            <p className="mt-6">{explanation}</p>
+                            <div className="mt-6">
+                                <Latex >{explanation}</Latex>
+                            </div>
                         )}
                     </div>
                 )

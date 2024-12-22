@@ -38,7 +38,6 @@ export interface QuestionData {
 const Home = () => {
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
   const [randomQuestion, setRandomQuestion] = useState<QuestionData | null>(null);
-  const isAnswerCorrect = useAnswerStore((state) => state.isAnswerCorrect);
   const setIsAnswerCorrect = useAnswerStore(
     (state) => state.setIsAnswerCorrect
   );

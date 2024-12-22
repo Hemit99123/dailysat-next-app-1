@@ -127,13 +127,12 @@ const Math = () => {
         openStreakModal={openStreakModalHandler}
       />
       
-      {/* Main content */}
       <div className="flex flex-col flex-grow p-5 md:p-10">
         {selectedTopic ? (
           <div className="w-full mx-auto">
             <Header
-              name={selectedTopic.name}
-              question={randomQuestion?.question}
+                name={selectedTopic.name}
+                question={randomQuestion?.question}
             />
             {randomQuestion ? (
               <MathQuestion
@@ -158,7 +157,6 @@ const Math = () => {
         ) : (
           <GetStarted />
         )}
-
       </div>
 
       {isAnnouncerModalOpen && <StreakAnnouncer />}
