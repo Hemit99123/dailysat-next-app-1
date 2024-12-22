@@ -1,3 +1,4 @@
+import { useAnswerStore } from "@/store/answer";
 import React from "react";
 import Latex from "react-latex-next";
 
@@ -14,10 +15,13 @@ const AnswerOption: React.FC<AnswerOptionProps> = ({
   isSelected,
   isCrossedOff,
 }) => {
+
+  const isAnswerCorrect = useAnswerStore((state) => state.isAnswerCorrect)
+
   return (
     <div
       className={`cursor-pointer p-2 border rounded transition-all 
-        ${isSelected ? "bg-blue-100" : "hover:bg-gray-100"} 
+        ${isSelected && !isAnswerCorrect ? "bg-blue-100" : "hover:bg-gray-100"} 
         ${isCrossedOff ? "line-through text-gray-400 bg-gray-200" : ""}
       `}
       onClick={onClick}
