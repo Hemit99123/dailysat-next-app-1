@@ -35,7 +35,6 @@ const Math = () => {
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
   const [randomQuestion, setRandomQuestion] = useState<QuestionData | null>(null);
   
-  const isAnswerCorrect = useAnswerStore((state) => state.isAnswerCorrect);
   const setIsAnswerCorrect = useAnswerStore((state) => state.setIsAnswerCorrect);
   
   const increaseScore = useScoreStore((state) => state.increaseScore);
@@ -94,14 +93,6 @@ const Math = () => {
     }
   };
 
-  const openScoreModalHandler = () => {
-    openScoreModal();
-  };
-
-  const openStreakModalHandler = () => {
-    openStreakModal();
-  };
-
   const handleToggleEditorial = () => {
     setOpenEditorial((prev) => !prev);
   };
@@ -117,16 +108,18 @@ const Math = () => {
 
   return (
     <div className="flex flex-col md:flex-row h-screen">
+      {/* Replace Sidebar with the new Sidebar component */}
       <Sidebar
         title="Math"
         svg={<MathSVG />}
         topics={mathTopics}
         selectedTopic={selectedTopic!}
         handleTopicClick={handleTopicClick}
-        openScoreModal={openScoreModalHandler}
-        openStreakModal={openStreakModalHandler}
+        openScoreModal={openScoreModal}
+        openStreakModal={openStreakModal}
       />
-      
+
+      {/* Main Content */}
       <div className="flex flex-col flex-grow p-5 md:p-10">
         {selectedTopic ? (
           <div className="w-full mx-auto">
@@ -160,8 +153,6 @@ const Math = () => {
       </div>
 
       {isAnnouncerModalOpen && <StreakAnnouncer />}
-
-      
     </div>
   );
 };

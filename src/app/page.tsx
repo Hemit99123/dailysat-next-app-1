@@ -83,8 +83,6 @@ const Home = () => {
   };
 
   const fetchRandomQuestion = async (topic: Topic) => {
-    setIsAnswerCorrect(null);
-
     try {
       // Specify the expected response type
       const response: AxiosResponse<{ doc_array: QuestionData[] }> = await axios.get(

@@ -6,6 +6,6 @@ interface AnswerProps {
 }
 
 export const useAnswerStore = create<AnswerProps>((set) => ({
-    isAnswerCorrect: false,
+    isAnswerCorrect: null,
     setIsAnswerCorrect: (value: boolean | null) => set(() => ({ isAnswerCorrect: value })),
 }));
