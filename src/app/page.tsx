@@ -175,7 +175,6 @@ const Home = () => {
             )}
               <Result 
                 answerComponent={answerComponent}
-                isAnswerCorrect={isAnswerCorrect}
                 openEditorial={openEditorial}
                 handleToggleEditorial={handleToggleEditorial}
                 explanation={randomQuestion?.explanation || ""}

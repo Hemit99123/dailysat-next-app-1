@@ -4,7 +4,7 @@ import Sidebar from "@/components/features/Sidebar/Sidebar";
 import { mathTopics } from '@/data/topics'; // Assuming mathTopics is an array of topics
 import MathSVG from "@/components/features/Questions/icons/MathSVG";
 import { Topic } from "@/types/topic";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import MathQuestion from "@/components/features/Questions/Question-UI/MathQuestion";
 import Header from "@/components/features/Questions/Header";
 import { useAnswerCounterStore, useScoreStore } from "@/store/score";
@@ -17,6 +17,7 @@ import StreakAnnouncer from "@/components/features/Questions/Modals/StreakAnnoun
 import axios from "axios";
 import Spinner from "@/components/common/Spinner";
 import GetStarted from "@/components/features/Questions/GetStarted";
+import Result from "@/components/features/Questions/Results";
 
 export interface QuestionData {
   id: string;
@@ -48,6 +49,10 @@ const Math = () => {
   const isAnnouncerModalOpen = useStreakAnnouncerModalStore((state) => state.isOpen);
   const openStreakModal = useStreakCounterModalStore((state) => state.openModal);
   const isStreakModalOpen = useStreakCounterModalStore((state) => state.isOpen);
+
+  const answerComponent = useRef<HTMLDivElement | null>(null);
+  const [openEditorial, setOpenEditorial] = useState<boolean>(false);
+
 
   useEffect(() => {
     if (correctCount === 3 || correctCount === 7) {
@@ -97,6 +102,10 @@ const Math = () => {
     openStreakModal();
   };
 
+  const handleToggleEditorial = () => {
+    setOpenEditorial((prev) => !prev);
+  };
+
   if (isScoreModalOpen || isStreakModalOpen) {
     return (
       <>
@@ -139,13 +148,22 @@ const Math = () => {
             ) : (
               <Spinner />
             )}
+              <Result 
+                answerComponent={answerComponent}
+                openEditorial={openEditorial}
+                handleToggleEditorial={handleToggleEditorial}
+                explanation={randomQuestion?.explanation || ""}
+              />
           </div>
         ) : (
           <GetStarted />
         )}
+
       </div>
 
       {isAnnouncerModalOpen && <StreakAnnouncer />}
+
+      
     </div>
   );
 };

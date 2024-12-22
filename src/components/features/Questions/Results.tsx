@@ -1,8 +1,8 @@
+import { useAnswerStore } from "@/store/answer";
 import React, { MutableRefObject } from "react";
 
 interface ResultProps {
     answerComponent: MutableRefObject<HTMLDivElement | null>;
-    isAnswerCorrect: boolean | null;
     handleToggleEditorial: () => void;
     openEditorial: boolean;
     explanation: string | undefined;
@@ -10,11 +10,12 @@ interface ResultProps {
 
 const Result: React.FC<ResultProps> = ({
     answerComponent,
-    isAnswerCorrect,
     handleToggleEditorial,
     openEditorial,
     explanation
 }) => {
+
+    const isAnswerCorrect = useAnswerStore((state) => state.isAnswerCorrect);
     return (
         <div className="mt-4 pl-7 pb-10" ref={answerComponent}>
             {isAnswerCorrect !== null && (
