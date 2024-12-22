@@ -41,8 +41,7 @@ const Home = () => {
   const setIsAnswerCorrect = useAnswerStore(
     (state) => state.setIsAnswerCorrect
   );
-  const [openEditorial, setOpenEditorial] = useState<boolean>(false);
-
+  
   const increaseScore = useScoreStore((state) => state.increaseScore);
   const increaseCorrectCounter = useAnswerCounterStore(
     (state) => state.increaseCount
@@ -122,10 +121,6 @@ const Home = () => {
         block: "start",
       });
     }, 100);
-  };
-
-  const handleToggleEditorial = () => {
-    setOpenEditorial((prev) => !prev);
   };
 
   if (isScoreModalOpen || isStreakModalOpen) {
