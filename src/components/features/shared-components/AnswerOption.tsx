@@ -16,12 +16,10 @@ const AnswerOption: React.FC<AnswerOptionProps> = ({
   isCrossedOff,
 }) => {
 
-  const isAnswerCorrect = useAnswerStore((state) => state.isAnswerCorrect)
-
   return (
     <div
       className={`cursor-pointer p-2 border rounded transition-all 
-        ${isSelected && !isAnswerCorrect ? "bg-blue-100" : "hover:bg-gray-100"} 
+        ${isSelected ? "bg-blue-100" : "hover:bg-gray-100"} 
         ${isCrossedOff ? "line-through text-gray-400 bg-gray-200" : ""}
       `}
       onClick={onClick}

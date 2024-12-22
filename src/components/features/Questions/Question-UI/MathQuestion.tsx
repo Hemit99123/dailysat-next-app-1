@@ -53,6 +53,7 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({
   const handleSubmit = () => {
     if (selectedAnswer) {
       onAnswerSubmit(selectedAnswer);
+      setSelectedAnswer(null)
     }
   };
 

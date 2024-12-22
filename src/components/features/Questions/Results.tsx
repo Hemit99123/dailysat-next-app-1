@@ -1,20 +1,22 @@
 import { useAnswerStore } from "@/store/answer";
-import React, { MutableRefObject } from "react";
+import React, { MutableRefObject, useState } from "react";
 import Latex from "react-latex-next";
 
 interface ResultProps {
     answerComponent: MutableRefObject<HTMLDivElement | null>;
-    handleToggleEditorial: () => void;
-    openEditorial: boolean;
     explanation: string | undefined;
 }
 
 const Result: React.FC<ResultProps> = ({
     answerComponent,
-    handleToggleEditorial,
-    openEditorial,
     explanation
 }) => {
+
+    const [openEditorial, setOpenEditorial] = useState(false)
+
+    const handleToggleEditorial = () => {
+        setOpenEditorial((prev) => !prev)
+    }
 
     const isAnswerCorrect = useAnswerStore((state) => state.isAnswerCorrect);
     return (

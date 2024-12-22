@@ -50,8 +50,6 @@ const Math = () => {
   const isStreakModalOpen = useStreakCounterModalStore((state) => state.isOpen);
 
   const answerComponent = useRef<HTMLDivElement | null>(null);
-  const [openEditorial, setOpenEditorial] = useState<boolean>(false);
-
 
   useEffect(() => {
     if (correctCount === 3 || correctCount === 7) {
@@ -89,12 +87,9 @@ const Math = () => {
     if (correct && selectedTopic) {
       setTimeout(() => {
         fetchRandomQuestion(selectedTopic);
+        setIsAnswerCorrect(null)
       }, 1500);
     }
-  };
-
-  const handleToggleEditorial = () => {
-    setOpenEditorial((prev) => !prev);
   };
 
   if (isScoreModalOpen || isStreakModalOpen) {
@@ -142,8 +137,6 @@ const Math = () => {
             )}
               <Result 
                 answerComponent={answerComponent}
-                openEditorial={openEditorial}
-                handleToggleEditorial={handleToggleEditorial}
                 explanation={randomQuestion?.explanation || ""}
               />
           </div>

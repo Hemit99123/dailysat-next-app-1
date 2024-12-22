@@ -112,6 +112,7 @@ const Home = () => {
     if (correct && selectedTopic) {
       setTimeout(() => {
         fetchRandomQuestion(selectedTopic);
+        setIsAnswerCorrect(null)
       }, 1500);
     }
 
@@ -172,8 +173,6 @@ const Home = () => {
             )}
               <Result 
                 answerComponent={answerComponent}
-                openEditorial={openEditorial}
-                handleToggleEditorial={handleToggleEditorial}
                 explanation={randomQuestion?.explanation || ""}
               />
           </div>
