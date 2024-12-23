@@ -1,13 +1,13 @@
 import client from "../../../lib/mongo";
-import { Db, Document, WithId } from "mongodb";
+import { Db, Document, WithId, ObjectId } from "mongodb";
 import { REFERRAL_BONUS_REFERRED_PERSON, REFERRAL_BONUS_REFERREE } from "@/lib/CONSTANTS";
 
 interface ReferralUpdate {
-    id_referred : string,
+    email_referred : string,
     id_referee : string
 }
 
-export async function PUT(request: Request) {
+export async function POST(request: Request) {
     try{
         const data : ReferralUpdate = await request.json();
 
@@ -17,18 +17,18 @@ export async function PUT(request: Request) {
             const db: Db = client.db("DailySAT");
 
             // check if the referee exists
-            const doc_check : WithId<Document> | null = await db.collection("users").findOne({$where : {id : data.id_referee}})
+            const doc_check : WithId<Document> | null = await db.collection("users").findOne({_id : new ObjectId(data.id_referee)})
 
             if(doc_check == null){
                 return Response.json({
-                    code : 200,
+                    code : 400,
                     result : 0,
                     message : "invalid referral code"
                 })
             }
             else{
-                await db.collection("users").findOneAndUpdate({$where:{id : data.id_referred}}, {$inc : {currency : REFERRAL_BONUS_REFERRED_PERSON}});
-                await db.collection("users").findOneAndUpdate({$where:{id : data.id_referee}}, {$inc : {currency : REFERRAL_BONUS_REFERREE}});
+                await db.collection("users").findOneAndUpdate({email : data.email_referred}, {$inc : {currency : REFERRAL_BONUS_REFERRED_PERSON}});
+                await db.collection("users").findOneAndUpdate({_id : new ObjectId(data.id_referee)}, {$inc : {currency : REFERRAL_BONUS_REFERREE}});
                 
                 return Response.json({
                     code : 200,

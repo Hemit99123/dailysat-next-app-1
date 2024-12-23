@@ -19,6 +19,7 @@ import { Answers } from "@/types/answer";
 import { useAnswerStore } from "@/store/answer";
 import useUserStore, { useCoinStore, useLoggedInStore } from "@/store/user";
 import Spinner from "@/components/common/Spinner";
+import { QUESTION_IS_CORRECT_POINTS } from "@/lib/CONSTANTS";
 
 export interface Topic {
   id: number;
@@ -127,7 +128,7 @@ const Home = () => {
     if (correct) {
       increaseCorrectCounter();
       increaseScore();
-      useCoinStore.getState().coins = useUserStore.getState().user.currency || 1000 + 50 * correctCount;
+      useCoinStore.getState().coins = useUserStore.getState().user.currency || 0 + QUESTION_IS_CORRECT_POINTS * correctCount;
     } else {
       resetCorrectCounter();
     }

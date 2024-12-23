@@ -1,3 +1,4 @@
+import { QUESTION_IS_CORRECT_POINTS } from "@/lib/CONSTANTS";
 import client from "@/lib/mongo";
 import { Collection, Db, Document, InsertOneResult } from "mongodb";
 
@@ -17,7 +18,7 @@ export async function POST(request: Request) {
       const coll: Collection<Document> = db.collection("users");
       
       // Insert the new bug ID into the database
-      await coll.updateOne({"email" : email},{ $inc : {currency : state === 1 ? 50 : 0}, $addToSet : {questionsAnswered : {...question, correct : state, toc : Date.now(), userAnswer : userAnswer}} });
+      await coll.updateOne({"email" : email},{ $inc : {currency : state === 1 ? QUESTION_IS_CORRECT_POINTS : 0}, $addToSet : {questionsAnswered : {...question, correct : state, toc : Date.now(), userAnswer : userAnswer}} });
       client.close();
 
       // Return a success response with the inserted result
