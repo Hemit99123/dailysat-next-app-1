@@ -71,6 +71,7 @@ export async function GET(request: Request) {
   const url: URL = new URL(request.url);
   const searchParams: URLSearchParams = new URLSearchParams(url.search);
   const topic: string = searchParams.get("topic") || "";
+  const type : string = searchParams.get("type") || "";
 
   // Check if the topic query parameter is provided
   if (topic === "") {
@@ -83,7 +84,7 @@ export async function GET(request: Request) {
       await client.connect();
       const db: Db = client.db("DailySAT");
       const doc = db
-        .collection("questions")
+        .collection(`questions-${type}`)
         .aggregate([{ $match: { skill: topic } }, { $sample: { size: 1 } }]);
 
       const doc_array: Document[] = await doc.toArray();

@@ -15,19 +15,19 @@ import useUserStore, { useLoggedInStore } from "@/store/user";
 export interface User {
   // MongoDB string 
   _id?: string,
-  id: string,
-  email: string,
-  name: string,
-  picture: string,
+  id?: string,
+  email?: string,
+  name?: string,
+  picture?: string,
 
   // Given name is the first name
-  given_name: string,
+  given_name?: string,
 
   // Currency
-  currency: number,
+  currency?: number,
 
   // Questions answered
-  questionsAnswered: QuestionData[]
+  questionsAnswered?: QuestionData[]
 }
 
 // Endstate of API request
@@ -60,8 +60,9 @@ export default function Signup() {
         window.alert(userData.message)
       else {
         // Save
-        document.cookie = JSON.stringify({ "user": userData.user, "jwt": JSON.stringify(userData.user) });
-        useUserStore.setState({ user: userData });
+        localStorage.setItem("USER", JSON.stringify(userData.user));
+        localStorage.setItem("loggedin","true");
+        useUserStore.setState({ user: userData.user });
         useLoggedInStore.setState({ loggedIn: true });
 
         // TODO : Redirect to dashboard

@@ -17,6 +17,8 @@ import CTASideBar from "@/components/features/shared-components/CTASideBar";
 import StreakModal from "@/components/features/Questions/Modals/StreakModal";
 import { Answers } from "@/types/answer";
 import { useAnswerStore } from "@/store/answer";
+import useUserStore, { useCoinStore, useLoggedInStore } from "@/store/user";
+import Spinner from "@/components/common/Spinner";
 
 export interface Topic {
   id: number;
@@ -46,6 +48,7 @@ const Home = () => {
     (state) => state.setIsAnswerCorrect
   );
   const [openEditorial, setOpenEditorial] = useState<boolean>(false);
+  const [questionsRecorded, setQuestionsRecorded] = useState<QuestionData[]>([]);
 
   const increaseScore = useScoreStore((state) => state.increaseScore);
   const increaseCorrectCounter = useAnswerCounterStore(
@@ -72,12 +75,18 @@ const Home = () => {
   const answerComponent = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (correctCount === 3) {
-      openAnnouncerModal();
+    // Logged in state
+    if (useLoggedInStore.getState().loggedIn == false) {
+      window.location.replace("/signup");
     }
+    else {
+      if (correctCount === 3) {
+        openAnnouncerModal();
+      }
 
-    if (correctCount === 7) {
-      openAnnouncerModal();
+      if (correctCount === 7) {
+        openAnnouncerModal();
+      }
     }
   }, [correctCount, openAnnouncerModal]);
 
@@ -95,34 +104,46 @@ const Home = () => {
 
   const fetchRandomQuestion = async (topic: Topic) => {
     setIsAnswerCorrect(null);
-  
+
     try {
       // Specify the expected response type
       const response: AxiosResponse<{ doc_array: QuestionData[] }> = await axios.get(
-        "/api/get/question?topic=" + topic.name
+        "/api/get/question?type=reading&topic=" + topic.name
       );
-  
+
       // Ensure you access the data properly
       const questionData = response.data.doc_array[0];
       setRandomQuestion(questionData);
     } catch (error) {
-      console.error("Error fetching question:", error);
       setRandomQuestion(null);
     }
   };
-  
+
 
   const answerCorrectRef: Record<Answers, number> = { A: 0, B: 1, C: 2, D: 3 };
 
-  const handleAnswerSubmit = (answer: Answers) => {
+  const handleAnswerSubmit = async (answer: Answers) => {
     const correct = answerCorrectRef[answer] === randomQuestion?.correctAnswer;
     if (correct) {
       increaseCorrectCounter();
       increaseScore();
+      useCoinStore.getState().coins = useUserStore.getState().user.currency || 1000 + 50 * correctCount;
     } else {
       resetCorrectCounter();
     }
     setIsAnswerCorrect(correct);
+
+    // Send request to backend
+    if (randomQuestion !== null && questionsRecorded.includes(randomQuestion) == false) {
+      await axios.post("/api/add-points", {
+        email: useUserStore.getState().user.email || "",
+        question: randomQuestion,
+        state: correct == true ? 1 : 0,
+        userAnswer: answerCorrectRef[answer]
+      })
+      setQuestionsRecorded([...questionsRecorded, randomQuestion]);
+    }
+
     if (correct && selectedTopic) {
       setTimeout(() => {
         fetchRandomQuestion(selectedTopic);
@@ -167,11 +188,10 @@ const Home = () => {
           {topics.map((topic) => (
             <div
               key={topic.id}
-              className={`bg-blue-50 py-3 px-3 mb-2 cursor-pointer ${
-                selectedTopic?.id === topic.id
-                  ? "border-l-4 border-blue-500"
-                  : ""
-              }`}
+              className={`bg-blue-50 py-3 px-3 mb-2 cursor-pointer ${selectedTopic?.id === topic.id
+                ? "border-l-4 border-blue-500"
+                : ""
+                }`}
               onClick={() => handleTopicClick(topic)}
             >
               <p className="text-[11px] text-gray-400 uppercase">
@@ -212,25 +232,35 @@ const Home = () => {
                 id={randomQuestion.id}
               />
             ) : (
-              <p>Loading question...</p>
+              <p><Spinner /></p>
             )}
             <div className="mt-4 pl-7 pb-10" ref={answerComponent}>
               {isAnswerCorrect !== null && (
                 <>
                   {isAnswerCorrect ? (
-                    <p className="text-green-500 text-lg font-semibold">
-                      You are correct!
-                    </p>
+                    <>
+                      <p className="text-green-500 text-2xl font-semibold">
+                        You are correct!
+                      </p>
+                      <p>+ {correctCount * 50}</p>
+                    </>
                   ) : (
                     <div>
-                      <p className="text-red-500 text-lg font-semibold">
-                        You are wrong :(
+                      <p className="text-red-500 text-2xl font-semibold">
+                        You are wrong 😔
                       </p>
+
                       <button onClick={handleToggleEditorial}>
-                        Do you want to see the editorials? Click here!
+                        Do you want to see the editorial? Click here!
                       </button>
                       {openEditorial && (
-                        <p className="mt-6">{randomQuestion?.explanation}</p>
+                        <>
+                          <p className="mt-6">{randomQuestion?.explanation}</p>
+                          <br />
+                          <p className="font-semibold text-md ">
+                            Don't worry, you'll be able to review this question later!
+                          </p>
+                        </>
                       )}
                     </div>
                   )}
