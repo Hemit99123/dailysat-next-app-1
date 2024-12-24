@@ -1,6 +1,6 @@
 import client from "../../../lib/mongo";
 import { Db, Document, WithId } from "mongodb";
-import { FIRST_250_BONUS, REFERRAL_BONUS_REFERRED_PERSON, REFERRAL_BONUS_REFERREE } from "@/lib/CONSTANTS";
+import { FIRST_250_BONUS} from "@/lib/CONSTANTS";
 
 export async function POST(request: Request) {
     try {

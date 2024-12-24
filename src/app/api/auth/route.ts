@@ -1,8 +1,6 @@
 import client from "../../../lib/mongo";
 import { Db, Document, InsertOneResult, WithId } from "mongodb";
 import { User } from "@/app/signup/page";
-import { document } from "postcss";
-
 
 export async function POST(request: Request) {
     try{

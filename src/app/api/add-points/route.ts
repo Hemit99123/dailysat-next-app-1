@@ -1,6 +1,6 @@
 import { QUESTION_IS_CORRECT_POINTS } from "@/lib/CONSTANTS";
 import client from "@/lib/mongo";
-import { Collection, Db, Document, InsertOneResult } from "mongodb";
+import { Collection, Db, Document } from "mongodb";
 
 export async function POST(request: Request) {
   const {email, question, state, userAnswer} = await request.json();
