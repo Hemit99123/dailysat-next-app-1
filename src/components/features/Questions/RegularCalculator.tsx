@@ -5,6 +5,10 @@ const RegularCalculator = () => {
   const [expression, setExpression] = useState('');
   const recognizedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '*', '/'];
 
+  const handleDeleteEverything  = () => {{
+      setExpression("")
+  }}
+
   const handleDeleteOneChar = () => {
     const newExpression = expression.slice(0, -1);
     setExpression(newExpression);
@@ -29,6 +33,8 @@ const RegularCalculator = () => {
         handleDeleteOneChar();
       } else if (event.key === 'Enter') {
         handleCalculation();
+      } else if (event.key == "d") {
+        handleDeleteEverything()
       }
     };
 
@@ -41,7 +47,7 @@ const RegularCalculator = () => {
 
   const handleButtonClick = (value: string) => {
     if (value === 'DEL') {
-      setExpression('');
+      handleDeleteEverything()
     } else if (value === '=') {
       handleCalculation();
     } else if (value === 'C') {
