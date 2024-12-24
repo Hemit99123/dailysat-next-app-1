@@ -65,7 +65,7 @@ const RegularCalculator = () => {
       content={
         <div className="bg-gray-100 p-4 rounded shadow-lg w-80">
           {/* Display */}
-          <div className="bg-white p-4 mb-4 text-right text-xl font-mono rounded border border-gray-300">
+          <div className="bg-white p-4 mb-4 text-right text-xl font-mono rounded border border-gray-300 overflow-y-auto">
             {expression || '0'}
           </div>
 
