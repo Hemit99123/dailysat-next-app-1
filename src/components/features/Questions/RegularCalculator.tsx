@@ -3,22 +3,31 @@ import DraggableItem from './DraggableItem';
 
 const RegularCalculator = () => {
   const [input, setInput] = useState('');
-  const numberList = ["0","1", "2", "3", "4", "5", "6", "7", "8", "9"]
+  const recognizedKeys = ["0","1", "2", "3", "4", "5", "6", "7", "8", "9", '+', '-', 'x', '/']
+
+  const handleDeleteOneChar = () => {
+    const newExpression = input.slice(0, -1)
+    setInput(newExpression)
+  }
 
   useEffect(() => {
-    const handleKeyPress = (event: { key: string; }) => {
-      if (numberList.includes(event.key)) {
+    const handleKeyPress = (event: { key: string }) => {
+      if (recognizedKeys.includes(event.key)) {
         setInput((prevState) => `${prevState}${event.key}`);
-        console.log(event.key)
+      } else if (event.key === "Backspace") {
+        handleDeleteOneChar();
+      } else if (event.key == "Enter") {
+        // do some magic
       }
     };
   
-    document.addEventListener("keypress", handleKeyPress);
+    document.addEventListener("keydown", handleKeyPress);
   
     return () => {
-      document.removeEventListener("keypress", handleKeyPress);
+      document.removeEventListener("keydown", handleKeyPress);
     };
-  }, []); // The empty dependency array ensures the listener is added only once.
+  }, []);
+  
   
 
   const handleButtonClick = (value: string) => {
@@ -26,7 +35,7 @@ const RegularCalculator = () => {
       setInput('');
     } else if (value === '=') {
       try {
-        // Replace display operators with JavaScript operators for eval
+        // Replace display operators with JavaScript operators for eval (since times and divison are acc * and /)
         const sanitizedInput = input.replace(/÷/g, '/').replace(/×/g, '*');
         // Use eval to calculate the result
         setInput(eval(sanitizedInput).toString());
@@ -34,10 +43,7 @@ const RegularCalculator = () => {
         setInput('Error');
       }
     } else if (value == "C" && input !== "0") {
-        const arrayOfChars = input.split('')
-        const newExpression = arrayOfChars.slice(0, -1).join("")
-        
-        setInput(newExpression)
+        handleDeleteOneChar()
     } else {
       // Prevent multiple consecutive operators (e.g., "++", "--", "**", "//")
       if (/[\+\-\×\÷\.]$/.test(input) && /[\+\-\×\÷\.]/.test(value)) {
