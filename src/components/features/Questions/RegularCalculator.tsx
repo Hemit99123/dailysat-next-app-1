@@ -47,10 +47,6 @@ const RegularCalculator = () => {
     } else if (value === 'C') {
       handleDeleteOneChar();
     } else {
-      // Prevent multiple consecutive operators
-      if (/([+\-×÷*/])$/.test(expression) && /([+\-×÷*/])/.test(value)) {
-        return;
-      }
       setExpression((prevState) => `${prevState}${value}`);
     }
   };
