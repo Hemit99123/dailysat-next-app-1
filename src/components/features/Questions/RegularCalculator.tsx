@@ -1,8 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DraggableItem from './DraggableItem';
 
 const RegularCalculator = () => {
   const [input, setInput] = useState('');
+  const numberList = ["0","1", "2", "3", "4", "5", "6", "7", "8", "9"]
+
+  useEffect(() => {
+    const handleKeyPress = (event: { key: string; }) => {
+      if (numberList.includes(event.key)) {
+        setInput((prevState) => `${prevState}${event.key}`);
+        console.log(event.key)
+      }
+    };
+  
+    document.addEventListener("keypress", handleKeyPress);
+  
+    return () => {
+      document.removeEventListener("keypress", handleKeyPress);
+    };
+  }, []); // The empty dependency array ensures the listener is added only once.
+  
 
   const handleButtonClick = (value: string) => {
     if (value === 'DEL') {
