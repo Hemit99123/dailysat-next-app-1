@@ -10,6 +10,13 @@ const RegularCalculator = () => {
     setInput(newExpression)
   }
 
+  const handleCalculation = () => {
+    // Replace display operators with JavaScript operators for eval (since times and divison are acc * and /)
+    const sanitizedInput = input.replace(/÷/g, '/').replace(/×/g, '*');
+    // Use eval to calculate the result
+    setInput(eval(sanitizedInput).toString());
+  }
+
   useEffect(() => {
     const handleKeyPress = (event: { key: string }) => {
       if (recognizedKeys.includes(event.key)) {
@@ -17,7 +24,7 @@ const RegularCalculator = () => {
       } else if (event.key === "Backspace") {
         handleDeleteOneChar();
       } else if (event.key == "Enter") {
-        // do some magic
+        handleCalculation()
       }
     };
   
@@ -35,10 +42,7 @@ const RegularCalculator = () => {
       setInput('');
     } else if (value === '=') {
       try {
-        // Replace display operators with JavaScript operators for eval (since times and divison are acc * and /)
-        const sanitizedInput = input.replace(/÷/g, '/').replace(/×/g, '*');
-        // Use eval to calculate the result
-        setInput(eval(sanitizedInput).toString());
+        handleCalculation()
       } catch {
         setInput('Error');
       }
