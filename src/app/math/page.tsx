@@ -4,7 +4,7 @@ import Sidebar from "@/components/features/Sidebar/Sidebar";
 import { mathTopics } from '@/data/topics'; 
 import MathSVG from "@/components/features/Questions/icons/MathSVG";
 import { Topic } from "@/types/topic";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import MathQuestion from "@/components/features/Questions/Question-UI/MathQuestion";
 import Header from "@/components/features/Questions/Header";
 import { useAnswerCounterStore } from "@/store/score";

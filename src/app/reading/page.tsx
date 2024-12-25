@@ -4,7 +4,7 @@ import Sidebar from "@/components/features/Sidebar/Sidebar";
 import { readingTopics } from "@/data/topics";
 import BookSVG from "@/components/features/Questions/icons/BookSVG";
 import { Topic } from "@/types/topic";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import ReadingQuestion from "@/components/features/Questions/Question-UI/ReadingQuestion";
 import Header from "@/components/features/Questions/Header";
 import { useAnswerCounterStore } from "@/store/score";
