@@ -22,7 +22,8 @@ import {
   useStreakCounterModalStore,
 } from "@/store/modals";
 import { useQuestionStore, useTopicStore } from "@/store/questions";
-import { Answers, Topic } from "@/types";
+import { Answers } from "@/types/answer";
+import { Topic } from "@/types/topic";
 
 const Math = () => {
   const { fetchRandomQuestion, handleAnswerSubmit, handleCheckThreeStreak } = useQuestionHandler();
