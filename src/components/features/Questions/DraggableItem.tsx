@@ -31,15 +31,11 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
 
     useEffect(() => {
         const handleResize = () => {
-            if (window.innerWidth <= 768) {
-                setIsMobile(true);
-            } else {
-                setIsMobile(false);
-            }
+            setIsMobile(window.innerWidth <= 768);
         };
 
-        handleResize(); 
-        window.addEventListener('resize', handleResize); 
+        handleResize();
+        window.addEventListener('resize', handleResize);
 
         return () => {
             window.removeEventListener('resize', handleResize);
@@ -47,14 +43,17 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
     }, []);
 
     useEffect(() => {
-        if (isMobile) {
-            if (position.y !== -500) {
-                document.body.classList.add('freeze');
-            } else {
-                document.body.classList.remove('freeze');
-            }
+        const freezeBody = () => document.body.classList.add('freeze');
+        const unfreezeBody = () => document.body.classList.remove('freeze');
+
+        if (isMobile && isDragging) {
+            freezeBody();
+        } else {
+            unfreezeBody();
         }
-    }, [position.y, isMobile]);
+
+        return () => unfreezeBody();
+    }, [isMobile, isDragging]);
 
     const handleStart = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
         const clientX = isTouchEvent(e) ? e.touches[0].clientX : e.clientX;
@@ -121,8 +120,8 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
                     left: `${position.x}px`,
                     top: `${position.y}px`,
                 }}
-                onMouseDown={handleStart}  
-                onTouchStart={handleStart} 
+                onMouseDown={handleStart}
+                onTouchStart={handleStart}
             >
                 <div className="flex items-center justify-between p-2 bg-gray-100 cursor-move">
                     <h3 className="font-medium">{title}</h3>
