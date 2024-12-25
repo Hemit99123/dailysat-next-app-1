@@ -29,10 +29,23 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({ onAnswerSubmit }) => {
     setMode((prevMode) => (prevMode === newMode ? null : newMode));
   };
 
-  const handleSelection = () => {
+  const handleSelection = (event: React.TouchEvent | React.MouseEvent) => {
     if (!mode || !textRef.current) return;
 
-    const selection = window.getSelection();
+    let selection: Selection | null = null;
+
+    // Handle selection for touch events
+    if ("changedTouches" in event) {
+      const touch = event.changedTouches[0];
+      const targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
+      if (textRef.current.contains(targetElement)) {
+        selection = window.getSelection();
+      }
+    } else {
+      // Handle selection for mouse events
+      selection = window.getSelection();
+    }
+
     if (selection && selection.rangeCount > 0) {
       const range = selection.getRangeAt(0);
       const selectedText = range.toString().trim();
@@ -57,15 +70,17 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({ onAnswerSubmit }) => {
   };
 
   const clearRange = (rangeToClear: Range) => {
-  const parentElement = rangeToClear.commonAncestorContainer.parentElement;
-  if (parentElement) {
-    const spans = parentElement.querySelectorAll("span");
-    spans.forEach((span) => {
-      const textNode = document.createTextNode(span.textContent || "");
-      span.replaceWith(textNode);
-    });
-  }
-};
+    const parentElement = rangeToClear.commonAncestorContainer.parentElement;
+    if (parentElement) {
+      const spans = parentElement.querySelectorAll("span");
+      spans.forEach((span) => {
+        if (span.style.backgroundColor === "yellow") {
+          const textNode = document.createTextNode(span.textContent || "");
+          span.replaceWith(textNode);
+        }
+      });
+    }
+  };
 
   const renderHighlightedText = () => {
     return (
@@ -73,6 +88,7 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({ onAnswerSubmit }) => {
         ref={textRef}
         className="relative"
         onMouseUp={handleSelection}
+        onTouchStart={(e) => e.stopPropagation()} // Avoid unnecessary propagation
         onTouchEnd={handleSelection}
         style={{ cursor: mode ? "text" : "default" }}
       >
