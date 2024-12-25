@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import Sidebar from "@/components/features/Sidebar/Sidebar";
 import { mathTopics } from "@/data/topics";
-import MathSVG from "@/components/features/Questions/icons/MathSVG";
+import MathSVG from "@/components/common/icons/MathSVG";
 import MathQuestion from "@/components/features/Questions/Question-UI/MathQuestion";
 import Header from "@/components/features/Questions/Header";
 import ScoreModal from "@/components/features/Questions/Modals/ScoreModal";

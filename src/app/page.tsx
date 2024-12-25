@@ -8,6 +8,8 @@ import items from "@/data/items";
 import axios from "axios";
 import Quotes from "@/types/quotes";
 import Spinner from "@/components/common/Spinner";
+import MathSVG from "@/components/common/icons/MathSVG";
+import BookSVG from "@/components/common/icons/BookSVG";
 
 const Home = () => {
   const [greeting, setGreeting] = useState("");
@@ -74,29 +76,14 @@ const Home = () => {
         <div className="flex space-x-2 mt-px">
           <Option
             svg={
-              <svg
-                height="30px"
-                width="30px"
-                viewBox="0 -0.5 25 25"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                {/* SVG content */}
-              </svg>
+              <BookSVG />
             }
             header="Reading"
             redirect="/reading"
           />
           <Option
             svg={
-              <svg
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-                width="25px"
-                height="25px"
-              >
-                {/* SVG content */}
-              </svg>
+              <MathSVG />
             }
             header="Math"
             redirect="/math"
