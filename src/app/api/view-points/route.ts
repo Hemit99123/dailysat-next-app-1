@@ -1,4 +1,4 @@
-import client from "@/lib/mongo";
+import { client } from "@/lib/mongo";
 import { Db, WithId, Document, FindCursor } from "mongodb";
 
 export async function GET(request: Request) {
