@@ -6,19 +6,21 @@ import {
   GoogleOAuthProvider
 } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getCookieConsentValue, resetCookieConsentValue } from "react-cookie-consent";
 import axios from "axios";
 import { AuthResponse, User } from "../signup/page";
-import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
-
 
 export default function Signup() {
-  const searchparams: ReadonlyURLSearchParams = useSearchParams();
-  const purpose = searchparams.get("t");
+  const [purpose, setPurpose] = useState<string>("")
   const [email, setEmail] = useState<string>("");
   const [picture, setPicture] = useState<string>("");
   const [inputFieldText, setInputFieldText] = useState<string>();
+
+  useEffect(() => {
+    const searchparams: URLSearchParams = new URL(window.location.href).searchParams;
+    setPurpose(searchparams.get("t") || "");
+  }, [])
 
   async function successCallback(token: CredentialResponse) {
     const str: string = token.credential || "";
@@ -52,10 +54,10 @@ export default function Signup() {
   }
 
   async function sendReq() {
-    if(email == ""){
+    if (email == "") {
       window.alert("Login first!");
     }
-    else{
+    else {
       if (purpose == "Referee bonus") {
         await axios.post("/api/referral", {
           email_referred: email,
@@ -68,7 +70,7 @@ export default function Signup() {
         await axios.post("/api/initial-250-auth", {
           email: email
         })
-        window.location.replace("/"); 
+        window.location.replace("/");
       }
     }
   }
@@ -114,7 +116,7 @@ export default function Signup() {
           <div className="flex justify-center">
             <button
               className="w-[30%] px-4 py-2 mt-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-              onClick={()=>sendReq()}
+              onClick={() => sendReq()}
             >
               Continue
             </button>
