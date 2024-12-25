@@ -1,5 +1,5 @@
 import client from "../../../lib/mongo";
-import { Db, Document, InsertOneResult, WithId } from "mongodb";
+import { Db, Document, InsertOneResult, ObjectId, WithId } from "mongodb";
 import { User } from "@/app/signup/page";
 
 export async function POST(request: Request) {
@@ -14,7 +14,7 @@ export async function POST(request: Request) {
 
             if(doc == null){
                 // Signup
-                const new_doc : InsertOneResult<Document> = await db.collection("users").insertOne({...user});
+                const new_doc : InsertOneResult<Document> = await db.collection("users").insertOne({...user, _id : new ObjectId(user._id)});
                 if(new_doc.acknowledged == true){
                     return Response.json({
                         user : user,

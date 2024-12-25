@@ -13,13 +13,13 @@ import {
   useStreakCounterModalStore,
 } from "@/store/modals";
 import StreakAnnouncer from "@/components/features/Questions/Modals/StreakAnnouncer";
-import CTASideBar from "@/components/features/shared-components/CTASideBar";
 import StreakModal from "@/components/features/Questions/Modals/StreakModal";
 import { Answers } from "@/types/answer";
 import { useAnswerStore } from "@/store/answer";
 import useUserStore, { useCoinStore, useLoggedInStore } from "@/store/user";
 import Spinner from "@/components/common/Spinner";
 import { QUESTION_IS_CORRECT_POINTS } from "@/lib/CONSTANTS";
+import CTASideBar from "@/components/features/shared-components/CTASideBar";
 
 export interface Topic {
   id: number;

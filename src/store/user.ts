@@ -1,4 +1,4 @@
-import { AuthResponse, User } from '@/app/signup/page';
+import { User } from '@/app/signup/page';
 import { create } from 'zustand';
 
 interface UserStore {
