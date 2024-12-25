@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import AnswerOption from "../../shared-components/AnswerOption";
 import { Answers } from "@/types/answer";
-import { useAnswerCorrectStore } from "@/store/questions";
+import { useAnswerCorrectStore, useAnswerStore, useQuestionStore } from "@/store/questions";
 import Image from "next/image";
 import axios from "axios";
 import { Highlight } from "@/types/questions";
@@ -9,15 +9,10 @@ import { QuestionsProps } from "@/types/questions";
 import { toggleCrossOffMode, toggleCrossOffOption } from "@/lib/crossOff";
 
 const ReadingQuestion: React.FC<QuestionsProps> = ({
-  title,
-  optionA,
-  optionB,
-  optionC,
-  optionD,
-  id,
   onAnswerSubmit,
 }) => {
-  const [selectedAnswer, setSelectedAnswer] = useState<Answers | null>(null);
+  const selectedAnswer = useAnswerStore((state) => state.answer)
+  const setSelectedAnswer = useAnswerStore((state) => state.setAnswer)
   const [highlights, setHighlights] = useState<Highlight[]>([]);
   const [mode, setMode] = useState<"highlight" | "clear" | null>(null); // Current mode
   const [crossOffMode, setCrossOffMode] = useState(false); // Cross-off mode
@@ -26,6 +21,7 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({
   ); // To track crossed off options
   const textRef = useRef<HTMLParagraphElement | null>(null);
   const isAnswerCorrect = useAnswerCorrectStore((state) => state.isAnswerCorrect);
+  const randomQuestion = useQuestionStore((state) => state.randomQuestion)
 
   useEffect(() => {
     if (isAnswerCorrect) {
@@ -34,12 +30,7 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({
       setHighlights([])
       setMode(null)
     }
-  }, [isAnswerCorrect]);
-
-  // useEffect(() => {
-  //   setCrossedOffOptions(new Set())
-  //   setSelectedAnswer(null);
-  // }, [id])
+  }, [isAnswerCorrect, setSelectedAnswer, setCrossedOffOptions, setHighlights, setMode]);
 
   // Toggle highlight/clear mode
   const toggleMode = (newMode: "highlight" | "clear") => {
@@ -84,7 +75,7 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({
 
   // Render text with highlights
   const renderHighlightedText = () => {
-    if (!textRef.current) return title;
+    if (!textRef.current) return randomQuestion?.question;
 
     const nodes = [];
     let lastIndex = 0;
@@ -93,7 +84,7 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({
       if (highlight.startOffset > lastIndex) {
         nodes.push(
           <span key={lastIndex}>
-            {title.slice(lastIndex, highlight.startOffset)}
+            {randomQuestion?.question.slice(lastIndex, highlight.startOffset)}
           </span>
         );
       }
@@ -102,16 +93,16 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({
           key={highlight.startOffset}
           style={{ backgroundColor: "yellow", cursor: "pointer" }}
         >
-          {title.slice(highlight.startOffset, highlight.endOffset)}
+          {randomQuestion?.question.slice(highlight.startOffset, highlight.endOffset)}
         </span>
       );
       lastIndex = highlight.endOffset;
     }
 
-    if (lastIndex < title.length) {
-      nodes.push(<span key={lastIndex}>{title.slice(lastIndex)}</span>);
+    if (randomQuestion?.question && lastIndex < randomQuestion.question.length) {
+      nodes.push(<span key={lastIndex}>{randomQuestion.question.slice(lastIndex)}</span>);
     }
-
+    
     return nodes;
   };
 
@@ -125,7 +116,7 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({
   };
 
   const betaBugReport = async () => {
-    await axios.get("/api/beta/bug?id=" + id);
+    await axios.get("/api/beta/bug?id=" + randomQuestion?.id);
     window.location.reload();
   };
 
@@ -192,7 +183,7 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({
         className="text-xs font-extralight hover:text-red-500 hover:cursor-pointer transition-all"
         onClick={() => betaBugReport()}
       >
-        {id} Report this question as bugged
+        {randomQuestion?.id} Report this question as bugged
       </p>
 
       <p
@@ -206,28 +197,28 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({
       <span className="mb-3 text-sm font-semibold">Choose 1 answer:</span>
       <div className="w-full space-y-2">
         <AnswerOption
-          text={optionA}
+          text={randomQuestion?.optionA || ""}
           onClick={() => handleAnswerClick("A")}
           isSelected={selectedAnswer === "A"}
           isCrossedOff={crossedOffOptions?.has("A")}
         />
 
         <AnswerOption
-          text={optionB}
+          text={randomQuestion?.optionB || ""}
           onClick={() => handleAnswerClick("B")}
           isSelected={selectedAnswer === "B"}
           isCrossedOff={crossedOffOptions?.has("B")}
         />
 
         <AnswerOption
-          text={optionC}
+          text={randomQuestion?.optionC || ""}
           onClick={() => handleAnswerClick("C")}
           isSelected={selectedAnswer === "C"}
           isCrossedOff={crossedOffOptions?.has("C")}
         />
 
         <AnswerOption
-          text={optionD}
+          text={randomQuestion?.optionD || ""}
           onClick={() => handleAnswerClick("D")}
           isSelected={selectedAnswer === "D"}
           isCrossedOff={crossedOffOptions?.has("D")}
