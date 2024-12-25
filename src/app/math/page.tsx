@@ -17,13 +17,14 @@ import useQuestionHandler from "@/hooks/questions";
 import Spinner from "@/components/common/Spinner";
 import GetStarted from "@/components/features/Questions/GetStarted";
 import Result from "@/components/features/Questions/Results";
-import { useQuestionStore } from "@/store/questions";
+import { useQuestionStore, useTopicStore } from "@/store/questions";
 import QuestionWrappers from "@/components/wrappers/question/Question";
 import MainWrappers from "@/components/wrappers/question/Main";
 
 const Math = () => {
   const {fetchRandomQuestion, handleAnswerSubmit, handleCheckThreeStreak} = useQuestionHandler()
-  const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
+  const selectedTopic = useTopicStore((state) => state.selectedTopic)
+  const setSelectedTopic = useTopicStore((state) => state.setSelectedTopic)
   const randomQuestion = useQuestionStore((state) => state.randomQuestion)
   const correctCount = useAnswerCounterStore((state) => state.count)
   const answerCorrectRef: Record<Answers, number> = { A: 0, B: 1, C: 2, D: 3 };
@@ -59,7 +60,6 @@ const Math = () => {
         title="Math"
         svg={<MathSVG />}
         topics={mathTopics}
-        selectedTopic={selectedTopic!}
         handleTopicClick={handleTopicClick}
       />
 

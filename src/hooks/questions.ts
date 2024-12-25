@@ -54,9 +54,7 @@ const useQuestionHandler = () => {
 
     if (isCorrect && selectedTopic) {
       setTimeout(() => {
-        fetchRandomQuestion(type, selectedTopic).then(() => {
-          setIsAnswerCorrect("none");
-        });
+        fetchRandomQuestion(type, selectedTopic)
       }, 1500);
     }
   };
