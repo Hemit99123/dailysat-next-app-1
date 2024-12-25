@@ -1,4 +1,4 @@
-import { QuestionData } from "@/app/reading/page";
+import { DBQuestionRecord } from "./questions";
 
 export interface User {
     // MongoDB string 
@@ -15,5 +15,5 @@ export interface User {
     currency: number,
   
     // Questions answered
-    questionsAnswered: QuestionData[]
+    questionsAnswered: DBQuestionRecord[]
   }
