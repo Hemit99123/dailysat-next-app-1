@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import AnswerOption from "../../shared-components/AnswerOption";
 import { Answers } from "@/types/answer";
 import { useAnswerCorrectStore, useAnswerStore, useQuestionStore } from "@/store/questions";
-import axios from "axios";
 import { QuestionsProps } from "@/types/questions";
 import { toggleCrossOffMode, toggleCrossOffOption } from "@/lib/crossOff";
 import { CalculatorIcon } from "lucide-react";
@@ -39,10 +38,10 @@ const MathQuestion: React.FC<QuestionsProps> = ({
     }
   };
 
-  const betaBugReport = async () => {
-    await axios.get("/api/beta/bug?id=" + randomQuestion?.id);
-    window.location.reload();
-  };
+  // const betaBugReport = async () => {
+  //   await axios.get("/api/beta/bug?id=" + randomQuestion?.id);
+  //   window.location.reload();
+  // };
 
 
   // Handle answer submit
