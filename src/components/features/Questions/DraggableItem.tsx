@@ -20,31 +20,13 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
     const closeModal = useCalcOptionModalStore((state) => state.closeModal);
     const setCalcMode = useCalcModeModalStore((state) => state.setMode);
     
-    const [position, setPosition] = useState<Position>({ x: 100, y: 100 }); // Set initial position
+    const [position, setPosition] = useState<Position>({ x: 100, y: 100 });
     const [isDragging, setIsDragging] = useState(false);
     const [dragOffset, setDragOffset] = useState<Position>({ x: 0, y: 0 });
-    const [size, setSize] = useState(window.innerWidth); // Set initial size
 
     useEffect(() => {
         closeModal();
     }, [closeModal]);
-
-    useEffect(() => {
-        const handleResize = () => setSize(window.innerWidth);
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
-    useEffect(() => {
-        const freezeBody = () => document.body.classList.add('freeze');
-        const unfreezeBody = () => document.body.classList.remove('freeze');
-
-        if (size <= 850 && isDragging) {
-            freezeBody();
-        } else {
-            unfreezeBody();
-        }
-    }, [size, isDragging]);
 
     const handleStart = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
         const clientX = isTouchEvent(e) ? e.touches[0].clientX : e.clientX;
@@ -92,7 +74,6 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
 
     const closeDraggableItem = () => {
         setCalcMode('none');
-        document.body.classList.remove('freeze');
     };
 
     return (
@@ -103,8 +84,8 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
                     position: 'absolute',
                     left: `${position.x}px`,
                     top: `${position.y}px`,
-                    width: '300px', // Ensure it has a width
-                    height: '200px', // Ensure it has a height
+                    width: '300px',
+                    height: '200px',
                 }}
                 onMouseDown={handleStart}
                 onTouchStart={handleStart}
