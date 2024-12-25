@@ -65,7 +65,7 @@ const Math = () => {
 
       {/* Main Content */}
       <QuestionWrappers>
-        <span className="font-bold text-lg border-2 border-black rounded-lg w-1/5 text-center cursor-pointer hover:bg-black hover:text-white duration-500">
+        <span className="font-bold text-lg border-2 border-black rounded-lg lg:w-1/5 text-center cursor-pointer hover:bg-black hover:text-white duration-500">
           ✨ Experimental ✨
         </span>
         {selectedTopic ? (
