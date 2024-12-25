@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import AnswerOption from "../../shared-components/AnswerOption";
 import { Answers } from "@/types/answer";
-import { useAnswerStore } from "@/store/answer";
+import { useAnswerCorrectStore } from "@/store/questions";
 import Image from "next/image";
 import axios from "axios";
 import { Highlight } from "@/types/questions";
@@ -25,7 +25,7 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({
     new Set()
   ); // To track crossed off options
   const textRef = useRef<HTMLParagraphElement | null>(null);
-  const isAnswerCorrect = useAnswerStore((state) => state.isAnswerCorrect);
+  const isAnswerCorrect = useAnswerCorrectStore((state) => state.isAnswerCorrect);
 
   useEffect(() => {
     if (isAnswerCorrect) {

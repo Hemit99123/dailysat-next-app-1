@@ -1,4 +1,4 @@
-import { useAnswerStore } from "@/store/answer";
+import { useAnswerCorrectStore } from "@/store/questions";
 import React, { MutableRefObject, useState } from "react";
 import Latex from "react-latex-next";
 
@@ -18,10 +18,10 @@ const Result: React.FC<ResultProps> = ({
         setOpenEditorial((prev) => !prev)
     }
 
-    const isAnswerCorrect = useAnswerStore((state) => state.isAnswerCorrect);
+    const isAnswerCorrect = useAnswerCorrectStore((state) => state.isAnswerCorrect);
     return (
         <div className="mt-4 pl-7 pb-10" ref={answerComponent}>
-            {isAnswerCorrect !== null && (
+            {isAnswerCorrect !== "none" && (
                 isAnswerCorrect ? (
                     <p className="text-green-500 text-lg font-semibold">
                         You are correct!

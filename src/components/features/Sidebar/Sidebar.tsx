@@ -2,6 +2,7 @@
 import React from 'react';
 import CTASideBar from './CTASideBar';
 import { Topic } from '@/types/topic';
+import { useScoreModalStore, useStreakAnnouncerModalStore } from '@/store/modals';
 
 interface SideBarProps {
     svg: React.ReactElement;
@@ -9,11 +10,13 @@ interface SideBarProps {
     selectedTopic: Topic;
     title: string;
     handleTopicClick: (topic: Topic) => void;
-    openScoreModal: () => void;
-    openStreakModal: () => void;
+
 }
 
-const Sidebar: React.FC<SideBarProps> = ({ svg, title, topics, selectedTopic, handleTopicClick, openScoreModal, openStreakModal }) => {
+const Sidebar: React.FC<SideBarProps> = ({ svg, title, topics, selectedTopic, handleTopicClick}) => {
+
+  const openScoreModal = useScoreModalStore((state) => state.openModal)
+  const openStreakModal = useStreakAnnouncerModalStore((state) => state.openModal)
   return (
     <div className="w-full md:w-96 p-5 md:p-10 flex-shrink-0">
       {/* Sidebar Header */}

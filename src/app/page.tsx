@@ -15,7 +15,7 @@ import {
 import StreakAnnouncer from "@/components/features/Questions/Modals/StreakAnnouncer";
 import StreakModal from "@/components/features/Questions/Modals/StreakModal";
 import { Answers } from "@/types/answer";
-import { useAnswerStore } from "@/store/answer";
+import { useAnswerCorrectStore } from "@/store/questions";
 import { Topic } from "@/types/topic";
 import Sidebar from "@/components/features/Sidebar/Sidebar"; // Import Sidebar
 import {readingTopics} from '@/data/topics'
@@ -38,7 +38,7 @@ export interface QuestionData {
 const Home = () => {
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
   const [randomQuestion, setRandomQuestion] = useState<QuestionData | null>(null);
-  const setIsAnswerCorrect = useAnswerStore(
+  const setIsAnswerCorrect = useAnswerCorrectStore(
     (state) => state.setIsAnswerCorrect
   );
   
@@ -50,17 +50,12 @@ const Home = () => {
     (state) => state.resetCount
   );
   const correctCount = useAnswerCounterStore((state) => state.count);
-
-  const openScoreModal = useScoreModalStore((state) => state.openModal);
   const isScoreModalOpen = useScoreModalStore((state) => state.isOpen);
   const openAnnouncerModal = useStreakAnnouncerModalStore(
     (state) => state.openModal
   );
   const isAnnouncerModalOpen = useStreakAnnouncerModalStore(
     (state) => state.isOpen
-  );
-  const openStreakModal = useStreakCounterModalStore(
-    (state) => state.openModal
   );
   const isStreakModalOpen = useStreakCounterModalStore((state) => state.isOpen);
 
@@ -111,7 +106,7 @@ const Home = () => {
     if (correct && selectedTopic) {
       setTimeout(() => {
         fetchRandomQuestion(selectedTopic);
-        setIsAnswerCorrect(null)
+        setIsAnswerCorrect("none")
       }, 1500);
     }
 
@@ -141,8 +136,6 @@ const Home = () => {
         topics={readingTopics}
         selectedTopic={selectedTopic!}
         handleTopicClick={handleTopicClick}
-        openScoreModal={openScoreModal}
-        openStreakModal={openStreakModal}
       />
 
       {/* Main Content */}

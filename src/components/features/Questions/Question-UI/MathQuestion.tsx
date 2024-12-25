@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import AnswerOption from "../../shared-components/AnswerOption";
 import { Answers } from "@/types/answer";
-import { useAnswerStore } from "@/store/answer";
+import { useAnswerCorrectStore, useAnswerStore } from "@/store/questions";
 import axios from "axios";
 import { QuestionsProps } from "@/types/questions";
 import { toggleCrossOffMode, toggleCrossOffOption } from "@/lib/crossOff";
@@ -19,13 +19,14 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({
   id,
   onAnswerSubmit,
 }) => {
-  const [selectedAnswer, setSelectedAnswer] = useState<Answers | null>(null);
+  const selectedAnswer = useAnswerStore((state) => state.answer)
+  const setSelectedAnswer = useAnswerStore((state) => state.setAnswer)
   const [crossOffMode, setCrossOffMode] = useState(false); // Cross-off mode
   const [crossedOffOptions, setCrossedOffOptions] = useState<Set<Answers> | null>(
     new Set()
   ); // To track crossed off options
   const textRef = useRef<HTMLParagraphElement | null>(null);
-  const isAnswerCorrect = useAnswerStore((state) => state.isAnswerCorrect);
+  const isAnswerCorrect = useAnswerCorrectStore((state) => state.isAnswerCorrect);
 
   useEffect(() => {
     if (isAnswerCorrect) {
