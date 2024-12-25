@@ -57,15 +57,15 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({ onAnswerSubmit }) => {
   };
 
   const clearRange = (rangeToClear: Range) => {
-    const spans = textRef.current?.querySelectorAll("span") || [];
+  const parentElement = rangeToClear.commonAncestorContainer.parentElement;
+  if (parentElement) {
+    const spans = parentElement.querySelectorAll("span");
     spans.forEach((span) => {
-      const parentNode = span.parentNode as HTMLDivElement;
-      if (parentNode) {
-        const textNode = document.createTextNode(span.textContent || "");
-        parentNode.replaceChild(textNode, span);
-      }
+      const textNode = document.createTextNode(span.textContent || "");
+      span.replaceWith(textNode);
     });
-  };
+  }
+};
 
   const renderHighlightedText = () => {
     return (
