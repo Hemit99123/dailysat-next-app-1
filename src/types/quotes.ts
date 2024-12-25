@@ -1,5 +1,4 @@
 interface Quotes {
-    text: string
     content: string;
     author: string;
     authorSlug: string;
