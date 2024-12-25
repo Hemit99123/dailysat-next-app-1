@@ -66,19 +66,19 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
         if (isDragging) {
             window.addEventListener('mousemove', handleMove);
             window.addEventListener('mouseup', handleEnd);
-            window.addEventListener('touchmove', handleMove, { passive: false });
+            window.addEventListener('touchmove', handleMove as unknown as EventListener);
             window.addEventListener('touchend', handleEnd);
         }
 
         return () => {
             window.removeEventListener('mousemove', handleMove);
             window.removeEventListener('mouseup', handleEnd);
-            window.removeEventListener('touchmove', handleMove);
+            window.removeEventListener('touchmove', handleMove as unknown as EventListener);
             window.removeEventListener('touchend', handleEnd);
         };
     }, [isDragging, dragOffset]);
 
-    const handleGraphInteraction = (e: React.MouseEvent | React.TouchEvent) => {
+    const handleGraphInteraction = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
         e.stopPropagation();
     };
 
