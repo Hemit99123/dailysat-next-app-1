@@ -18,7 +18,8 @@ import Spinner from "@/components/common/Spinner";
 import GetStarted from "@/components/features/Questions/GetStarted";
 import Result from "@/components/features/Questions/Results";
 import { useQuestionStore } from "@/store/questions";
-import QuestionWrappers from "@/components/wrappers/Question";
+import QuestionWrappers from "@/components/wrappers/question/Question";
+import MainWrappers from "@/components/wrappers/question/Main";
 
 export interface QuestionData {
   id: string;
@@ -65,7 +66,7 @@ const Math = () => {
   }
 
   return (
-    <div className="flex flex-col md:flex-row h-screen">
+    <MainWrappers>
       <Sidebar
         title="Math"
         svg={<MathSVG />}
@@ -106,7 +107,7 @@ const Math = () => {
       </QuestionWrappers>
 
       {isAnnouncerModalOpen && <StreakAnnouncer />}
-    </div>
+    </MainWrappers>
   );
 };
 
