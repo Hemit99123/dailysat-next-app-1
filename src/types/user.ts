@@ -1,4 +1,4 @@
-import { QuestionData } from "@/app/reading-writing/page";
+import { QuestionData } from "@/app/reading/page";
 
 export interface User {
     // MongoDB string 
