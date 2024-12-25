@@ -66,7 +66,6 @@ const Math = () => {
 
   return (
     <div className="flex flex-col md:flex-row h-screen">
-      {/* Replace Sidebar with the new Sidebar component */}
       <Sidebar
         title="Math"
         svg={<MathSVG />}
