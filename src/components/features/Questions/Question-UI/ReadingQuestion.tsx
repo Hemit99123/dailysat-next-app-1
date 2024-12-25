@@ -10,12 +10,10 @@ import { toggleCrossOffMode, toggleCrossOffOption } from "@/lib/crossOff";
 const ReadingQuestion: React.FC<QuestionsProps> = ({ onAnswerSubmit }) => {
   const selectedAnswer = useAnswerStore((state) => state.answer);
   const setSelectedAnswer = useAnswerStore((state) => state.setAnswer);
-  const [mode, setMode] = useState<"highlight" | "erase" | null>(null);
+  const [mode, setMode] = useState<"highlight" | "clear" | null>(null);
   const [crossOffMode, setCrossOffMode] = useState(false);
   const [crossedOffOptions, setCrossedOffOptions] = useState<Set<Answers>>(new Set());
   const textRef = useRef<HTMLDivElement | null>(null);
-  const isMouseDown = useRef(false);
-
   const isAnswerCorrect = useAnswerCorrectStore((state) => state.isAnswerCorrect);
   const randomQuestion = useQuestionStore((state) => state.randomQuestion);
 
@@ -23,60 +21,64 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({ onAnswerSubmit }) => {
     if (isAnswerCorrect) {
       setSelectedAnswer(null);
       setCrossedOffOptions(new Set());
-      clearAllHighlights();
       setMode(null);
     }
-  }, [isAnswerCorrect]);
+  }, [isAnswerCorrect, setSelectedAnswer, setCrossedOffOptions, setMode]);
 
-  // Start highlighting/erasing
-  const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
+  const toggleMode = (newMode: "highlight" | "clear") => {
+    setMode((prevMode) => (prevMode === newMode ? null : newMode));
+  };
+
+  const handleSelection = () => {
     if (!mode || !textRef.current) return;
 
-    isMouseDown.current = true;
-    applyHighlightOrErase(e);
-  };
+    const selection = window.getSelection();
+    if (selection && selection.rangeCount > 0) {
+      const range = selection.getRangeAt(0);
+      const selectedText = range.toString().trim();
 
-  // Continue highlighting/erasing
-  const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
-    if (!mode || !isMouseDown.current || !textRef.current) return;
-
-    applyHighlightOrErase(e);
-  };
-
-  // End highlighting/erasing
-  const handleMouseUp = () => {
-    isMouseDown.current = false;
-  };
-
-  const applyHighlightOrErase = (e: React.MouseEvent | React.TouchEvent) => {
-    if (!textRef.current) return;
-
-    const elementUnderCursor = document.elementFromPoint(
-      e.type.includes("touch")
-        ? (e as React.TouchEvent).touches[0].clientX
-        : (e as React.MouseEvent).clientX,
-      e.type.includes("touch")
-        ? (e as React.TouchEvent).touches[0].clientY
-        : (e as React.MouseEvent).clientY
-    );
-
-    if (elementUnderCursor && textRef.current.contains(elementUnderCursor)) {
-      if (mode === "highlight") {
-        elementUnderCursor.classList.add("highlight");
-      } else if (mode === "erase") {
-        elementUnderCursor.classList.remove("highlight");
+      if (selectedText.length > 0) {
+        if (mode === "highlight") {
+          highlightRange(range);
+        } else if (mode === "clear") {
+          clearRange(range);
+        }
+        selection.removeAllRanges();
       }
     }
   };
 
-  const clearAllHighlights = () => {
-    if (!textRef.current) return;
-    const highlightedSpans = textRef.current.querySelectorAll(".highlight");
-    highlightedSpans.forEach((span) => span.classList.remove("highlight"));
+  const highlightRange = (range: Range) => {
+    const span = document.createElement("span");
+    span.style.backgroundColor = "yellow";
+    span.textContent = range.toString();
+    range.deleteContents();
+    range.insertNode(span);
   };
 
-  const toggleMode = (newMode: "highlight" | "erase") => {
-    setMode((prevMode) => (prevMode === newMode ? null : newMode));
+  const clearRange = (rangeToClear: Range) => {
+  const parentElement = rangeToClear.commonAncestorContainer.parentElement;
+  if (parentElement) {
+    const spans = parentElement.querySelectorAll("span");
+    spans.forEach((span) => {
+      const textNode = document.createTextNode(span.textContent || "");
+      span.replaceWith(textNode);
+    });
+  }
+};
+
+  const renderHighlightedText = () => {
+    return (
+      <div
+        ref={textRef}
+        className="relative"
+        onMouseUp={handleSelection}
+        onTouchEnd={handleSelection}
+        style={{ cursor: mode ? "text" : "default" }}
+      >
+        {randomQuestion?.question}
+      </div>
+    );
   };
 
   const handleAnswerClick = (answer: Answers) => {
@@ -121,14 +123,14 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({ onAnswerSubmit }) => {
           />
         </button>
         <button
-          onClick={() => toggleMode("erase")}
+          onClick={() => toggleMode("clear")}
           className={`p-1 rounded ${
-            mode === "erase" ? "bg-red-500 text-white" : "bg-gray-300"
+            mode === "clear" ? "bg-red-500 text-white" : "bg-gray-300"
           }`}
         >
           <Image
-            src={mode !== "erase" ? "/icons/eraser.png" : "/icons/colored.png"}
-            alt="Toggle erase mode"
+            src={mode !== "clear" ? "/icons/eraser.png" : "/icons/colored.png"}
+            alt="Toggle clear highlight mode"
             className="w-4 h-4"
             width={500}
             height={500}
@@ -151,23 +153,7 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({ onAnswerSubmit }) => {
         {randomQuestion?.id} Report this question as bugged
       </p>
 
-      <div
-        ref={textRef}
-        className="relative text-container"
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onTouchStart={handleMouseDown}
-        onTouchMove={handleMouseMove}
-        onTouchEnd={handleMouseUp}
-        style={{ cursor: mode ? "crosshair" : "default", userSelect: "none" }}
-      >
-        {randomQuestion?.question.split("").map((char, index) => (
-          <span key={index} className="inline-block">
-            {char}
-          </span>
-        ))}
-      </div>
+      {renderHighlightedText()}
 
       <span className="mb-3 text-sm font-semibold">Choose 1 answer:</span>
       <div className="w-full space-y-2">
