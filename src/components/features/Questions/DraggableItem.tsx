@@ -42,7 +42,7 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
     }, []);
 
     useEffect(() => {
-        if (size <= 500 && isDragging) {
+        if (size >= 500 && isDragging) {
             document.body.classList.add('freeze');
         } else {
             document.body.classList.remove('freeze');
