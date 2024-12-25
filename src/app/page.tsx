@@ -64,7 +64,6 @@ const Reading = () => {
 
       {/* Main Content */}
       <QuestionWrappers>
-        <>
         {selectedTopic ? (
           <div className="w-full mx-auto">
             <Header
@@ -92,7 +91,6 @@ const Reading = () => {
         ) : (
           <GetStarted />
         )}
-        </>
       </QuestionWrappers>
 
       {isAnnouncerModalOpen && <StreakAnnouncer />}
