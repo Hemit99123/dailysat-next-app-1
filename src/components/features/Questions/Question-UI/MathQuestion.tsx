@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import AnswerOption from "../../shared-components/AnswerOption";
 import { Answers } from "@/types/answer";
-import { useAnswerCorrectStore, useAnswerStore } from "@/store/questions";
+import { useAnswerCorrectStore, useAnswerStore, useQuestionStore } from "@/store/questions";
 import axios from "axios";
 import { QuestionsProps } from "@/types/questions";
 import { toggleCrossOffMode, toggleCrossOffOption } from "@/lib/crossOff";
@@ -11,14 +11,9 @@ import CalcOption from "../Modals/CalcOption";
 import Latex from "react-latex-next";
 
 const ReadingQuestion: React.FC<QuestionsProps> = ({
-  title,
-  optionA,
-  optionB,
-  optionC,
-  optionD,
-  id,
   onAnswerSubmit,
 }) => {
+  const randomQuestion = useQuestionStore((state) => state.randomQuestion)
   const selectedAnswer = useAnswerStore((state) => state.answer)
   const setSelectedAnswer = useAnswerStore((state) => state.setAnswer)
   const [crossOffMode, setCrossOffMode] = useState(false); // Cross-off mode
@@ -45,7 +40,7 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({
   };
 
   const betaBugReport = async () => {
-    await axios.get("/api/beta/bug?id=" + id);
+    await axios.get("/api/beta/bug?id=" + randomQuestion?.id);
     window.location.reload();
   };
 
@@ -85,42 +80,42 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({
         className="text-xs font-extralight hover:text-red-500 hover:cursor-pointer transition-all"
         onClick={() => betaBugReport()}
       >
-        {id} Report this question as bugged
+        {randomQuestion?.id} Report this question as bugged
       </p>
 
       <p
         className="mb-5 text-xl relative"
         ref={textRef}
       >
-        <Latex>{title}</Latex>
+        <Latex>{randomQuestion?.question || ""}</Latex>
         
       </p>
 
       <span className="mb-3 text-sm font-semibold">Choose 1 answer:</span>
       <div className="w-full space-y-2">
         <AnswerOption
-          text={optionA}
+          text={randomQuestion?.optionA || ""}
           onClick={() => handleAnswerClick("A")}
           isSelected={selectedAnswer === "A"}
           isCrossedOff={crossedOffOptions?.has("A")}
         />
 
         <AnswerOption
-          text={optionB}
+          text={randomQuestion?.optionB || ""}
           onClick={() => handleAnswerClick("B")}
           isSelected={selectedAnswer === "B"}
           isCrossedOff={crossedOffOptions?.has("B")}
         />
 
         <AnswerOption
-          text={optionC}
+          text={randomQuestion?.optionC || ""}
           onClick={() => handleAnswerClick("C")}
           isSelected={selectedAnswer === "C"}
           isCrossedOff={crossedOffOptions?.has("C")}
         />
 
         <AnswerOption
-          text={optionD}
+          text={randomQuestion?.optionC || ""}
           onClick={() => handleAnswerClick("D")}
           isSelected={selectedAnswer === "D"}
           isCrossedOff={crossedOffOptions?.has("D")}

@@ -84,18 +84,12 @@ const Math = () => {
             />
             {randomQuestion ? (
               <MathQuestion
-                title={randomQuestion.question}
-                optionA={randomQuestion.optionA}
-                optionB={randomQuestion.optionB}
-                optionC={randomQuestion.optionC}
-                optionD={randomQuestion.optionD}
                 onAnswerSubmit={() => 
                   handleAnswerSubmit( 
                     randomQuestion.correctAnswer, 
                     answerCorrectRef
                   )
                 }
-                id={randomQuestion.id}
               />
             ) : (
               <Spinner />

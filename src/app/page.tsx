@@ -148,13 +148,7 @@ const Home = () => {
             />
             {randomQuestion ? (
               <ReadingQuestion
-                title={randomQuestion.question}
-                optionA={randomQuestion.optionA}
-                optionB={randomQuestion.optionB}
-                optionC={randomQuestion.optionC}
-                optionD={randomQuestion.optionD}
                 onAnswerSubmit={handleAnswerSubmit}
-                id={randomQuestion.id}
               />
             ) : (
               <Spinner />
