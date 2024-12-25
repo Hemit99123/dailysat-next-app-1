@@ -8,27 +8,23 @@ import { Highlight } from "@/types/questions";
 import { QuestionsProps } from "@/types/questions";
 import { toggleCrossOffMode, toggleCrossOffOption } from "@/lib/crossOff";
 
-const ReadingQuestion: React.FC<QuestionsProps> = ({
-  onAnswerSubmit,
-}) => {
-  const selectedAnswer = useAnswerStore((state) => state.answer)
-  const setSelectedAnswer = useAnswerStore((state) => state.setAnswer)
+const ReadingQuestion: React.FC<QuestionsProps> = ({ onAnswerSubmit }) => {
+  const selectedAnswer = useAnswerStore((state) => state.answer);
+  const setSelectedAnswer = useAnswerStore((state) => state.setAnswer);
   const [highlights, setHighlights] = useState<Highlight[]>([]);
   const [mode, setMode] = useState<"highlight" | "clear" | null>(null); // Current mode
   const [crossOffMode, setCrossOffMode] = useState(false); // Cross-off mode
-  const [crossedOffOptions, setCrossedOffOptions] = useState<Set<Answers> | null>(
-    new Set()
-  ); // To track crossed off options
+  const [crossedOffOptions, setCrossedOffOptions] = useState<Set<Answers> | null>(new Set()); // To track crossed-off options
   const textRef = useRef<HTMLParagraphElement | null>(null);
   const isAnswerCorrect = useAnswerCorrectStore((state) => state.isAnswerCorrect);
-  const randomQuestion = useQuestionStore((state) => state.randomQuestion)
+  const randomQuestion = useQuestionStore((state) => state.randomQuestion);
 
   useEffect(() => {
     if (isAnswerCorrect) {
       setSelectedAnswer(null);
-      setCrossedOffOptions(null)
-      setHighlights([])
-      setMode(null)
+      setCrossedOffOptions(null);
+      setHighlights([]);
+      setMode(null);
     }
   }, [isAnswerCorrect, setSelectedAnswer, setCrossedOffOptions, setHighlights, setMode]);
 
@@ -37,8 +33,8 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({
     setMode((prevMode) => (prevMode === newMode ? null : newMode));
   };
 
-  // Handle mouse selection
-  const handleMouseUp = () => {
+  // Handle mouse/touch selection
+  const handleSelection = () => {
     if (!mode || !textRef.current) return;
 
     const selection = window.getSelection();
@@ -61,6 +57,10 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({
         selection.removeAllRanges(); // Clear selection
       }
     }
+  };
+
+  const handleTouchEnd = () => {
+    handleSelection();
   };
 
   // Remove a highlight
@@ -100,9 +100,13 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({
     }
 
     if (randomQuestion?.question && lastIndex < randomQuestion.question.length) {
-      nodes.push(<span key={lastIndex}>{randomQuestion.question.slice(lastIndex)}</span>);
+      nodes.push(
+        <span key={lastIndex}>
+          {randomQuestion.question.slice(lastIndex)}
+        </span>
+      );
     }
-    
+
     return nodes;
   };
 
@@ -124,7 +128,7 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({
   const handleSubmit = () => {
     if (selectedAnswer) {
       onAnswerSubmit(selectedAnswer);
-      setSelectedAnswer(null)
+      setSelectedAnswer(null);
     }
   };
 
@@ -189,7 +193,8 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({
       <p
         className="mb-5 text-xl relative"
         ref={textRef}
-        onMouseUp={handleMouseUp}
+        onMouseUp={handleSelection}
+        onTouchEnd={handleTouchEnd}
       >
         {renderHighlightedText()}
       </p>
