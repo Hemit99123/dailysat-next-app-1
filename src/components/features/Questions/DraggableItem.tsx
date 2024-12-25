@@ -35,10 +35,8 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
         setIsDragging(true);
         setDragOffset({ x: clientX - position.x, y: clientY - position.y });
 
-        // Prevent default behavior for touch move
-        if (isTouchEvent(e)) {
-            e.preventDefault();
-        }
+        // Prevent scrolling on mobile while dragging
+        document.body.style.overflow = 'hidden';
     };
 
     useEffect(() => {
@@ -52,33 +50,29 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
                 x: clientX - dragOffset.x,
                 y: clientY - dragOffset.y,
             });
-
-            // Prevent default behavior during dragging on touch
-            if (isTouchEvent(e)) {
-                e.preventDefault();
-            }
         };
 
         const handleEnd = () => {
             setIsDragging(false);
+            document.body.style.overflow = ''; // Restore scrolling
         };
 
         if (isDragging) {
             window.addEventListener('mousemove', handleMove);
             window.addEventListener('mouseup', handleEnd);
-            window.addEventListener('touchmove', handleMove as unknown as EventListener);
+            window.addEventListener('touchmove', handleMove, { passive: false });
             window.addEventListener('touchend', handleEnd);
         }
 
         return () => {
             window.removeEventListener('mousemove', handleMove);
             window.removeEventListener('mouseup', handleEnd);
-            window.removeEventListener('touchmove', handleMove as unknown as EventListener);
+            window.removeEventListener('touchmove', handleMove);
             window.removeEventListener('touchend', handleEnd);
         };
     }, [isDragging, dragOffset]);
 
-    const handleGraphInteraction = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
+    const handleGraphInteraction = (e: React.MouseEvent | React.TouchEvent) => {
         e.stopPropagation();
     };
 
@@ -87,7 +81,7 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
     };
 
     return (
-        <div className="fixed flex items-center justify-center top-0 left-0 right-0 bottom-0">
+        <div className="fixed z-50 flex items-center justify-center top-0 left-0 right-0 bottom-0">
             <div
                 className={`bg-white rounded-lg shadow-xl transition-opacity ${isDragging ? 'opacity-80' : 'opacity-100'}`}
                 style={{
