@@ -92,17 +92,9 @@ const Home = () => {
       </div>
 
       {/* Explore Section */}
-      <div className="flex items-center pl-5 mt-9">
-        <svg
-          viewBox="0 0 48 48"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="#1e3a8a"
-          height="40px"
-          width="40px"
-        >
-          {/* SVG content */}
-        </svg>
-        <h1 className="pl-3.5 font-bold text-4xl text-blue-900">Explore!</h1>
+      <div className="flex items-center pl-5 mt-10">
+      <svg width="75px" height="75px" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M15.611 15.1112L10.722 13.7782L9.38901 8.88916L14.278 10.2222L15.611 15.1112Z" stroke="#1e3a8a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M5.5 12.0002C5.50024 8.66068 7.85944 5.78639 11.1348 5.1351C14.4102 4.48382 17.6895 6.23693 18.9673 9.32231C20.2451 12.4077 19.1655 15.966 16.3887 17.8212C13.6119 19.6764 9.91127 19.3117 7.55 16.9502C6.23728 15.6373 5.49987 13.8568 5.5 12.0002Z" stroke="#1e3a8a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+      <h1 className="pl-3.5 font-bold text-4xl text-blue-900">Explore!</h1>
       </div>
 
       <div className="lg:flex lg:space-x-2 mt-1.5 p-3.5">
