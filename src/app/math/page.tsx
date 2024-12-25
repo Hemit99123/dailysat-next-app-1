@@ -18,6 +18,7 @@ import Spinner from "@/components/common/Spinner";
 import GetStarted from "@/components/features/Questions/GetStarted";
 import Result from "@/components/features/Questions/Results";
 import { useQuestionStore } from "@/store/questions";
+import QuestionWrappers from "@/components/wrappers/Question";
 
 export interface QuestionData {
   id: string;
@@ -75,7 +76,7 @@ const Math = () => {
       />
 
       {/* Main Content */}
-      <div className="flex flex-col flex-grow p-5 md:p-10">
+      <QuestionWrappers>
         {selectedTopic ? (
           <div className="w-full mx-auto">
             <Header
@@ -103,7 +104,7 @@ const Math = () => {
         ) : (
           <GetStarted />
         )}
-      </div>
+      </QuestionWrappers>
 
       {isAnnouncerModalOpen && <StreakAnnouncer />}
     </div>
