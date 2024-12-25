@@ -53,7 +53,7 @@ const RegularCalculator = () => {
     return () => {
       document.removeEventListener('keydown', handleKeyPress);
     };
-  }, [expression, handleCalculation, handleDeleteOneChar, recognizedKeys]);
+  }, [expression]);
   
   
 
