@@ -8,7 +8,7 @@ import {
 import { jwtDecode } from "jwt-decode";
 import React, {useEffect} from "react";
 import { getCookieConsentValue, resetCookieConsentValue } from "react-cookie-consent";
-import { DBQuestionRecord, QuestionData } from "@/types/questions";
+import { DBQuestionRecord } from "@/types/questions";
 import axios from "axios";
 import useUserStore, { useLoggedInStore } from "@/store/user";
 

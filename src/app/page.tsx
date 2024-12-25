@@ -10,7 +10,7 @@ import MathSVG from "@/components/common/icons/MathSVG";
 import BookSVG from "@/components/common/icons/BookSVG";
 import { redirect } from "next/navigation";
 import useUserStore, { useCoinStore } from "@/store/user";
-import { DBQuestionRecord, QuestionData } from "@/types/questions";
+import { DBQuestionRecord } from "@/types/questions";
 import ExtraModal from "@/components/features/Dashboard/ExtraModal";
 
 const Home = () => {
