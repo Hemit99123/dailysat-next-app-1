@@ -18,16 +18,16 @@ const isTouchEvent = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTM
 
 const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
     const closeModal = useCalcOptionModalStore((state) => state.closeModal);
-
-    useEffect(() => {
-        closeModal();
-    }, [closeModal]);
-
     const setCalcMode = useCalcModeModalStore((state) => state.setMode);
+    
     const [position, setPosition] = useState<Position>({ x: 0, y: 0 });
     const [isDragging, setIsDragging] = useState(false);
     const [dragOffset, setDragOffset] = useState<Position>({ x: 0, y: 0 });
     const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        closeModal();
+    }, [closeModal]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -36,23 +36,18 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
 
         handleResize();
         window.addEventListener('resize', handleResize);
-
         return () => {
             window.removeEventListener('resize', handleResize);
         };
     }, []);
 
     useEffect(() => {
-        const freezeBody = () => document.body.classList.add('freeze');
-        const unfreezeBody = () => document.body.classList.remove('freeze');
-
         if (isMobile && isDragging) {
-            unfreezeBody();
+            document.body.classList.remove('freeze');
         } else {
-            freezeBody();
+            document.body.classList.add('freeze');
         }
-
-        return () => unfreezeBody();
+        return () => document.body.classList.remove('freeze');
     }, [isMobile, isDragging]);
 
     const handleStart = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
@@ -60,19 +55,12 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
         const clientY = isTouchEvent(e) ? e.touches[0].clientY : e.clientY;
 
         setIsDragging(true);
-        setDragOffset({
-            x: clientX - position.x,
-            y: clientY - position.y,
-        });
+        setDragOffset({ x: clientX - position.x, y: clientY - position.y });
     };
 
     useEffect(() => {
         const handleMove = (e: MouseEvent | TouchEvent) => {
             if (!isDragging) return;
-
-            if (e.target instanceof HTMLElement && !e.target.closest('.graph-content')) {
-                e.preventDefault();
-            }
 
             const clientX = e instanceof MouseEvent ? e.clientX : (e as TouchEvent).touches[0].clientX;
             const clientY = e instanceof MouseEvent ? e.clientY : (e as TouchEvent).touches[0].clientY;
@@ -88,9 +76,9 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
         };
 
         if (isDragging) {
-            window.addEventListener('mousemove', handleMove, { passive: false });
+            window.addEventListener('mousemove', handleMove);
             window.addEventListener('mouseup', handleEnd);
-            window.addEventListener('touchmove', handleMove, { passive: false });
+            window.addEventListener('touchmove', handleMove);
             window.addEventListener('touchend', handleEnd);
         }
 
