@@ -1,10 +1,10 @@
-import { Wrapper } from '@/types/wrapper';
-import React, { FC } from 'react';
+import React, { FC } from "react";
+import { Wrapper } from "@/types/wrapper";
 
-const MainWrappers: FC<Wrapper> = ({ children }) => { // Correct spelling here
+const MainWrappers: FC<Wrapper> = ({ children }) => {
   return (
-    <div className="flex flex-row h-screen">
-      {children} 
+    <div className="flex flex-col lg:flex-row h-screen">
+      {children}
     </div>
   );
 };
