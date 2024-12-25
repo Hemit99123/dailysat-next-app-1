@@ -26,6 +26,8 @@ const Math = () => {
   const selectedTopic = useTopicStore((state) => state.selectedTopic)
   const setSelectedTopic = useTopicStore((state) => state.setSelectedTopic)
   const randomQuestion = useQuestionStore((state) => state.randomQuestion)
+  const setRandomQuestion = useQuestionStore((state) => state.setRandomQuestion)
+
   const correctCount = useAnswerCounterStore((state) => state.count)
   const answerCorrectRef: Record<Answers, number> = { A: 0, B: 1, C: 2, D: 3 };
 
@@ -34,6 +36,11 @@ const Math = () => {
   const isStreakModalOpen = useStreakCounterModalStore((state) => state.isOpen);
 
   const answerComponent = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    setRandomQuestion(null)
+    setSelectedTopic(null)
+  }, [])
 
   useEffect(() => {
     handleCheckThreeStreak()
