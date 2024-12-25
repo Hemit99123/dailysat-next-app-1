@@ -7,14 +7,9 @@ import axios from "axios";
 import { QuestionsProps } from "@/types/questions";
 import { toggleCrossOffMode, toggleCrossOffOption } from "@/lib/crossOff";
 
-interface Highlight {
-  range: Range;
-}
-
 const ReadingQuestion: React.FC<QuestionsProps> = ({ onAnswerSubmit }) => {
   const selectedAnswer = useAnswerStore((state) => state.answer);
   const setSelectedAnswer = useAnswerStore((state) => state.setAnswer);
-  const [highlights, setHighlights] = useState<Highlight[]>([]);
   const [mode, setMode] = useState<"highlight" | "clear" | null>(null);
   const [crossOffMode, setCrossOffMode] = useState(false);
   const [crossedOffOptions, setCrossedOffOptions] = useState<Set<Answers>>(new Set());
@@ -26,16 +21,14 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({ onAnswerSubmit }) => {
     if (isAnswerCorrect) {
       setSelectedAnswer(null);
       setCrossedOffOptions(new Set());
-      setHighlights([]);
       setMode(null);
     }
-  }, [isAnswerCorrect, setSelectedAnswer, setCrossedOffOptions, setHighlights, setMode]);
+  }, [isAnswerCorrect, setSelectedAnswer, setCrossedOffOptions, setMode]);
 
   const toggleMode = (newMode: "highlight" | "clear") => {
     setMode((prevMode) => (prevMode === newMode ? null : newMode));
   };
 
-  // Highlight text dynamically
   const handleSelection = () => {
     if (!mode || !textRef.current) return;
 
@@ -61,27 +54,16 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({ onAnswerSubmit }) => {
     span.textContent = range.toString();
     range.deleteContents();
     range.insertNode(span);
-
-    setHighlights((prev) => [...prev, { range }]);
   };
 
   const clearRange = (rangeToClear: Range) => {
-    setHighlights((prev) => {
-      const updatedHighlights = [];
-      prev.forEach((highlight) => {
-        const span = highlight.range.startContainer.parentNode as HTMLSpanElement;
-        if (
-          rangeToClear.compareBoundaryPoints(Range.START_TO_END, highlight.range) >= 0 &&
-          rangeToClear.compareBoundaryPoints(Range.END_TO_START, highlight.range) <= 0 &&
-          span.tagName === "SPAN"
-        ) {
-          const textNode = document.createTextNode(span.textContent || "");
-          span.replaceWith(textNode);
-        } else {
-          updatedHighlights.push(highlight);
-        }
-      });
-      return updatedHighlights;
+    const spans = textRef.current?.querySelectorAll("span") || [];
+    spans.forEach((span) => {
+      const parentNode = span.parentNode as HTMLDivElement;
+      if (parentNode) {
+        const textNode = document.createTextNode(span.textContent || "");
+        parentNode.replaceChild(textNode, span);
+      }
     });
   };
 
