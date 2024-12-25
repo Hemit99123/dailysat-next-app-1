@@ -3,13 +3,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import CookieConsent from "react-cookie-consent";
+import {menuItems) from "@/data/menuItem.ts"
 
-// Define the menu items for navigation
-const menuItems = [
-  { label: "Reading and Writing", href: "/reading"},
-  { label: "Math", href: "/math"},
-  { label: "About", href: "/about" },
-];
 
 const NavBar = () => {
   const router = useRouter(); // Hook to navigate programmatically
