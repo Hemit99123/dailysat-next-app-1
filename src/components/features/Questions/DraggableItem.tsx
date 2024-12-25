@@ -35,8 +35,10 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
         setIsDragging(true);
         setDragOffset({ x: clientX - position.x, y: clientY - position.y });
 
-        // Prevent scrolling on mobile while dragging
-        document.body.style.overflow = 'hidden';
+        // Prevent default behavior for touch move
+        if (isTouchEvent(e)) {
+            e.preventDefault();
+        }
     };
 
     useEffect(() => {
@@ -50,11 +52,15 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
                 x: clientX - dragOffset.x,
                 y: clientY - dragOffset.y,
             });
+
+            // Prevent default behavior during dragging on touch
+            if (isTouchEvent(e)) {
+                e.preventDefault();
+            }
         };
 
         const handleEnd = () => {
             setIsDragging(false);
-            document.body.style.overflow = ''; // Restore scrolling
         };
 
         if (isDragging) {
