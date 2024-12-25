@@ -33,7 +33,7 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({ onAnswerSubmit }) => {
     setMode((prevMode) => (prevMode === newMode ? null : newMode));
   };
 
-  // Handle mouse/touch selection
+  // Handle text selection for highlight/clear
   const handleSelection = () => {
     if (!mode || !textRef.current) return;
 
@@ -51,8 +51,6 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({ onAnswerSubmit }) => {
             ...prev,
             { text: selectedText, startOffset, endOffset },
           ]);
-        } else if (mode === "clear") {
-          removeHighlight(startOffset, endOffset);
         }
         selection.removeAllRanges(); // Clear selection
       }
@@ -63,7 +61,7 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({ onAnswerSubmit }) => {
     handleSelection();
   };
 
-  // Remove a highlight
+  // Remove a specific highlight
   const removeHighlight = (start: number, end: number) => {
     setHighlights((prev) =>
       prev.filter(
@@ -73,7 +71,7 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({ onAnswerSubmit }) => {
     );
   };
 
-  // Render text with highlights
+  // Render text with highlights, allowing click to erase highlights
   const renderHighlightedText = () => {
     if (!textRef.current) return randomQuestion?.question;
 
@@ -92,6 +90,7 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({ onAnswerSubmit }) => {
         <span
           key={highlight.startOffset}
           style={{ backgroundColor: "yellow", cursor: "pointer" }}
+          onClick={() => removeHighlight(highlight.startOffset, highlight.endOffset)} // Erase on click
         >
           {randomQuestion?.question.slice(highlight.startOffset, highlight.endOffset)}
         </span>
