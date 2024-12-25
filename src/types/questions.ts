@@ -13,3 +13,15 @@ export interface Highlight {
   startOffset: number;
   endOffset: number;
 }
+
+export interface QuestionData {
+  id: string;
+  question: string;
+  optionA: string;
+  optionB: string;
+  optionC: string;
+  optionD: string;
+  correctAnswer: number;
+  explanation: string;
+  skill: string;
+}

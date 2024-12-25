@@ -21,18 +21,6 @@ import { useQuestionStore } from "@/store/questions";
 import QuestionWrappers from "@/components/wrappers/question/Question";
 import MainWrappers from "@/components/wrappers/question/Main";
 
-export interface QuestionData {
-  id: string;
-  question: string;
-  optionA: string;
-  optionB: string;
-  optionC: string;
-  optionD: string;
-  correctAnswer: number;
-  explanation: string;
-  skill: string;
-}
-
 const Math = () => {
   const {fetchRandomQuestion, handleAnswerSubmit, handleCheckThreeStreak} = useQuestionHandler()
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
