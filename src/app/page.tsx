@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation";
+"use client"
 
 import OwnedItem from "@/components/features/Dashboard/OwnedItem";
 import { useEffect, useState } from "react";
