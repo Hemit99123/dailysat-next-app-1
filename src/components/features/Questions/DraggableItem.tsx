@@ -23,7 +23,7 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
     const [position, setPosition] = useState<Position>({ x: 0, y: 0 });
     const [isDragging, setIsDragging] = useState(false);
     const [dragOffset, setDragOffset] = useState<Position>({ x: 0, y: 0 });
-    const [isMobile, setIsMobile] = useState(false);
+    const [size, setSize] = useState(0);
 
     useEffect(() => {
         closeModal();
@@ -31,7 +31,7 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
 
     useEffect(() => {
         const handleResize = () => {
-            setIsMobile(window.innerWidth <= 768);
+            setSize(window.innerWidth);
         };
 
         handleResize();
@@ -42,13 +42,13 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
     }, []);
 
     useEffect(() => {
-        if (isMobile && isDragging) {
+        if (size <= 500 && isDragging) {
             document.body.classList.remove('freeze');
         } else {
             document.body.classList.add('freeze');
         }
         return () => document.body.classList.remove('freeze');
-    }, [isMobile, isDragging]);
+    }, [size, isDragging]);
 
     const handleStart = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
         const clientX = isTouchEvent(e) ? e.touches[0].clientX : e.clientX;
