@@ -8,7 +8,7 @@ import {
 import { jwtDecode } from "jwt-decode";
 import React from "react";  
 import { getCookieConsentValue, resetCookieConsentValue } from "react-cookie-consent";
-import { QuestionData } from "../page";
+import { QuestionData } from "@/types/questions";
 
 export interface User {
     email : string,

@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
 import Sidebar from "@/components/features/Sidebar/Sidebar";
-import { mathTopics } from '@/data/topics'; 
-import MathSVG from "@/components/features/Questions/icons/MathSVG";
+import { readingTopics } from "@/data/topics";
+import BookSVG from "@/components/features/Questions/icons/BookSVG";
 import { Topic } from "@/types/topic";
 import { useEffect, useRef } from "react";
-import MathQuestion from "@/components/features/Questions/Question-UI/MathQuestion";
+import ReadingQuestion from "@/components/features/Questions/Question-UI/ReadingQuestion";
 import Header from "@/components/features/Questions/Header";
 import { useAnswerCounterStore } from "@/store/score";
 import ScoreModal from "@/components/features/Questions/Modals/ScoreModal";
@@ -21,12 +21,12 @@ import { useQuestionStore, useTopicStore } from "@/store/questions";
 import QuestionWrappers from "@/components/wrappers/question/Question";
 import MainWrappers from "@/components/wrappers/question/Main";
 
-const Math = () => {
-  const {fetchRandomQuestion, handleAnswerSubmit, handleCheckThreeStreak} = useQuestionHandler()
+const Reading = () => {
+  const { fetchRandomQuestion, handleAnswerSubmit, handleCheckThreeStreak } = useQuestionHandler();
   const selectedTopic = useTopicStore((state) => state.selectedTopic)
   const setSelectedTopic = useTopicStore((state) => state.setSelectedTopic)
-  const randomQuestion = useQuestionStore((state) => state.randomQuestion)
-  const correctCount = useAnswerCounterStore((state) => state.count)
+  const randomQuestion = useQuestionStore((state) => state.randomQuestion);
+  const correctCount = useAnswerCounterStore((state) => state.count);
   const answerCorrectRef: Record<Answers, number> = { A: 0, B: 1, C: 2, D: 3 };
 
   const isScoreModalOpen = useScoreModalStore((state) => state.isOpen);
@@ -36,14 +36,13 @@ const Math = () => {
   const answerComponent = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    handleCheckThreeStreak()
+    handleCheckThreeStreak();
   }, [correctCount, handleCheckThreeStreak]);
 
   const handleTopicClick = (topic: Topic) => {
     setSelectedTopic(topic);
-    fetchRandomQuestion("Math", topic);
+    fetchRandomQuestion("Reading", topic);
   };
-
 
   if (isScoreModalOpen || isStreakModalOpen) {
     return (
@@ -57,30 +56,26 @@ const Math = () => {
   return (
     <MainWrappers>
       <Sidebar
-        title="Math"
-        svg={<MathSVG />}
-        topics={mathTopics}
+        title="Reading"
+        svg={<BookSVG />}
+        topics={readingTopics}
         handleTopicClick={handleTopicClick}
       />
 
       {/* Main Content */}
       <QuestionWrappers>
-        <span className="font-bold text-lg border-2 border-black rounded-lg w-1/5 text-center cursor-pointer hover:bg-black hover:text-white duration-500">
-          ✨ Experimental ✨
-        </span>
         {selectedTopic ? (
           <div className="w-full mx-auto">
-
             <Header
-                name={selectedTopic.name}
-                question={randomQuestion?.question}
+              name={selectedTopic.name}
+              question={randomQuestion?.question}
             />
             {randomQuestion ? (
-              <MathQuestion
-                onAnswerSubmit={() => 
-                  handleAnswerSubmit( 
-                    "Math",
-                    randomQuestion.correctAnswer, 
+              <ReadingQuestion
+                onAnswerSubmit={() =>
+                  handleAnswerSubmit(
+                    "Reading",
+                    randomQuestion.correctAnswer,
                     answerCorrectRef
                   )
                 }
@@ -88,10 +83,10 @@ const Math = () => {
             ) : (
               <Spinner />
             )}
-              <Result 
-                answerComponent={answerComponent}
-                explanation={randomQuestion?.explanation || ""}
-              />
+            <Result
+              answerComponent={answerComponent}
+              explanation={randomQuestion?.explanation || ""}
+            />
           </div>
         ) : (
           <GetStarted />
@@ -103,4 +98,4 @@ const Math = () => {
   );
 };
 
-export default Math;
+export default Reading;
