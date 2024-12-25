@@ -89,7 +89,7 @@ const Math = () => {
                 optionB={randomQuestion.optionB}
                 optionC={randomQuestion.optionC}
                 optionD={randomQuestion.optionD}
-                onAnswerSubmit={(answer: Answers) => 
+                onAnswerSubmit={() => 
                   handleAnswerSubmit( 
                     randomQuestion.correctAnswer, 
                     answerCorrectRef
