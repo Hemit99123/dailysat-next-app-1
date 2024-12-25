@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import CookieConsent from "react-cookie-consent";
-import {menuItems) from "@/data/menuItem.ts"
+import { menuItems } from "@/data/menuItem.ts"
 
 
 const NavBar = () => {
