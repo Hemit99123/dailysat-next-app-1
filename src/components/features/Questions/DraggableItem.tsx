@@ -81,7 +81,7 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
     };
 
     return (
-        <div className="fixed z-50 flex items-center justify-center top-0 left-0 right-0 bottom-0">
+        <div className="fixed flex items-center justify-center top-0 left-0 right-0 bottom-0">
             <div
                 className={`bg-white rounded-lg shadow-xl transition-opacity ${isDragging ? 'opacity-80' : 'opacity-100'}`}
                 style={{
