@@ -17,9 +17,16 @@ const useQuestionHandler = () => {
   const correctCount = useAnswerCounterStore((state) => state.count);
   const openAnnouncerModal = useStreakAnnouncerModalStore((state) => state.openModal);
 
-  const fetchRandomQuestion = async (topic: Topic): Promise<void> => {
+  const fetchRandomQuestion = async (type: "Math" | "Reading", topic: Topic): Promise<void> => {
     try {
-      const response = await axios.get(`/api/questions/math?topic=${topic.name}`);
+      let link = ""
+
+      if (type == "Math") {
+        link = "/api/questions/math"
+      } else {
+        link = "/api/questions/reading"
+      }
+      const response = await axios.get(`${link}?topic=${topic.name}`);
       const questionData = response.data?.doc_array?.[0] ?? null;
       setRandomQuestion(questionData);
       setIsAnswerCorrect("none")
@@ -30,6 +37,7 @@ const useQuestionHandler = () => {
   };
 
   const handleAnswerSubmit = (
+    type: "Math" | "Reading",
     correctAnswer: number, // Correct answer index
     answerCorrectRef: Record<Answers, number> = { A: 0, B: 1, C: 2, D: 3 } // Mapping for answer keys
   ): void => {
@@ -46,7 +54,7 @@ const useQuestionHandler = () => {
 
     if (isCorrect && selectedTopic) {
       setTimeout(() => {
-        fetchRandomQuestion(selectedTopic).then(() => {
+        fetchRandomQuestion(type, selectedTopic).then(() => {
           setIsAnswerCorrect("none");
         });
       }, 1500);

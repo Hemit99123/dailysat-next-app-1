@@ -1,27 +1,23 @@
-"use client"
+"use client";
 
-import axios, { AxiosResponse } from "axios";
-import { useEffect, useRef, useState } from "react";
-import Header from "@/components/features/Questions/Header";
-import ReadingQuestion from "@/components/features/Questions/Question-UI/ReadingQuestion";
-import { useAnswerCounterStore, useScoreStore } from "@/store/score";
-import ScoreModal from "@/components/features/Questions/Modals/ScoreModal";
+import Sidebar from "@/components/features/Sidebar/Sidebar";
+import { readingTopics } from "@/data/topics";
 import BookSVG from "@/components/features/Questions/icons/BookSVG";
-import {
-  useScoreModalStore,
-  useStreakAnnouncerModalStore,
-  useStreakCounterModalStore,
-} from "@/store/modals";
-import StreakAnnouncer from "@/components/features/Questions/Modals/StreakAnnouncer";
+import { Topic } from "@/types/topic";
+import { useState, useEffect, useRef } from "react";
+import ReadingQuestion from "@/components/features/Questions/Question-UI/ReadingQuestion";
+import Header from "@/components/features/Questions/Header";
+import { useAnswerCounterStore } from "@/store/score";
+import ScoreModal from "@/components/features/Questions/Modals/ScoreModal";
 import StreakModal from "@/components/features/Questions/Modals/StreakModal";
 import { Answers } from "@/types/answer";
-import { useAnswerCorrectStore } from "@/store/questions";
-import { Topic } from "@/types/topic";
-import Sidebar from "@/components/features/Sidebar/Sidebar"; // Import Sidebar
-import {readingTopics} from '@/data/topics'
-import GetStarted from "@/components/features/Questions/GetStarted";
+import { useScoreModalStore, useStreakAnnouncerModalStore, useStreakCounterModalStore } from "@/store/modals";
+import StreakAnnouncer from "@/components/features/Questions/Modals/StreakAnnouncer";
+import useQuestionHandler from "@/hooks/questions";
 import Spinner from "@/components/common/Spinner";
+import GetStarted from "@/components/features/Questions/GetStarted";
 import Result from "@/components/features/Questions/Results";
+import { useQuestionStore } from "@/store/questions";
 
 export interface QuestionData {
   id: string;
@@ -35,87 +31,26 @@ export interface QuestionData {
   skill: string;
 }
 
-const Home = () => {
+const Reading = () => {
+  const { fetchRandomQuestion, handleAnswerSubmit, handleCheckThreeStreak } = useQuestionHandler();
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
-  const [randomQuestion, setRandomQuestion] = useState<QuestionData | null>(null);
-  const setIsAnswerCorrect = useAnswerCorrectStore(
-    (state) => state.setIsAnswerCorrect
-  );
-  
-  const increaseScore = useScoreStore((state) => state.increaseScore);
-  const increaseCorrectCounter = useAnswerCounterStore(
-    (state) => state.increaseCount
-  );
-  const resetCorrectCounter = useAnswerCounterStore(
-    (state) => state.resetCount
-  );
+  const randomQuestion = useQuestionStore((state) => state.randomQuestion);
   const correctCount = useAnswerCounterStore((state) => state.count);
+  const answerCorrectRef: Record<Answers, number> = { A: 0, B: 1, C: 2, D: 3 };
+
   const isScoreModalOpen = useScoreModalStore((state) => state.isOpen);
-  const openAnnouncerModal = useStreakAnnouncerModalStore(
-    (state) => state.openModal
-  );
-  const isAnnouncerModalOpen = useStreakAnnouncerModalStore(
-    (state) => state.isOpen
-  );
+  const isAnnouncerModalOpen = useStreakAnnouncerModalStore((state) => state.isOpen);
   const isStreakModalOpen = useStreakCounterModalStore((state) => state.isOpen);
 
   const answerComponent = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (correctCount === 3) {
-      openAnnouncerModal();
-    }
-
-    if (correctCount === 7) {
-      openAnnouncerModal();
-    }
-  }, [correctCount, openAnnouncerModal]);
+    handleCheckThreeStreak();
+  }, [correctCount, handleCheckThreeStreak]);
 
   const handleTopicClick = (topic: Topic) => {
     setSelectedTopic(topic);
-    fetchRandomQuestion(topic);
-  };
-
-  const fetchRandomQuestion = async (topic: Topic) => {
-    try {
-      // Specify the expected response type
-      const response: AxiosResponse<{ doc_array: QuestionData[] }> = await axios.get(
-        "/api/questions/reading?topic=" + topic.name
-      );
-
-      // Ensure you access the data properly
-      const questionData = response.data.doc_array[0];
-      setRandomQuestion(questionData);
-    } catch (error) {
-      console.error("Error fetching question:", error);
-      setRandomQuestion(null);
-    }
-  };
-
-  const answerCorrectRef: Record<Answers, number> = { A: 0, B: 1, C: 2, D: 3 };
-
-  const handleAnswerSubmit = (answer: Answers) => {
-    const correct = answerCorrectRef[answer] === randomQuestion?.correctAnswer;
-    if (correct) {
-      increaseCorrectCounter();
-      increaseScore();
-    } else {
-      resetCorrectCounter();
-    }
-    setIsAnswerCorrect(correct);
-    if (correct && selectedTopic) {
-      setTimeout(() => {
-        fetchRandomQuestion(selectedTopic);
-        setIsAnswerCorrect("none")
-      }, 1500);
-    }
-
-    setTimeout(() => {
-      answerComponent.current?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }, 100);
+    fetchRandomQuestion("Reading", topic);
   };
 
   if (isScoreModalOpen || isStreakModalOpen) {
@@ -143,20 +78,26 @@ const Home = () => {
         {selectedTopic ? (
           <div className="w-full mx-auto">
             <Header
-                name={selectedTopic.name}
-                question={randomQuestion?.question}
+              name={selectedTopic.name}
+              question={randomQuestion?.question}
             />
             {randomQuestion ? (
               <ReadingQuestion
-                onAnswerSubmit={handleAnswerSubmit}
+                onAnswerSubmit={() =>
+                  handleAnswerSubmit(
+                    "Reading",
+                    randomQuestion.correctAnswer,
+                    answerCorrectRef
+                  )
+                }
               />
             ) : (
               <Spinner />
             )}
-              <Result 
-                answerComponent={answerComponent}
-                explanation={randomQuestion?.explanation || ""}
-              />
+            <Result
+              answerComponent={answerComponent}
+              explanation={randomQuestion?.explanation || ""}
+            />
           </div>
         ) : (
           <GetStarted />
@@ -168,4 +109,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Reading;

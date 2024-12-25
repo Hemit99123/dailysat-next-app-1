@@ -50,7 +50,7 @@ const Math = () => {
 
   const handleTopicClick = (topic: Topic) => {
     setSelectedTopic(topic);
-    fetchRandomQuestion(topic);
+    fetchRandomQuestion("Math", topic);
   };
 
 
@@ -86,6 +86,7 @@ const Math = () => {
               <MathQuestion
                 onAnswerSubmit={() => 
                   handleAnswerSubmit( 
+                    "Math",
                     randomQuestion.correctAnswer, 
                     answerCorrectRef
                   )
