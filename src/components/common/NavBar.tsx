@@ -36,36 +36,36 @@ const NavBar = () => {
       // Load in cookie data
       const localUser = JSON.parse(localStorage.getItem("USER") || "{}");
       const loggedIn = JSON.parse(localStorage.getItem("loggedin") || "false");
-
       useLoggedInStore.getState().setLoggedIn(loggedIn);
 
-      if(loggedIn == true){
-        const response : AxiosResponse<{code : number, user : User}> = await axios.get("/api/user-data?email="+localUser.email);
-        if(response.data.code == 200){
+      if (loggedIn == true) {
+        // Make sure that our data is updated with the database (there is a possibility that the user logged in from another device and changed the data)
+        const response: AxiosResponse<{ code: number, user: User }> = await axios.get("/api/user-data?email=" + localUser.email);
+
+        if (response.data.code == 200) {
+          // Update our localUserData so it's the same as the database's
           useUserStore.getState().setUser(response.data.user);
-          console.log(response.data.user);
           useCoinStore.getState().setCoins(response.data.user.currency);
           localStorage.setItem("USER", JSON.stringify(response.data.user));
         }
-        else{
+        else {
+          // Just set it as the local userData
           useUserStore.getState().setUser(localUser);
         }
       }
-      else{
+      else {
+        // Set it to the defaults
         useUserStore.getState().setUser(localUser);
-        useCoinStore.getState().setCoins(localUser.currency);
+        useCoinStore.getState().setCoins(0);
       }
 
-      setTimeout(() => setRenderUI(true), 20);
+      // Request takes time, and updating stores in useEffect isn't best practices, plus the loading in effect at the beginning looks cool.
+      setTimeout(() => setRenderUI(true), 30);
     };
 
     loadCookieData();
   }, []);
 
-  useEffect(() => {
-    console.log(useCoinStore.getState().coins);
-  }, [useCoinStore.getState().coins])
-  
   return renderUI ? (
     <nav className="bg-white w-full border-b border-gray-200">
       {/* Container for the main navigation bar */}
@@ -105,10 +105,11 @@ const NavBar = () => {
 
         {/* Signup Button for Desktop View */}
         <div className="hidden md:block">
+          {/* If we're logged in, display the user's information */}
           {useLoggedInStore.getState().loggedIn ? (
-            <div className="flex items-center">
+            <div className="cursor-pointer flex items-center" onClick={() => handleGoToNewPage("/")}>
               <img src="/icons/coin.png" className="w-10 h-10" />
-              <p className="mr-5 ml-1 font-semibold">{useUserStore.getState().user.currency}</p>
+              <p className="mr-5 ml-1 font-semibold">{useCoinStore.getState().coins}</p>
               <img src={useUserStore.getState().user.picture} className="w-12 h-12 rounded-lg" />
             </div>
           ) : (

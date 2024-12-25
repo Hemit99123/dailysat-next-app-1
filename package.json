@@ -23,11 +23,9 @@
     "net": "^1.0.2",
     "next": "14.2.15",
     "next-swagger-doc": "^0.4.0",
-    "node-fetch": "^3.3.2",
     "node-symspell": "^0.1.0",
     "nodemailer": "^6.9.16",
     "npm": "^10.9.2",
-    "openai": "^4.76.3",
     "react": "^18",
     "react-cookie-consent": "^9.0.0",
     "react-dom": "^18",
@@ -35,6 +33,7 @@
     "react-resizable": "^3.0.5",
     "react-toastify": "^10.0.6",
     "swagger-ui-react": "^5.18.2",
+    "symspell": "^0.6.1",
     "zustand": "^5.0.0-rc.2"
   },
   "devDependencies": {

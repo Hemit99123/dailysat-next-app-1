@@ -1,5 +1,5 @@
 import { QUESTION_IS_CORRECT_POINTS } from "@/lib/CONSTANTS";
-import client from "@/lib/mongo";
+import { client } from "@/lib/mongo";
 import { Collection, Db, Document } from "mongodb";
 
 export async function POST(request: Request) {

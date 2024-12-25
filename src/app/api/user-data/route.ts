@@ -1,4 +1,4 @@
-import client from "@/lib/mongo";
+import { client } from "@/lib/mongo";
 import { Db, WithId, Document, FindCursor } from "mongodb";
 
 export async function GET(request: Request) {
@@ -27,7 +27,7 @@ export async function GET(request: Request) {
         catch {
             return Response.json({
                 code: 500,
-                message: "database error"
+                message: "Server error."
             });
         }
     }

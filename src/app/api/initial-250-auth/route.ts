@@ -1,4 +1,4 @@
-import client from "../../../lib/mongo";
+import { client } from "../../../lib/mongo";
 import { Db, Document, WithId } from "mongodb";
 import { FIRST_250_BONUS} from "@/lib/CONSTANTS";
 

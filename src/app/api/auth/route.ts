@@ -1,4 +1,4 @@
-import client from "../../../lib/mongo";
+import {client} from "@/lib/mongo";
 import { Db, Document, InsertOneResult, ObjectId, WithId } from "mongodb";
 import { User } from "@/app/signup/page";
 

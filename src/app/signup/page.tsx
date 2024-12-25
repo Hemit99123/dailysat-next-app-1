@@ -8,7 +8,7 @@ import {
 import { jwtDecode } from "jwt-decode";
 import React, {useEffect} from "react";
 import { getCookieConsentValue, resetCookieConsentValue } from "react-cookie-consent";
-import { QuestionData } from "../reading/page";
+import { DBQuestionRecord, QuestionData } from "@/types/questions";
 import axios from "axios";
 import useUserStore, { useLoggedInStore } from "@/store/user";
 
@@ -27,7 +27,7 @@ export interface User {
   currency?: number,
 
   // Questions answered
-  questionsAnswered?: QuestionData[]
+  questionsAnswered?: DBQuestionRecord[]
 }
 
 // Endstate of API request
