@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { QuestionData } from '@/app/page';
+import { QuestionData } from '@/types/questions';
 import { Topic } from '@/types/topic';
 import { Answers } from '@/types/answer';
 
