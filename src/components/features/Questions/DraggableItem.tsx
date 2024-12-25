@@ -42,12 +42,14 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
     }, []);
 
     useEffect(() => {
-        if (size >= 500 && isDragging) {
-            document.body.classList.add('freeze');
+     const freezeBody = () => document.body.classList.add('freeze');
+        const unfreezeBody = () => document.body.classList.remove('freeze');
+
+        if (size <= 785 && isDragging) {
+            freezeBody();
         } else {
-            document.body.classList.remove('freeze');
+            unfreezeBody();
         }
-        return () => document.body.classList.remove('freeze');
     }, [size, isDragging]);
 
     const handleStart = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
