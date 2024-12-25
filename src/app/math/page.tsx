@@ -1,7 +1,7 @@
 "use client"
 
 import Sidebar from "@/components/features/Sidebar/Sidebar";
-import { mathTopics } from '@/data/topics'; // Assuming mathTopics is an array of topics
+import { mathTopics } from '@/data/topics'; 
 import MathSVG from "@/components/features/Questions/icons/MathSVG";
 import { Topic } from "@/types/topic";
 import { useState, useEffect, useRef } from "react";
