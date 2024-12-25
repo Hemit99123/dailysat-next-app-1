@@ -65,6 +65,7 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({ onAnswerSubmit }) => {
     const span = document.createElement("span");
     span.style.backgroundColor = "yellow";
     span.textContent = range.toString();
+    span.onclick = () => clearRangeForSpan(span); // Clear when clicked
     range.deleteContents();
     range.insertNode(span);
   };
@@ -80,6 +81,11 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({ onAnswerSubmit }) => {
         }
       });
     }
+  };
+
+  const clearRangeForSpan = (span: HTMLElement) => {
+    const textNode = document.createTextNode(span.textContent || "");
+    span.replaceWith(textNode);
   };
 
   const renderHighlightedText = () => {
