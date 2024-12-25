@@ -1,7 +1,9 @@
-import React from 'react'
+import { redirect } from "next/navigation";
 
-export default function dashboard() {
-  return (
-    <div>HEMITS CODE</div>
-  )
-}
+const Reading = () => {
+  redirect('/reading')
+
+  return null; // Render nothing as the user is being redirected
+};
+
+export default Reading;

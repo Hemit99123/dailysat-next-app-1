@@ -33,7 +33,7 @@ const StreakAnnouncer = () => {
           </g>
         </svg>
         <h2 className="font-black text-6xl">3</h2>
-        <p className="font-extrabold text-2xl">streak</p>
+        <p className="font-extrabold text-2xl">streaks</p>
         <p className="text-sm text-gray-500 mt-2">You are doing really great!</p>
       </div>
     </div>

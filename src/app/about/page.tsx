@@ -1,42 +1,8 @@
 import Image from 'next/image';
 import React from 'react';
+import { team } from '@/data/team';
 
 const About = () => {
-  // Array of team members so we can dynamicaly update it easily, instead of continually adding more jsx
-  const team = [
-    {
-      name: 'Aarush Kute',
-      role: 'Chief Executive Officer',
-      imgSrc: './people/aarush.png',
-      linkedIn: "https://www.linkedin.com/in/aarush-kute-1639a525b/"
-    },
-    {
-      name: 'Hemit Patel',
-      role: 'President & Chief Operating Officer',
-      imgSrc: 'https://media.licdn.com/dms/image/v2/D5603AQFDJxp7vmgX0Q/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1695640460890?e=1738195200&v=beta&t=sfsEBemwKB0_r70CJcFTqoBPOa2LgWU46Tq-CtjgJek',
-      linkedIn: "https://www.linkedin.com/in/hemit-patel-383ab3271/"
-    }, 
-    {
-      name: "William Chan",
-      role: "Head of Marketing",
-      imgSrc: "https://media.licdn.com/dms/image/v2/D5603AQFMtNWPnihUBg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1718285605821?e=1738800000&v=beta&t=A2mf419HvUG8s4vdNi_10pq1VRPljzekz7BtfqWrImU",
-      linkedIn: "https://www.linkedin.com/in/wilman-chan-03a468286/"
-    },
-      {
-      name: "Lakshaya Jain",
-      role: "Software Engineer",
-      imgSrc: "./people/Lakshaya.png",
-      linkedIn: "https://www.linkedin.com/in/lakshya-jain-9a66a22a5/"
-    },
-    {
-      name: "Devesh Khilnani",
-      role: "Business Lead",
-      imgSrc: "https://media.licdn.com/dms/image/v2/D4D03AQHp9U6V0ER0bw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1724947190257?e=1738800000&v=beta&t=HcqzWskjTN-TnRsu9sfjUdFe-aTl2S2ZrSUojpB4UJw",
-      linkedIn: "https://www.linkedin.com/in/dkhilnani/"
-    }
-    
-  ];
-
   return (
     <div>
         <section className="py-24 relative">
@@ -138,6 +104,62 @@ const About = () => {
             ))}
             </div>
         </div>
+     </section>
+
+     <section>
+      <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-blue-900 text-center">Workshops:</h2>
+      <p className="font-light text-gray-500 sm:text-xl text-center">
+          We love educating, sharing and learning :) These are workshops completed in the past
+      </p>
+      <div className="flex justify-center mt-10 mb-20">
+      <div className="flex flex-col md:flex-row items-center md:space-x-2 bg-gray-50 w-full md:w-1/2 rounded-lg shadow-md mb-10 p-4">
+      <div>
+        <svg
+          height={75}
+          width={75}
+          viewBox="0 0 1024 1024"
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="#000000"
+        >
+          <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+          <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+          <g id="SVGRepo_iconCarrier">
+            <path
+              d="M655.1 877.5H371c-141.3 0-255.9-114.6-255.9-255.9v-19c0-141.3 114.6-255.9 255.9-255.9h284.1c141.3 0 255.9 114.6 255.9 255.9v19c0 141.3-114.6 255.9-255.9 255.9z"
+              fill="#FF92B4"
+            ></path>
+            <path
+              d="M373.2 364.5l-50.5-35.9c-8.1-5.8-17.8-8.9-27.8-8.9H171.2c-11.3 0-19.7 10.8-16.5 21.8 7.1 24.7 30.8 43.9 91.5 106.5M148.1 681H78.7c-7.6 0-13.8-6.2-13.8-13.8v-102c0-7.6 6.2-13.8 13.8-13.8h69.4c7.6 0 13.8 6.2 13.8 13.8v102c0 7.7-6.2 13.8-13.8 13.8z"
+              fill="#FF92B4"
+            ></path>
+            <path
+              d="M148.1 674.9H78.7c-7.6 0-13.8-6.2-13.8-13.8v-102c0-7.6 6.2-13.8 13.8-13.8h69.4c7.6 0 13.8 6.2 13.8 13.8v102c0 7.6-6.2 13.8-13.8 13.8zM448.1 867v57.3c0 7.6-6.2 13.8-13.8 13.8H333.8c-7.6 0-13.8-6.2-13.8-13.8V867c0-7.6 6.2-13.8 13.8-13.8h100.5c7.6 0 13.8 6.2 13.8 13.8zM704.1 867v57.3c0 7.6-6.2 13.8-13.8 13.8H589.9c-7.6 0-13.8-6.2-13.8-13.8V867c0-7.6 6.2-13.8 13.8-13.8h100.5c7.6 0 13.7 6.2 13.7 13.8zM847.3 589.7c-3.2 2-7.5 1-9.4-2.3l-16.7-28.6c0.7-0.4 26.5-15.6 51.7-37.9 27.5-24.3 43.8-47.7 46.7-66.8 0.5-3.3 3.3-5.8 6.7-5.8H953c3.9 0 7.1 3.4 6.7 7.3-2.8 30.6-23.2 62.8-60.8 95.8-21 18.3-41.7 32.1-51.6 38.3z"
+              fill="#FF92B4"
+            ></path>
+            <path
+              d="M256 512.1m-22.3 0a22.3 22.3 0 1 0 44.6 0 22.3 22.3 0 1 0-44.6 0Z"
+              fill="#444444"
+            ></path>
+            <path
+              d="M581.3 418H427.8c-2.9 0-5.3-2.4-5.3-5.3v-42.8c0-2.9 2.4-5.3 5.3-5.3h153.5c2.9 0 5.3 2.4 5.3 5.3v42.8c0.1 2.9-2.3 5.3-5.3 5.3z"
+              fill="#444444"
+            ></path>
+            <path
+              d="M513.13777778 169.81333333m-107.29244445 0a107.29244445 107.29244445 0 1 0 214.58488889 0 107.29244445 107.29244445 0 1 0-214.58488889 0Z"
+              fill="#FFDA00"
+            ></path>
+          </g>
+        </svg>
+      </div>
+      <div className="text-center md:text-left">
+        <h1 className="text-lg md:text-xl font-bold">DailySAT x StockSavvy</h1>
+        <p className="text-sm text-gray-700">60+ people</p>
+        <p className="font-semibold">A workshop about post-secondary financial literacy</p>
+      </div>
+    </div>
+      </div>
+
      </section>
     </div>
   );
