@@ -47,9 +47,9 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
         const unfreezeBody = () => document.body.classList.remove('freeze');
 
         if (isMobile && isDragging) {
-            freezeBody();
-        } else {
             unfreezeBody();
+        } else {
+            freezeBody();
         }
 
         return () => unfreezeBody();
