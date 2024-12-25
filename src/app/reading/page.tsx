@@ -63,7 +63,7 @@ const Reading = () => {
   return (
     <MainWrappers>
       <Sidebar
-        title="Reading"
+        title="Reading and Writing"
         svg={<BookSVG />}
         topics={readingTopics}
         handleTopicClick={handleTopicClick}
