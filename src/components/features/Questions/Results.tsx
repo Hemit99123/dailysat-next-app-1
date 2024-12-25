@@ -1,3 +1,4 @@
+import { QUESTION_IS_CORRECT_POINTS } from "@/lib/CONSTANTS";
 import { useAnswerCorrectStore } from "@/store/questions";
 import React, { MutableRefObject, useState } from "react";
 import Latex from "react-latex-next";
@@ -24,7 +25,7 @@ const Result: React.FC<ResultProps> = ({
             {isAnswerCorrect !== "none" && (
                 isAnswerCorrect ? (
                     <p className="text-green-500 text-lg font-semibold">
-                        You are correct!
+                        You are correct! + { QUESTION_IS_CORRECT_POINTS}
                     </p>
                 ) : (
                     <div>

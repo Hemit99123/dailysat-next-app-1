@@ -19,7 +19,7 @@
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.468.0",
     "mailgun.js": "^10.2.4",
-    "mongodb": "^6.11.0",
+    "mongodb": "^6.12.0",
     "net": "^1.0.2",
     "next": "14.2.15",
     "next-swagger-doc": "^0.4.0",
@@ -33,6 +33,7 @@
     "react-resizable": "^3.0.5",
     "react-toastify": "^10.0.6",
     "swagger-ui-react": "^5.18.2",
+    "symspell": "^0.6.1",
     "zustand": "^5.0.0-rc.2"
   },
   "devDependencies": {

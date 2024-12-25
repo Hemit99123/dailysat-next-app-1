@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next";
 import "./globals.css";
 import NavBar from "@/components/common/NavBar";
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: React.PropsWithChildren) {
+
   return (
     <html lang="en">
       <body className="antialiased">

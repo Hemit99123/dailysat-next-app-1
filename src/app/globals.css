@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* From codepen. Can't do them in tailwind lol */
+.fancy-input {
+    border-radius: 10px;
+    outline: 2px solid blue;
+    border: 0;
+    background-color: #e2e2e2;
+
+    padding: 5px 1rem;
+    transition: 0.25s;
+  }
+  
+  .fancy-input:focus {
+    outline-offset: 5px;
+    background-color: #fff
+  }

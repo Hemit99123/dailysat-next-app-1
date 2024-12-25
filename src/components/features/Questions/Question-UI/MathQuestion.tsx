@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import AnswerOption from "../../shared-components/AnswerOption";
 import { Answers } from "@/types/answer";
 import { useAnswerCorrectStore, useAnswerStore, useQuestionStore } from "@/store/questions";
-import axios from "axios";
 import { QuestionsProps } from "@/types/questions";
 import { toggleCrossOffMode, toggleCrossOffOption } from "@/lib/crossOff";
 import { CalculatorIcon } from "lucide-react";
@@ -39,10 +38,10 @@ const MathQuestion: React.FC<QuestionsProps> = ({
     }
   };
 
-  const betaBugReport = async () => {
-    await axios.get("/api/beta/bug?id=" + randomQuestion?.id);
-    window.location.reload();
-  };
+  // const betaBugReport = async () => {
+  //   await axios.get("/api/beta/bug?id=" + randomQuestion?.id);
+  //   window.location.reload();
+  // };
 
 
   // Handle answer submit
@@ -67,28 +66,28 @@ const MathQuestion: React.FC<QuestionsProps> = ({
         {/* Cross-Off Mode Button */}
         <button
           onClick={() => toggleCrossOffMode(setCrossOffMode)}
-          className={`p-1 rounded ${
-            crossOffMode ? "bg-blue-300 text-white" : "bg-gray-300"
-          }`}
+          className={`p-1 rounded ${crossOffMode ? "bg-blue-300 text-white" : "bg-gray-300"
+            }`}
         >
           Cross off
         </button>
       </div>
 
       {/* Bug Report */}
-      <p
+      {/* Bug, commenting for now, seems like we're not loading in questions from the DB */}
+      {/* <p
         className="text-xs font-extralight hover:text-red-500 hover:cursor-pointer transition-all"
         onClick={() => betaBugReport()}
       >
         {randomQuestion?.id} Report this question as bugged
-      </p>
+      </p> */}
 
       <p
         className="mb-5 text-xl relative"
         ref={textRef}
       >
         <Latex>{randomQuestion?.question || ""}</Latex>
-        
+
       </p>
 
       <span className="mb-3 text-sm font-semibold">Choose 1 answer:</span>

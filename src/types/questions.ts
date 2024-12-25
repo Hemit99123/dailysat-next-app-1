@@ -25,3 +25,19 @@ export interface QuestionData {
   explanation: string;
   skill: string;
 }
+
+export interface DBQuestionRecord {
+  _id : string;
+  id: string;
+  question: string;
+  optionA: string;
+  optionB: string;
+  optionC: string;
+  optionD: string;
+  correctAnswer: number;
+  explanation: string;
+  skill: string;
+  toc : number;
+  userAnswer : string;
+  correct : number; 
+}

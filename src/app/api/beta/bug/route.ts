@@ -64,12 +64,13 @@ export async function GET(request: Request) {
   const url: URL = new URL(request.url);
   const searchParams: URLSearchParams = new URLSearchParams(url.search);
   const id: string = searchParams.get("id") || "";
+  const text : string = searchParams.get("text") || "";
 
   // Check if the id query parameter is provided
-  if (id === "") {
+  if (id === "" || text === "") {
     return Response.json({
       code: 400,
-      error: "no id parameter specified", // Adjusted to 400 since it's a client-side error
+      error: "no id and/or text parameter specified", // Adjusted to 400 since it's a client-side error
     });
   } else {
     try {
@@ -78,8 +79,8 @@ export async function GET(request: Request) {
       const coll: Collection<Document> = db.collection("bugged");
       
       // Insert the new bug ID into the database
-      const result: InsertOneResult<Document> = await coll.insertOne({ "id": id });
-
+      const result: InsertOneResult<Document> = await coll.insertOne({ "id": id, "text":text });
+      
       // Return a success response with the inserted result
       return Response.json({
         result: {

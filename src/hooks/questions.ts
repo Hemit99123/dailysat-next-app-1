@@ -1,6 +1,7 @@
 import { useStreakAnnouncerModalStore } from "@/store/modals";
 import { useAnswerCorrectStore, useAnswerStore, useQuestionStore, useTopicStore } from "@/store/questions";
 import { useScoreStore, useAnswerCounterStore } from "@/store/score";
+import useUserStore from "@/store/user";
 import { Answers } from "@/types/answer";
 import { Topic } from "@/types/topic";
 import axios from "axios";
@@ -36,11 +37,11 @@ const useQuestionHandler = () => {
     }
   };
 
-  const handleAnswerSubmit = (
+  const handleAnswerSubmit = async(
     type: "Math" | "Reading",
     correctAnswer: number, // Correct answer index
     answerCorrectRef: Record<Answers, number> = { A: 0, B: 1, C: 2, D: 3 } // Mapping for answer keys
-  ): void => {
+  ) : Promise<void> => {
     const isCorrect = answerCorrectRef[answer || "A"] === correctAnswer;
 
     if (isCorrect) {
@@ -52,6 +53,16 @@ const useQuestionHandler = () => {
 
     setIsAnswerCorrect(isCorrect);
 
+    // Send request to backend
+    if (useQuestionStore.getState().randomQuestion !== null) {
+      await axios.post("/api/add-points", {
+        email: useUserStore.getState().user.email || "",
+        question: useQuestionStore.getState().randomQuestion ,
+        state: isCorrect == true ? 1 : 0,
+        userAnswer: answerCorrectRef[answer || "A"]
+      })
+    }
+    
     if (isCorrect && selectedTopic) {
       setTimeout(() => {
         fetchRandomQuestion(type, selectedTopic)
