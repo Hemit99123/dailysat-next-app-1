@@ -34,6 +34,9 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
 
         setIsDragging(true);
         setDragOffset({ x: clientX - position.x, y: clientY - position.y });
+
+        // Prevent scrolling on mobile while dragging
+        document.body.style.overflow = 'hidden';
     };
 
     useEffect(() => {
@@ -51,12 +54,13 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
 
         const handleEnd = () => {
             setIsDragging(false);
+            document.body.style.overflow = ''; // Restore scrolling
         };
 
         if (isDragging) {
             window.addEventListener('mousemove', handleMove);
             window.addEventListener('mouseup', handleEnd);
-            window.addEventListener('touchmove', handleMove);
+            window.addEventListener('touchmove', handleMove, { passive: false });
             window.addEventListener('touchend', handleEnd);
         }
 
@@ -79,7 +83,7 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
     return (
         <div className="fixed z-50 flex items-center justify-center top-0 left-0 right-0 bottom-0">
             <div
-                className="bg-white rounded-lg shadow-xl"
+                className={`bg-white rounded-lg shadow-xl transition-opacity ${isDragging ? 'opacity-80' : 'opacity-100'}`}
                 style={{
                     position: 'absolute',
                     left: `${position.x}px`,
