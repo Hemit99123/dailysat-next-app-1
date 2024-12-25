@@ -2,7 +2,7 @@
 import React from 'react';
 import CTASideBar from './CTASideBar';
 import { Topic } from '@/types/topic';
-import { useScoreModalStore, useStreakAnnouncerModalStore } from '@/store/modals';
+import { useScoreModalStore, useStreakCounterModalStore } from '@/store/modals';
 import { useTopicStore } from '@/store/questions';
 
 interface SideBarProps {
@@ -16,7 +16,7 @@ interface SideBarProps {
 const Sidebar: React.FC<SideBarProps> = ({ svg, title, topics, handleTopicClick}) => {
 
   const openScoreModal = useScoreModalStore((state) => state.openModal)
-  const openStreakModal = useStreakAnnouncerModalStore((state) => state.openModal)
+  const openStreakModal = useStreakCounterModalStore((state) => state.openModal)
   const selectedTopic = useTopicStore((state) => state.selectedTopic)
   
   return (
