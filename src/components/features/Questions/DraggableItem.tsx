@@ -45,7 +45,7 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
      const freezeBody = () => document.body.classList.add('freeze');
         const unfreezeBody = () => document.body.classList.remove('freeze');
 
-        if (size >= 785 && isDragging) {
+        if (size <= 785 && isDragging) {
             freezeBody();
         } else {
             unfreezeBody();
