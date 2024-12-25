@@ -10,7 +10,7 @@ import { useCalcOptionModalStore } from "@/store/modals";
 import CalcOption from "../Modals/CalcOption";
 import Latex from "react-latex-next";
 
-const ReadingQuestion: React.FC<QuestionsProps> = ({
+const MathQuestion: React.FC<QuestionsProps> = ({
   onAnswerSubmit,
 }) => {
   const randomQuestion = useQuestionStore((state) => state.randomQuestion)
@@ -135,4 +135,4 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({
   );
 };
 
-export default ReadingQuestion;
+export default MathQuestion;
