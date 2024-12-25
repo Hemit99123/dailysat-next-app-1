@@ -1,4 +1,5 @@
 import React from "react";
+import Latex from "react-latex-next";
 
 interface AnswerOptionProps {
   text: string;
@@ -13,6 +14,7 @@ const AnswerOption: React.FC<AnswerOptionProps> = ({
   isSelected,
   isCrossedOff,
 }) => {
+
   return (
     <div
       className={`cursor-pointer p-2 border rounded transition-all 
@@ -21,7 +23,11 @@ const AnswerOption: React.FC<AnswerOptionProps> = ({
       `}
       onClick={onClick}
     >
-      <span className="font-semibold">{text}</span>
+      <Latex
+        
+      >
+        {text}
+      </Latex>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-"use client";
+import { redirect } from "next/navigation";
 
 import OwnedItem from "@/components/features/Dashboard/OwnedItem";
 import { useEffect, useState } from "react";
@@ -215,6 +215,6 @@ const Home = () => {
       </div>
     </div>
   );
-};
+
 
 export default Home;

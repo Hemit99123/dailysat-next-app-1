@@ -1,0 +1,1 @@
+export type calc = "graphing" | "none" | "regular"
