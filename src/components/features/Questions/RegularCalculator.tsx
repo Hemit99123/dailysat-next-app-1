@@ -26,24 +26,36 @@ const RegularCalculator = () => {
   };
 
   useEffect(() => {
-    const handleKeyPress = (event: { key: string; }) => {
+
+    // the test() function checks for the below phrases, if found it returns true 
+    // if not it will be false 
+    
+    const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  
+    if (isMobile) {
+      return; // Exit early if on a mobile device
+    }
+  
+    const handleKeyPress = (event: { key: string }) => {
       if (recognizedKeys.includes(event.key)) {
         setExpression((prevState) => `${prevState}${event.key}`);
       } else if (event.key === 'Backspace') {
         handleDeleteOneChar();
       } else if (event.key === 'Enter') {
         handleCalculation();
-      } else if (event.key == "d") {
-        handleDeleteEverything()
+      } else if (event.key === 'd') {
+        handleDeleteEverything();
       }
     };
-
+  
     document.addEventListener('keydown', handleKeyPress);
-
+  
     return () => {
       document.removeEventListener('keydown', handleKeyPress);
     };
   }, [expression]);
+  
+  
 
   const handleButtonClick = (value: string) => {
     if (value === 'DEL') {
