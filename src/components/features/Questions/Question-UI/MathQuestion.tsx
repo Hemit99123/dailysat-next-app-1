@@ -33,7 +33,7 @@ const ReadingQuestion: React.FC<QuestionsProps> = ({
       setSelectedAnswer(null);
       setCrossedOffOptions(null)
     }
-  }, [isAnswerCorrect]);
+  }, [isAnswerCorrect, setSelectedAnswer, setCrossedOffOptions]);
 
   // Handle answer click
   const handleAnswerClick = (answer: Answers) => {

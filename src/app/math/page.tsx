@@ -46,7 +46,7 @@ const Math = () => {
 
   useEffect(() => {
     handleCheckThreeStreak()
-  }, [correctCount]);
+  }, [correctCount, handleCheckThreeStreak]);
 
   const handleTopicClick = (topic: Topic) => {
     setSelectedTopic(topic);

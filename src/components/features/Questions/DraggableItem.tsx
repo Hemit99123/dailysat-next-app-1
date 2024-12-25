@@ -21,7 +21,7 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ content, title }) => {
 
     useEffect(() => {
         closeModal();
-    }, []);
+    }, [closeModal]);
 
     const setCalcMode = useCalcModeModalStore((state) => state.setMode);
     const [position, setPosition] = useState<Position>({ x: 0, y: 0 });
