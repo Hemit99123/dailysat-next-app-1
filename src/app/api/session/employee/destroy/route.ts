@@ -1,4 +1,4 @@
-import { destorySession } from "@/lib/employeeSession"
+import { destorySession } from "@/lib/auth/employeeSession"
 
 export async function POST() {
     const result = await destorySession()
