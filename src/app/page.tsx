@@ -65,9 +65,9 @@ const Home = () => {
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("loggedin") || "false") == false) {
       const type = prompt("Redirect to Math or Reading?")
-      if (type.toUpperCase() == "MATH") {
+      if (type?.toUpperCase() == "MATH") {
       redirect("/math") 
-} else if (type.toUpperCase() == "READING") {
+} else if (type?.toUpperCase() == "READING") {
       redirect("/reading")
 } else {
       redirect("/about") 
