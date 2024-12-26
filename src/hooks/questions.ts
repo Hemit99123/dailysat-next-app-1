@@ -1,7 +1,8 @@
+import { QUESTION_IS_CORRECT_POINTS } from "@/lib/CONSTANTS";
 import { useStreakAnnouncerModalStore } from "@/store/modals";
 import { useAnswerCorrectStore, useAnswerStore, useQuestionStore, useTopicStore } from "@/store/questions";
 import { useScoreStore, useAnswerCounterStore } from "@/store/score";
-import useUserStore from "@/store/user";
+import useUserStore, { useCoinStore } from "@/store/user";
 import { Answers } from "@/types/answer";
 import { Topic } from "@/types/topic";
 import axios from "axios";
@@ -37,11 +38,11 @@ const useQuestionHandler = () => {
     }
   };
 
-  const handleAnswerSubmit = async(
+  const handleAnswerSubmit = async (
     type: "Math" | "Reading",
     correctAnswer: number, // Correct answer index
     answerCorrectRef: Record<Answers, number> = { A: 0, B: 1, C: 2, D: 3 } // Mapping for answer keys
-  ) : Promise<void> => {
+  ): Promise<void> => {
     const isCorrect = answerCorrectRef[answer || "A"] === correctAnswer;
 
     if (isCorrect) {
@@ -57,12 +58,13 @@ const useQuestionHandler = () => {
     if (useQuestionStore.getState().randomQuestion !== null) {
       await axios.post("/api/add-points", {
         email: useUserStore.getState().user.email || "",
-        question: useQuestionStore.getState().randomQuestion ,
+        question: useQuestionStore.getState().randomQuestion,
         state: isCorrect == true ? 1 : 0,
         userAnswer: answerCorrectRef[answer || "A"]
       })
+      useCoinStore.getState().setCoins(useCoinStore.getState().coins += QUESTION_IS_CORRECT_POINTS);
     }
-    
+
     if (isCorrect && selectedTopic) {
       setTimeout(() => {
         fetchRandomQuestion(type, selectedTopic)

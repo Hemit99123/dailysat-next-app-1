@@ -1,13 +1,16 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getSession as getEmployeeSession } from './lib/auth/employeeSession';
+import { useLoggedInStore } from './store/user';
 
 export const middleware = async (request: NextRequest) => {
   const protectedEmployeeBackendRoutes = ['/api/protected-employee'];
   const protectedEmployeeFrontendRoutes = ['/api-docs'];
+  const loginRequiredRoutes = ["/reading","/math"];
 
   // Check if the request path matches any protected route for backend (ONLY EMPLOYEES ALLOWED)
   const isProtectedEmployeeBackend = protectedEmployeeBackendRoutes.includes(request.nextUrl.pathname);
+  const isLoginRequiredRoute = loginRequiredRoutes.includes(request.nextUrl.href);
 
   if (isProtectedEmployeeBackend) {
     const isSessionValid = await getEmployeeSession();
@@ -16,6 +19,14 @@ export const middleware = async (request: NextRequest) => {
       return NextResponse.json({
         error: "You do not have the proper employee authorization",
       });
+    }
+  }
+
+  if(isLoginRequiredRoute){
+    if(JSON.parse(localStorage.getItem("loggedin") || "false") == false){
+      const url = request.nextUrl.clone();
+      url.pathname = "/signup"
+      return NextResponse.redirect(url);
     }
   }
 

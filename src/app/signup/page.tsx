@@ -66,7 +66,7 @@ export default function Signup() {
         useLoggedInStore.setState({ loggedIn: true });
 
         // TODO : Redirect to dashboard
-        window.location.replace("/");
+        setTimeout(() => window.location.replace("/"), 100);
       }
     }
 

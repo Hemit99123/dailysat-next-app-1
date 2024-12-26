@@ -14,7 +14,7 @@ interface CoinDisplayProps {
 
 const StatDisplay: React.FC<CoinDisplayProps> = ({ header, number, status, percentage, type, icon, color }) => {
     return (
-        <div className="shadow-lg rounded-lg w-full bg-white p-4">
+        <div className="shadow-lg rounded-lg w-full bg-white p-4 mb-5">
             <div className="flex items-center mb-3">
                 <Image src={`/icons/${icon}.png`} width={40} height={40} alt="hi" />
                 <p className={`text-md font-bold text-gray-600 ml-2`}>{header}</p>

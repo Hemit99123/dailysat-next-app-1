@@ -24,7 +24,7 @@ const NavBar = () => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-
+  
   const handleGoToNewPage = (link: string) => {
     router.push(link);
   };
@@ -34,9 +34,11 @@ const NavBar = () => {
       setRenderUI(false);
 
       // Load in cookie data
-      const localUser = JSON.parse(localStorage.getItem("USER") || "{}");
-      const loggedIn = JSON.parse(localStorage.getItem("loggedin") || "false");
+      const localUser : User = JSON.parse(localStorage.getItem("USER") || "{}");
+      const loggedIn : boolean = JSON.parse(localStorage.getItem("loggedin") || "false");
       useLoggedInStore.getState().setLoggedIn(loggedIn);
+      console.log("LOCAL_USER");
+      console.log(localUser);
 
       if (loggedIn == true) {
         // Make sure that our data is updated with the database (there is a possibility that the user logged in from another device and changed the data)
@@ -45,12 +47,20 @@ const NavBar = () => {
         if (response.data.code == 200) {
           // Update our localUserData so it's the same as the database's
           useUserStore.getState().setUser(response.data.user);
+          console.log("DB_USER");
+          console.log(response.data.user);
+    
           useCoinStore.getState().setCoins(response.data.user.currency);
+          console.log("COINS_DB");
+          console.log(response.data.user.currency);
+
+          // Done?
           localStorage.setItem("USER", JSON.stringify(response.data.user));
         }
         else {
           // Just set it as the local userData
           useUserStore.getState().setUser(localUser);
+          useCoinStore.getState().setCoins(localUser.currency);
         }
       }
       else {
@@ -60,11 +70,19 @@ const NavBar = () => {
       }
 
       // Request takes time, and updating stores in useEffect isn't best practices, plus the loading in effect at the beginning looks cool.
-      setTimeout(() => setRenderUI(true), 30);
+      setTimeout(() => setRenderUI(true), 2);
+      setTimeout(()=>setRenderUI(false), 4);
+      setTimeout(()=>setRenderUI(true), 6);
     };
 
     loadCookieData();
   }, []);
+  
+  useEffect(() => {
+    console.log("called");
+    setRenderUI(false);
+    setTimeout(() => setRenderUI(true), 30);
+  }, [useCoinStore.getState()])
 
   return renderUI ? (
     <nav className="bg-white w-full border-b border-gray-200">
@@ -138,13 +156,16 @@ const NavBar = () => {
               </div>
             </li>
           ))}
+
           <li>
-            <button
-              onClick={() => handleGoToNewPage("https://evq73w1t59w.typeform.com/to/S0yXIWtD")}
-              className="w-full px-4 py-2 mt-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-            >
-              Contact
-            </button>
+            {useLoggedInStore.getState().loggedIn == false && (
+              <button
+                onClick={() => handleGoToNewPage("/signup")}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+              >
+                Signup
+              </button>
+            )}
           </li>
         </ul>
       </div>
