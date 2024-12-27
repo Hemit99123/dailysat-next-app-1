@@ -64,10 +64,10 @@ const Home = () => {
   // Determine whether the user is logged in before rendering page
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("loggedin") || "false") == false) {
-      const type = prompt("Redirect to Math or Reading?")
-      if (type?.toUpperCase() == "MATH") {
+      const type = prompt("Redirect to Math (type M) or Reading (type R)")
+      if (type?.toUpperCase() == "M") {
       redirect("/math") 
-} else if (type?.toUpperCase() == "READING") {
+} else if (type?.toUpperCase() == "R") {
       redirect("/reading")
 } else {
       redirect("/about") 
