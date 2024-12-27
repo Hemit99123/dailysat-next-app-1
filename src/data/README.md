@@ -1,2 +1,0 @@
-# NOTE : THESE FILES ARE NOT FOR THE WEB APP. THESE ARE FEEDER SCRIPTS for the mongodb database.
-
