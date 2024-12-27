@@ -8,4 +8,4 @@ export const REFERRAL_BONUS_REFERREE : number = 200
 export const QUESTION_IS_CORRECT_POINTS : number = 50
 
 // First 250
-export const FIRST_250_BONUS : number = 20
+export const FIRST_250_BONUS : number = 3000
