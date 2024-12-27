@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
 import { team } from '@/data/team';
+import ftnLogo from './ftnbroadcasting.png';
 
 const About = () => {
   return (
@@ -107,12 +108,13 @@ const About = () => {
      </section>
 
      <section>
-      <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-blue-900 text-center">Workshops:</h2>
-      <p className="font-light text-gray-500 sm:text-xl text-center">
-          We love educating, sharing and learning :) These are workshops completed in the past
-      </p>
-      <div className="flex justify-center mt-10 mb-20">
-      <div className="flex flex-col md:flex-row items-center md:space-x-2 bg-gray-50 w-full md:w-1/2 rounded-lg shadow-md mb-10 p-4">
+  <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-blue-900 text-center">Workshops:</h2>
+  <p className="font-light text-gray-500 sm:text-xl text-center">
+    We love educating, sharing and learning :) These are workshops completed in the past
+  </p>
+  <div className="flex flex-col items-center gap-6 mt-10 mb-20">
+    {/* StockSavvy Workshop */}
+    <div className="flex flex-row items-center space-x-4 bg-gray-50 w-full max-w-2xl rounded-lg shadow-md p-4">
       <div>
         <svg
           height={75}
@@ -152,15 +154,30 @@ const About = () => {
           </g>
         </svg>
       </div>
-      <div className="text-center md:text-left">
-        <h1 className="text-lg md:text-xl font-bold">DailySAT x StockSavvy</h1>
+      <div>
+        <h1 className="text-xl font-bold">DailySAT x StockSavvy</h1>
         <p className="text-sm text-gray-700">60+ people</p>
         <p className="font-semibold">A workshop about post-secondary financial literacy</p>
       </div>
     </div>
-      </div>
 
-     </section>
+    {/* FTN Broadcasting Workshop */}
+    <div className="flex flex-row items-center space-x-4 bg-gray-50 w-full max-w-2xl rounded-lg shadow-md p-4">
+      <div className="w-20 h-20">
+        <Image 
+          src={ftnLogo} 
+          alt="FTN Logo"
+          className="w-full h-full object-contain" 
+        />
+      </div>
+      <div>
+        <h1 className="text-xl font-bold">DailySAT x FTN BroadCasting</h1>
+        <p className="text-sm text-gray-700">Marketing DailySat content to 1000+ students</p>
+        <p className="font-semibold">A broadcasting network with in house content development</p>
+      </div>
+    </div>
+  </div>
+</section>
     </div>
   );
 };
