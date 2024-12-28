@@ -7,6 +7,34 @@ interface ReferralUpdate {
     id_referee : string
 }
 
+/**
+ * @swagger
+ * /api/referral:
+ *   post:
+ *     summary: Update referral information
+ *     description: Updates the referral information for a referred person and a referee.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email_referred:
+ *                 type: string
+ *                 description: Email of the referred person
+ *               id_referee:
+ *                 type: string
+ *                 description: ID of the referee
+ *     responses:
+ *       200:
+ *         description: Referral information updated successfully
+ *       400:
+ *         description: Invalid referral code or error in reading request JSON
+ *       500:
+ *         description: Error in connecting with the MongoDB client
+ */
+
 export async function POST(request: Request) {
     try{
         const data : ReferralUpdate = await request.json();

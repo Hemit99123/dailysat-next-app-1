@@ -1,3 +1,4 @@
+// Answers type representing possible answers and a function to convert answer to string
 export type Answers = "A" | "B" | "C" | "D" 
 
 export function answerToString(answer : Answers){

@@ -1,6 +1,28 @@
 import { client } from "@/lib/mongo";
 import { Db, WithId, Document, FindCursor } from "mongodb";
 
+/**
+ * @swagger
+ * /api/user-data:
+ *   get:
+ *     summary: Get user data
+ *     description: Retrieves user data based on the provided email.
+ *     parameters:
+ *       - in: query
+ *         name: email
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Email of the user
+ *     responses:
+ *       200:
+ *         description: User data retrieved successfully
+ *       400:
+ *         description: Bad request. Make sure to specify the email parameter
+ *       500:
+ *         description: Server error
+ */
+
 export async function GET(request: Request) {
     const url: URL = new URL(request.url);
     const searchParams: URLSearchParams = new URLSearchParams(url.search);

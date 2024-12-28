@@ -8,7 +8,6 @@ import Quotes from "@/types/quotes";
 import Spinner from "@/components/common/Spinner";
 import MathSVG from "@/components/common/icons/MathSVG";
 import BookSVG from "@/components/common/icons/BookSVG";
-import { redirect } from "next/navigation";
 import useUserStore, { useCoinStore } from "@/store/user";
 import { DBQuestionRecord } from "@/types/questions";
 import ExtraModal from "@/components/features/Dashboard/ExtraModal";
@@ -60,20 +59,6 @@ const Home = () => {
     };
     setGreeting(getGreeting());
   }, []);
-
-  // Determine whether the user is logged in before rendering page
-  useEffect(() => {
-    if (JSON.parse(localStorage.getItem("loggedin") || "false") == false) {
-      const type = prompt("Redirect to Math (type M) or Reading (type R)")
-      if (type?.toUpperCase() == "M") {
-      redirect("/math") 
-} else if (type?.toUpperCase() == "R") {
-      redirect("/reading")
-} else {
-      redirect("/about") 
-}
-    }
-  }, [])
 
   // Copy Referral ID
   const handleCopy = async () => {

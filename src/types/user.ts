@@ -1,3 +1,4 @@
+// User interface representing a user in the system
 import { DBQuestionRecord } from "./questions";
 
 export interface User {
@@ -16,4 +17,4 @@ export interface User {
   
     // Questions answered
     questionsAnswered: DBQuestionRecord[]
-  }
+}
