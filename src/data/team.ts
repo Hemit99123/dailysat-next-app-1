@@ -12,8 +12,8 @@ export const team = [
       linkedIn: "https://www.linkedin.com/in/hemit-patel-383ab3271/"
     }, 
     {
-      name: "William Chan",
-      role: "Head of Marketing",
+      name: "Wilman Chan",
+      role: "Chief Marketing Officer",
       imgSrc: "https://media.licdn.com/dms/image/v2/D5603AQFMtNWPnihUBg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1718285605821?e=1738800000&v=beta&t=A2mf419HvUG8s4vdNi_10pq1VRPljzekz7BtfqWrImU",
       linkedIn: "https://www.linkedin.com/in/wilman-chan-03a468286/"
     },
