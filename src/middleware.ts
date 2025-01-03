@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getSession as getEmployeeSession } from './lib/auth/employeeSession';
+import {auth} from "@/auth"
+import {redirect} from 'next/navigation'
 
 export const middleware = async (request: NextRequest) => {
   const protectedEmployeeBackendRoutes = ['/api/protected-employee'];
@@ -56,6 +58,14 @@ export const middleware = async (request: NextRequest) => {
     }
   }
 
+  // For all other users (using next-auth for them, not in-built solution)
+
+  const session = await auth()
+
+  if (!session) {
+    redirect("/auth")
+  }
+  
   // Allow request to proceed if no matching route is found
   return NextResponse.next();
 };
