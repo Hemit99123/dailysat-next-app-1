@@ -1,4 +1,5 @@
 import { client } from "@/lib/mongo";
+import { createClient } from "@/lib/supabase";
 import { Db, WithId, Document, FindCursor } from "mongodb";
 
 /**
@@ -24,11 +25,11 @@ import { Db, WithId, Document, FindCursor } from "mongodb";
  */
 
 export async function GET(request: Request) {
-    const url: URL = new URL(request.url);
-    const searchParams: URLSearchParams = new URLSearchParams(url.search);
-    const userEmail: string = searchParams.get("email") || "";
+    const supabase = createClient()
 
-    if (userEmail === "") {
+    const user = await supabase.auth.getUser()
+
+    if (user.data.user?.email === "") {
         return Response.json({
             code: 400,
             message: "bad request. make sure to specify the email parameter"
@@ -39,7 +40,7 @@ export async function GET(request: Request) {
             await client.connect();
             const db: Db = client.db("DailySAT");
 
-            const result: FindCursor<WithId<Document>> = db.collection("users").find({ email: userEmail });
+            const result: FindCursor<WithId<Document>> = db.collection("users").find({ email: user.data.user?.email });
             const allValues: WithId<Document>[] = await result.toArray();
             return Response.json({
                 code: 200,

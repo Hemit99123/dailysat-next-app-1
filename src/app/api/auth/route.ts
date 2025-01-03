@@ -1,6 +1,6 @@
 import { client } from "@/lib/mongo";
 import { Db, Document, InsertOneResult, ObjectId, WithId } from "mongodb";
-import { User } from "@/app/signup/page";
+import { createClient } from "@/lib/supabase";
 
 /**
  * @swagger
@@ -19,11 +19,6 @@ import { User } from "@/app/signup/page";
  *                 type: string
  *                 description: The email of the user.
  *                 example: "user@example.com"
- *               _id:
- *                 type: string
- *                 description: The ID of the user.
- *                 example: "60d0fe4f5311236168a109ca"
- *               // ...other user properties...
  *     responses:
  *       200:
  *         description: Successfully signed up or logged in the user.
@@ -47,12 +42,11 @@ import { User } from "@/app/signup/page";
  *                     _id:
  *                       type: string
  *                       example: "60d0fe4f5311236168a109ca"
- *                     // ...other user properties...
  *                 ts:
  *                   type: string
  *                   example: "1625077765000"
  *       400:
- *         description: Error in reading request JSON.
+ *         description: Bad request due to improper input.
  *         content:
  *           application/json:
  *             schema:
@@ -63,9 +57,9 @@ import { User } from "@/app/signup/page";
  *                   example: 400
  *                 message:
  *                   type: string
- *                   example: "error in reading request JSON : give userData in proper format"
+ *                   example: "Invalid request JSON format."
  *       500:
- *         description: Error in connecting with the MongoDB client or creating document.
+ *         description: Internal server error.
  *         content:
  *           application/json:
  *             schema:
@@ -76,59 +70,83 @@ import { User } from "@/app/signup/page";
  *                   example: 500
  *                 message:
  *                   type: string
- *                   example: "error in connecting with the mongodb client" or "error in creating document, check mongoDB"
+ *                   example: "Internal server error."
  */
 
 export async function POST(request: Request) {
-    try{
-        const user : User = await request.json();
+  try {
+    const supabase = createClient();
 
-        try{
-            await client.connect();
+    // Authenticate user with Google OAuth
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: "/",
+      },
+    });
 
-            const db: Db = client.db("DailySAT");
-            const doc : WithId<Document> | null = await db.collection("users").findOne({email : user.email});
-
-            if(doc == null){
-                // Signup
-                const new_doc : InsertOneResult<Document> = await db.collection("users").insertOne({...user, _id : new ObjectId(user._id)});
-                if(new_doc.acknowledged == true){
-                    return Response.json({
-                        user : user,
-                        code : 200,
-                        status : "signup",
-                        ts : Date.now().toString()
-                    })
-                }
-                else{
-                    return Response.json({
-                        code : 500,
-                        message : "error in creating document, check mongoDB"
-                    })
-                }
-            }
-            else{
-                // Login
-                return Response.json({
-                    code : 200,
-                    status : "login",
-                    user : user,
-                    ts : Date.now().toString()
-                })
-            }
-        }
-
-        catch{
-            return Response.json({
-                code : 500,
-                message : "error in connecting with the mongodb client"
-            })
-        }
+    if (error) {
+      return new Response(JSON.stringify({
+        code: 400,
+        message: "Error during authentication."
+      }), { status: 400 });
     }
-    catch{
-        return Response.json({
-            code : 400,
-            message : "error in reading request JSON : give userData in proper format"
-        })
+
+    // Get user information after login
+    const { data: authData, error: userError } = await supabase.auth.getUser();
+
+    if (userError || !authData?.user) {
+      return new Response(JSON.stringify({
+        code: 400,
+        message: "Failed to retrieve user information."
+      }), { status: 400 });
     }
+
+    await client.connect();
+    const db: Db = client.db("DailySAT");
+
+    // Check if user exists in MongoDB
+    const existingUser: WithId<Document> | null = await db.collection("users").findOne({ email: authData.user.email });
+
+    if (!existingUser) {
+      // Create a new user document
+      
+      const { username, birthday } = await request.json()
+
+      const newUser: InsertOneResult<Document> = await db.collection("users").insertOne({
+        email: authData.user.email,
+        username,
+        birthday,
+        currency: 0,
+        questionsAnswered: [],
+        _id: new ObjectId(authData.user.id),
+      });
+
+      if (newUser.acknowledged) {
+        return new Response(JSON.stringify({
+          code: 200,
+          status: "signup",
+          user: authData.user,
+          ts: Date.now().toString(),
+        }), { status: 200 });
+      } else {
+        throw new Error("Failed to create new user document.");
+      }
+    }
+
+    // User exists, return login response
+    return new Response(JSON.stringify({
+      code: 200,
+      status: "login",
+      user: existingUser,
+      ts: Date.now().toString(),
+    }), { status: 200 });
+
+  } catch (err) {
+    console.error(err);
+    return new Response(JSON.stringify({
+      code: 500,
+      message: "Internal server error."
+    }), { status: 500 });
+  }
 }

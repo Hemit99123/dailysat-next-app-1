@@ -8,14 +8,39 @@ import Quotes from "@/types/quotes";
 import Spinner from "@/components/common/Spinner";
 import MathSVG from "@/components/common/icons/MathSVG";
 import BookSVG from "@/components/common/icons/BookSVG";
-import useUserStore, { useCoinStore } from "@/store/user";
 import { DBQuestionRecord } from "@/types/questions";
 import ExtraModal from "@/components/features/Dashboard/ExtraModal";
+import { createClient } from "@/lib/supabase";
+import { User } from "@supabase/supabase-js";
 
 const Home = () => {
   const [greeting, setGreeting] = useState("");
   const [quote, setQuote] = useState<Quotes | null>(null);
   const [isLoadingQuote, setIsLoadingQuote] = useState(false);
+  const supabase = createClient()
+
+  // this is from the supabase server
+  const [user, setUser] = useState<User | null>();
+
+  // this is the mongodb document that was created
+  const [dbUser, setDbUser] = useState<any>()
+
+  useEffect(() => {
+
+    const handleGetUser = async () => {
+      const user = await supabase.auth.getUser()
+      setUser(user.data.user)
+    }
+
+    const handleGetDBUser = async () => {
+      const dbUser = await axios.get("/user-data")
+      setDbUser(dbUser.data)
+    }
+
+    handleGetUser()
+    handleGetDBUser()
+
+  }, [])
 
   // Fetch a random quote once the component has been mounted
   useEffect(() => {
@@ -62,7 +87,7 @@ const Home = () => {
 
   // Copy Referral ID
   const handleCopy = async () => {
-    const referralCode = useUserStore.getState().user._id;
+    const referralCode = user?.id;
     await navigator.clipboard.writeText(referralCode || "");
   };
 
@@ -91,7 +116,7 @@ const Home = () => {
       {/* Greeting Section */}
       <div className="mt-8 text-center">
         <h1 className="text-4xl font-bold text-gray-800">
-          {greeting ? `${greeting}, ${useUserStore.getState().user.given_name}` : "Loading greeting..."}
+          {greeting ? `${greeting}!` : "Loading greeting..."}
         </h1>
         <p className="text-gray-600 font-light">
           Choose what to study and start practicing...
@@ -137,16 +162,8 @@ const Home = () => {
       <div className="lg:flex lg:space-x-2 mt-1.5 p-3.5">
         <div className="shadow-lg rounded-lg w-full bg-white p-4 flex lg:items-center flex-col lg:flex-row lg:justify-between">
           <div className="flex items-center mb-3">
-            <img
-              src={useUserStore.getState().user.picture || ""}
-              alt="userpfpic"
-              width={120}
-              height={120}
-              className="rounded-2xl"
-            />
             <div className="ml-6">
-              <p className="text-3xl font-bold text-blue-600">{useUserStore.getState().user.name}</p>
-              <p>Email: {useUserStore.getState().user.email}</p>
+              <p>Email: {user?.email}</p>
             </div>
           </div>
 
@@ -161,16 +178,15 @@ const Home = () => {
                   aria-label="Copy Referral Code"
                 />
               </button>
-              {useUserStore.getState().user._id}</p>
+              {user?.id}</p>
           </div>
         </div>
       </div>
 
       {/* Second row */}
       <div className="lg:flex lg:space-x-2 mt-1.5 p-3.5">
-        <StatDisplay type="coins" color="black" icon="coin" header="DailySAT Coins:" number={useCoinStore.getState().coins} status="upward" percentage={useCoinStore.getState().coins * 100} />
-        <StatDisplay type="questions" color="green" icon="checked" header="Questions Correct:" number={filterQuestions(useUserStore.getState().user.questionsAnswered || [])[0]} status="upward" percentage={filterQuestions(useUserStore.getState().user.questionsAnswered || [])[0] * 100} />
-        <StatDisplay type="questions" color="#ff5454" icon="cross" header="Questions Wrong:" number={filterQuestions(useUserStore.getState().user.questionsAnswered || [])[1]} status="upward" percentage={filterQuestions(useUserStore.getState().user.questionsAnswered || [])[1] * 100} />
+        <StatDisplay type="coins" color="black" icon="coin" header="DailySAT Coins:" number={dbUser.currency} status="upward" percentage={10} />
+        <StatDisplay type="questions" color="green" icon="checked" header="Questions Completed:" number={dbUser.questionsAnswered.length()} status="upward" percentage={10} />
       </div>
 
       {/* Third row of boxes area */}
