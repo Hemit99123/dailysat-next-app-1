@@ -1,8 +1,8 @@
 import { useCalcModeModalStore, useCalcOptionModalStore } from '@/store/modals';
 import React from 'react';
 import Options from './Components/Options';
-import GraphingCalculator from '../GraphingCalculator';
-import RegularCalculator from '../RegularCalculator';
+import GraphingCalculator from '../Calculators/GraphingCalculator';
+import RegularCalculator from '../Calculators/RegularCalculator';
 
 const CalcOption = () => {
   const isOpen = useCalcOptionModalStore((state) => state.isOpen);
