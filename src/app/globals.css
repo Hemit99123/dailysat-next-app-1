@@ -13,7 +13,7 @@
     transition: 0.25s;
   }
   
-  .fancy-input:focus {
-    outline-offset: 5px;
-    background-color: #fff
-  }
+.fancy-input:focus {
+  outline-offset: 5px;
+  background-color: #fff
+}
