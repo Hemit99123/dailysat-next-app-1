@@ -1,8 +1,8 @@
 import {client} from "@/lib/mongo";
 import { Db, Document } from "mongodb";
-import { redis } from "@/lib/auth/redis";
+import { redis } from "@/lib/employee-auth/redis";
 import { transporter } from "@/lib/nodemailer";
-import otpGenerate from "@/lib/auth/otpGenerate";
+import otpGenerate from "@/lib/employee-auth/otpGenerate";
 
 export async function POST(request: Request) {
   const body = await request.json();

@@ -1,4 +1,4 @@
-import { redis } from "@/lib/auth/redis";
+import { redis } from "@/lib/employee-auth/redis";
 
 export async function GET(request: Request) {
   try {
