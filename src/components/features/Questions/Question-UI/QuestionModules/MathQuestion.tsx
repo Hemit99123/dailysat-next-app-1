@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
-import AnswerOption from "./AnswerOption";
+import AnswerOption from "../AnswerOption";
 import { Answers } from "@/types/answer";
 import { useAnswerCorrectStore, useAnswerStore, useQuestionStore } from "@/store/questions";
 import { QuestionsProps } from "@/types/questions";
 import { toggleCrossOffMode, toggleCrossOffOption } from "@/lib/questions-func/crossOff";
 import { CalculatorIcon } from "lucide-react";
 import { useCalcOptionModalStore } from "@/store/modals";
-import CalcOption from "../Modals/CalcOption";
+import CalcOption from "../../Modals/CalcOption";
 import Latex from "react-latex-next";
 
 const MathQuestion: React.FC<QuestionsProps> = ({
