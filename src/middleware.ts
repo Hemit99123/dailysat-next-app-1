@@ -4,7 +4,7 @@ import { getSession as getEmployeeSession } from './lib/auth/employeeSession';
 import {auth} from "@/auth"
 
 export const middleware = async (request: NextRequest) => {
-  const protectedAuthRoutes = ['/', '/about']
+  const protectedAuthRoutes = ['/', '/shop']
   const protectedEmployeeBackendRoutes = ['/api/protected-employee'];
   const protectedEmployeeFrontendRoutes = ['/api-docs'];
 
