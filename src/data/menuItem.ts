@@ -1,6 +1,7 @@
 // Define the menu items for navigation
 export const menuItems = [
-  { label: "Reading and Writing", href: "/reading"},
   { label: "Math", href: "/math"},
+  { label: "Reading & Writing", href:"/reading"},
   { label: "About", href: "/about" },
+  { label: "Shop", href: "/shop" }
 ];

@@ -7,14 +7,7 @@ import CookieConsent from "react-cookie-consent";
 import Spinner from "./Spinner";
 import axios, { AxiosResponse } from "axios";
 import { User } from "@/types/user";
-
-// Define the menu items for navigation
-const menuItems = [
-  { label: "Math", href: "/math"},
-  { label: "Reading & Writing", href:"/reading"},
-  { label: "About", href: "/about" },
-  { label: "Shop", href: "/shop" }
-];
+import { menuItems } from "@/data/menuItem";
 
 const NavBar = () => {
   const router = useRouter(); // Hook to navigate programmatically
