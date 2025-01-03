@@ -138,7 +138,7 @@ export async function POST(request: Request) {
     return new Response(JSON.stringify({
       code: 200,
       status: "login",
-      user: existingUser,
+      email: authData.user.email,
       ts: Date.now().toString(),
     }), { status: 200 });
 

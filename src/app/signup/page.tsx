@@ -1,7 +1,5 @@
 "use client";
 
-import { CredentialResponse, GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
-import { jwtDecode } from "jwt-decode";
 import React, { useState } from "react";
 import axios from "axios";
 
@@ -19,21 +17,12 @@ export interface User {
 export default function Signup() {
   const [isLoading, setIsLoading] = useState(false);
 
-  async function handleLogin(token: CredentialResponse) {
+  async function handleLogin() {
     setIsLoading(true);
 
     try {
-      const str: string = token.credential || "";
-      const decodedUser: User = jwtDecode<User>(str);
-
-      const email = decodedUser.email;
-      if (!email) {
-        alert("Failed to retrieve email from Google OAuth. Please try again.");
-        return;
-      }
-
       // Call the login API
-      const loginResponse = await axios.post("/api/auth/login", { email });
+      const loginResponse = await axios.post("/api/auth/login");
       const loginData = loginResponse.data;
 
       if (loginData.state === "new_doc") {
@@ -44,7 +33,7 @@ export default function Signup() {
         if (username && birthday) {
           // Call the create document API
           await axios.post("/api/auth/create", {
-            email,
+            email: loginResponse.data.email,
             username,
             birthday,
           });
@@ -55,7 +44,7 @@ export default function Signup() {
       } else if (loginData.code === 200) {
         // Existing user login
         alert("Login successful!");
-        
+
       } else {
         alert(loginData.message);
       }
@@ -73,24 +62,9 @@ export default function Signup() {
 
   return (
     <div className="signup-container">
-      <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ""}>
-        <div className="bg-white p-8">
-          <div className="flex mb-6">
-            <button className="flex-1 py-2 text-blue-600 text-4xl font-bold" disabled={isLoading}>
-              Sign In
-            </button>
-          </div>
-          <div className="flex justify-center mt-10">
-            <GoogleLogin
-              onSuccess={handleLogin}
-              onError={handleError}
-              shape="pill"
-              width={500}
-            />
-          </div>
-          {isLoading && <p className="text-center mt-4">Processing...</p>}
-        </div>
-      </GoogleOAuthProvider>
+      <button onClick={handleLogin}>
+        Sign in with google
+      </button>
     </div>
   );
 }
