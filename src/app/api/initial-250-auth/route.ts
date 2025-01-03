@@ -1,6 +1,7 @@
 import { client } from "../../../lib/mongo";
 import { Db, Document, WithId } from "mongodb";
 import { FIRST_250_BONUS } from "@/lib/CONSTANTS";
+import { auth } from "@/auth";
 
 /**
  * @swagger
@@ -63,7 +64,8 @@ import { FIRST_250_BONUS } from "@/lib/CONSTANTS";
 
 export async function POST(request: Request) {
     try {
-        const { email } = await request.json();
+        const session = await auth()
+        const email = session?.user?.email
 
         try {
             await client.connect();
