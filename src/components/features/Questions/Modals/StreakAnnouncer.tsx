@@ -1,6 +1,6 @@
 import { useStreakAnnouncerModalStore } from '@/store/modals';
 import React from 'react';
-import CloseButton from '../../Shared-Components/Cancel';
+import CloseButton from '@/components/features/Shared-Components/Cancel';
 
 const StreakAnnouncer = () => {
   const onClose = useStreakAnnouncerModalStore((state) => state.closeModal);
