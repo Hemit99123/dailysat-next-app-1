@@ -14,6 +14,7 @@ import { User } from "@/types/user";
 
 const Home = () => {
   const [user, setUser] = useState<User>()
+  const [loading, setLoading] = useState(true)
   const [greeting, setGreeting] = useState("");
   const [quote, setQuote] = useState<Quotes | null>(null);
   const [isLoadingQuote, setIsLoadingQuote] = useState(false);
@@ -44,7 +45,10 @@ const Home = () => {
     };
 
     const handleGetUser = async () => {
-      const response = await axios.get("/api/auth/get-user")
+
+      // It is post instead of get because it can create new resources on the server (if user is not found)
+      
+      const response = await axios.post("/api/auth/get-user")
 
       setUser(response.data.user)
 
@@ -52,7 +56,6 @@ const Home = () => {
 
     handleFetchQuote();
     handleGetUser();
-
   }, []);
 
   // Determine the greeting based on the time of day
@@ -68,7 +71,11 @@ const Home = () => {
       }
     };
     setGreeting(getGreeting());
+    setLoading(false)
+
   }, []);
+
+
 
   // Copy Referral ID
   const handleCopy = async () => {
@@ -98,12 +105,16 @@ const Home = () => {
     return [correct_count, wrong_count]
   }
 
+  if (loading) {
+    return <Spinner />
+  }
+
   return (
     <div>
       {/* Greeting Section */}
       <div className="mt-8 text-center">
         <h1 className="text-4xl font-bold text-gray-800">
-          {greeting ? `${greeting}, ${user?.name}` : "Loading greeting..."}
+          {greeting ? `${greeting}, ${user?.name || "unknown"}` : "Loading greeting..."}
         </h1>
         <p className="text-gray-600 font-light">
           Choose what to study and start practicing...
@@ -243,7 +254,15 @@ const Home = () => {
           )}
         </div>
 
-        <ExtraModal art="/icons/high-five.png" buttonText="Redeem Points" color="blue" desc="Both you and your friend can redeem 3000 coins." url="/misc-login?t=Referee bonus" header="Referred by a friend?" type="URL" />
+        <ExtraModal 
+          art="/icons/high-five.png" 
+          buttonText="Redeem Points" 
+          color="blue" 
+          desc="Both you and your friend can redeem 3000 coins." 
+          url="/redeem?t=Referee bonus" 
+          header="Referred by a friend?" 
+          type="URL" 
+        />
 
       </div>
     </div>

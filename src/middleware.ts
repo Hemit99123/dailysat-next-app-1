@@ -65,7 +65,7 @@ export const middleware = async (request: NextRequest) => {
   // Check if the user is not authenticated and trying to access a protected route
   if (!session && protectedAuthRoutes.includes(request.nextUrl.pathname)) {
     const url = request.nextUrl.clone()
-    url.pathname = "/auth"
+    url.pathname = "/unauthorized"
     return NextResponse.redirect(url)
   }
   else if (session && request.nextUrl.pathname == "/auth") {

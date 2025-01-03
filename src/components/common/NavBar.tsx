@@ -1,24 +1,30 @@
 "use client"; 
 
 import Image from "next/image";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
+
 import { useEffect, useState } from "react";
 import CookieConsent from "react-cookie-consent";
 import { menuItems } from "@/data/menuItem";
-import { handleSignOut } from "./action";
+import { handleSignIn, handleSignOut } from "./server-actions";
+import { determineAuthStatus } from "@/lib/authStatus";
 
 const NavBar = () => {
   const router = useRouter(); 
-  const pathname = usePathname()
+  const [status, setStatus] = useState<boolean | null>(null)
 
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State to track if the mobile menu is open
-  const [renderUI, setRenderUI] = useState(true); // State for UI rendering
 
   useEffect(() => {
-      if (pathname == "/auth") {
-    setRenderUI(false)
-  }
+    const handleStatus = async () => {
+      const status = await determineAuthStatus()
+      setStatus(status)
+    }
+
+    handleStatus()
+
   }, [])
+
   // Toggles the mobile menu open/close state
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -29,7 +35,7 @@ const NavBar = () => {
   };
 
 
-  return renderUI && (
+  return (
     <nav className="bg-white w-full border-b border-gray-200">
       {/* Container for the main navigation bar */}
       <div className="max-w-screen-xl mx-auto flex justify-between items-center p-4">
@@ -66,7 +72,7 @@ const NavBar = () => {
           ))}
         </div>
 
-        {/* Signup Button for Desktop View */}
+        {status ? (
         <div className="hidden md:block">
             <button
               onClick={() => handleSignOut()}
@@ -75,6 +81,18 @@ const NavBar = () => {
               Sign out
             </button>
         </div>
+        ) : (
+          <div className="hidden md:block">
+            <button
+              onClick={() => handleSignIn()}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            >
+              Sign in
+            </button>
+          </div>
+        )}
+
+
       </div>
 
       {/* Mobile Menu Items with transition effect */}
