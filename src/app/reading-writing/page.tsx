@@ -2,7 +2,7 @@
 
 import Sidebar from "@/components/features/Sidebar/Sidebar";
 import { readingTopics } from "@/data/topics";
-import BookSVG from "@/components/features/Questions/icons/BookSVG";
+import BookSVG from "../../components/features/Questions/icons/BookSVG";
 import { Topic } from "@/types/topic";
 import { useEffect, useRef } from "react";
 import ReadingQuestion from "@/components/features/Questions/Question-UI/ReadingQuestion";
