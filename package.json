@@ -30,6 +30,7 @@
     "react": "^18",
     "react-cookie-consent": "^9.0.0",
     "react-dom": "^18",
+    "react-google-button": "^0.8.0",
     "react-latex-next": "^3.0.0",
     "react-resizable": "^3.0.5",
     "react-toastify": "^10.0.6",
