@@ -1,7 +1,7 @@
 import {client} from "@/lib/mongo";
 import { Db, Document } from "mongodb";
 import { redis } from "@/lib/employee-auth/redis";
-import { transporter } from "@/lib/nodemailer/nodemailer";
+import { transporter } from "@/lib/nodemailer";
 import otpGenerate from "@/lib/employee-auth/otpGenerate";
 
 export async function POST(request: Request) {
