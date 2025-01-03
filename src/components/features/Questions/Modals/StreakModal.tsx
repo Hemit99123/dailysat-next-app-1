@@ -2,7 +2,7 @@ import { useStreakCounterModalStore } from "@/store/modals";
 import {useAnswerCounterStore} from "@/store/score";
 import React from "react";
 import CloseButton from '@/components/features/Shared-Components/Cancel'; 
-import ScoreShower from "../../Sidebar/ScoreShower";
+import ScoreShower from "@/components/features/Sidebar/ScoreShower";
 
 const StreakModal = () => {
     // Retrieve score from score store
