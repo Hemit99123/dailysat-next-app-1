@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getSession as getEmployeeSession } from './lib/auth/employeeSession';
 import {auth} from "@/auth"
+import { getSession as getEmployeeSession } from './lib/employee-auth/employeeSession';
 
 export const middleware = async (request: NextRequest) => {
   const protectedAuthRoutes = ['/', '/shop', '/math', '/reading-writing']

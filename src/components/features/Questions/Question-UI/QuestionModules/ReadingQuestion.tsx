@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
-import AnswerOption from "../../shared-components/AnswerOption";
+import AnswerOption from "../AnswerOption";
 import { Answers } from "@/types/answer";
 import { useAnswerCorrectStore, useAnswerStore, useQuestionStore } from "@/store/questions";
 import Image from "next/image";
 import axios from "axios";
 import { QuestionsProps } from "@/types/questions";
-import { toggleCrossOffMode, toggleCrossOffOption } from "@/lib/crossOff";
+import { toggleCrossOffMode, toggleCrossOffOption } from "@/lib/questions-func/crossOff";
 
 const ReadingQuestion: React.FC<QuestionsProps> = ({ onAnswerSubmit }) => {
   const selectedAnswer = useAnswerStore((state) => state.answer);
