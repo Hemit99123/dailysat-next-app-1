@@ -1,7 +1,7 @@
 import { useScoreModalStore } from "@/store/modals";
 import {useScoreStore} from "@/store/score";
 import React from "react";
-import CloseButton from '@/components/features/Shared-Components/Cancel'; 
+import CloseButton from '@/components/features/g/Cancel'; 
 import ScoreShower from "../../Sidebar/ScoreShower";
 
 const ScoreModal = () => {
