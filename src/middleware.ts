@@ -58,17 +58,21 @@ export const middleware = async (request: NextRequest) => {
     }
   }
 
-  // For all other users (using next-auth for them, not in-built solution)
+  // For all other users from next auth login (google sso)
 
   const session = await auth()
 
+  // Check if the user is not authenticated and trying to access a protected route
   if (!session && protectedAuthRoutes.includes(request.nextUrl.pathname)) {
     const url = request.nextUrl.clone()
     url.pathname = "/auth"
     return NextResponse.redirect(url)
   }
-  
-  
+  else if (session && request.nextUrl.pathname == "/auth") {
+    const url = request.nextUrl.clone()
+    url.pathname = "/"
+    return NextResponse.redirect(url)
+  }
 
   // Allow request to proceed if no matching route is found
   return NextResponse.next();

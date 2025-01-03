@@ -4,12 +4,15 @@ import axios from 'axios'
 import { handleSignIn } from './action'
 import React from 'react'
 import GoogleButton from 'react-google-button'
+import { useRouter } from 'next/navigation'
 
 const page = () => {
+  const router = useRouter()
 
   const handleSignInFlow = async () => {
     handleSignIn()
     await axios.post("api/auth/verify-user")
+    router.push('/')
   }
   return (
     <div className='flex flex-col items-center h-screen justify-center'>
