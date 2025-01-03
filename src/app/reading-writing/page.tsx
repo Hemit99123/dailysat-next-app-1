@@ -5,7 +5,7 @@ import { readingTopics } from "@/data/topics";
 import BookSVG from "../../components/features/Questions/icons/BookSVG";
 import { Topic } from "@/types/topic";
 import { useEffect, useRef } from "react";
-import ReadingQuestion from "@/components/features/Questions/Question-UI/ReadingQuestion";
+import ReadingQuestion from "@/components/features/Questions/Question-UI/QuestionModules/ReadingQuestion";
 import Header from "@/components/features/Questions/Question-UI/Header";
 import { useAnswerCounterStore } from "@/store/score";
 import ScoreModal from "@/components/features/Questions/Modals/ScoreModal";

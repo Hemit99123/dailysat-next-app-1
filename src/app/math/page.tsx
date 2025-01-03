@@ -5,7 +5,7 @@ import { mathTopics } from '@/data/topics';
 import MathSVG from "@/components/features/Questions/icons/MathSVG";
 import { Topic } from "@/types/topic";
 import { useEffect, useRef } from "react";
-import MathQuestion from "@/components/features/Questions/Question-UI/MathQuestion";
+import MathQuestion from "@/components/features/Questions/Question-UI/QuestionModules/MathQuestion";
 import Header from "@/components/features/Questions/Question-UI/Header";
 import { useAnswerCounterStore } from "@/store/score";
 import ScoreModal from "@/components/features/Questions/Modals/ScoreModal";

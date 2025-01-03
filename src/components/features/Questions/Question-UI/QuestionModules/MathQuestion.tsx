@@ -3,7 +3,7 @@ import AnswerOption from "./AnswerOption";
 import { Answers } from "@/types/answer";
 import { useAnswerCorrectStore, useAnswerStore, useQuestionStore } from "@/store/questions";
 import { QuestionsProps } from "@/types/questions";
-import { toggleCrossOffMode, toggleCrossOffOption } from "@/lib/crossOff";
+import { toggleCrossOffMode, toggleCrossOffOption } from "@/lib/questions-func/crossOff";
 import { CalculatorIcon } from "lucide-react";
 import { useCalcOptionModalStore } from "@/store/modals";
 import CalcOption from "../Modals/CalcOption";
