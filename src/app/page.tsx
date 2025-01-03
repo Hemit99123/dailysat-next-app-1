@@ -106,21 +106,21 @@ const Home = () => {
       <div className="lg:px-16 lg:p-6 px-2">
         <div className="flex space-x-2 mt-px">
           <Option
-            svg={
+            icon={
               <BookSVG />
             }
             header="Reading & Writing"
-            redirect="/reading"
+            redirect="/reading-writing"
           />
           <Option
-            svg={
+            icon={
               <MathSVG />
             }
             header="Math"
             redirect="/math"
           />
           <Option
-            svg={
+            icon={
               <BookSVG />
             }
             header="Adaptive Practice"
