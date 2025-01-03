@@ -1,4 +1,4 @@
-import { User } from '@/app/signup/page';
+import { User } from '@/app/auth/page';
 import { create } from 'zustand';
 
 interface UserStore {

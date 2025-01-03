@@ -9,7 +9,7 @@ import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import { getCookieConsentValue, resetCookieConsentValue } from "react-cookie-consent";
 import axios from "axios";
-import { AuthResponse, User } from "../signup/page";
+import { AuthResponse, User } from "../auth/page";
 
 export default function Signup() {
   // State variables to store purpose, email, picture, and input field text
