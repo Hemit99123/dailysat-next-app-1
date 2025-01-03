@@ -10,9 +10,10 @@ import { User } from "@/types/user";
 
 // Define the menu items for navigation
 const menuItems = [
+  { label: "Math", href: "/math"},
+  { label: "Reading & Writing", href:"/reading"},
   { label: "About", href: "/about" },
-  { label: "Dashboard", href: "/" },
-  { label: "Shop", href: "/shop" },
+  { label: "Shop", href: "/shop" }
 ];
 
 const NavBar = () => {
