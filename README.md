@@ -33,4 +33,4 @@ Our mission is to build an app that is free and accessible! This means we love i
 - **TailwindCSS** (styling)
 - **MongoDB** (db management solution)
 - **Redis** (storage solution for sessions)
-- **Memcached** (a caching layer to improve performance)
+- **Memcached** (a caching layer used to store user-data during rate limits)
