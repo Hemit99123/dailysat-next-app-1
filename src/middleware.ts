@@ -61,9 +61,10 @@ export const middleware = async (request: NextRequest) => {
 
   const session = await auth()
 
-  if (!session) {
-    return NextResponse.redirect("/auth")
+  if (!session && request.nextUrl.pathname !== '/auth') {
+    return NextResponse.redirect(new URL("/auth", request.url))
   }
+  
 
   // Allow request to proceed if no matching route is found
   return NextResponse.next();
