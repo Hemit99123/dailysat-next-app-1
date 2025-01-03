@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { client } from "@/lib/mongo";
 
-export async function POST(request: Request) {
+export async function POST() {
     // Extract session to get the email
     const session = await auth()
 

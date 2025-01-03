@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useEffect, useState } from "react";
-import { resetCookieConsentValue } from "react-cookie-consent";
 import axios from "axios";
 
 export default function Signup() {
@@ -14,13 +13,6 @@ export default function Signup() {
     const searchParams: URLSearchParams = new URL(window.location.href).searchParams;
     setPurpose(searchParams.get("t") || "");
   }, []);
-
-
-  // Callback function for failed Google login
-  function errorCallback() {
-    alert("You have to enable the cookies to signup!");
-    resetCookieConsentValue();
-  }
 
   // Function to send request based on the purpose
   async function sendReq() {

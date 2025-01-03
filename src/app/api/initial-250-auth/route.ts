@@ -62,7 +62,7 @@ import { auth } from "@/auth";
  *                   example: "error in connecting with the mongodb client"
  */
 
-export async function POST(request: Request) {
+export async function POST() {
     try {
         const session = await auth()
         const email = session?.user?.email
