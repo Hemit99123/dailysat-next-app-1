@@ -109,7 +109,7 @@ const Home = () => {
             svg={
               <BookSVG />
             }
-            header="Reading"
+            header="Reading & Writing"
             redirect="/reading"
           />
           <Option
