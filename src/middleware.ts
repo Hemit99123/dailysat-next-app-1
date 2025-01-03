@@ -4,6 +4,7 @@ import { getSession as getEmployeeSession } from './lib/auth/employeeSession';
 import {auth} from "@/auth"
 
 export const middleware = async (request: NextRequest) => {
+  const protectedAuthRoutes = ['/', '/about']
   const protectedEmployeeBackendRoutes = ['/api/protected-employee'];
   const protectedEmployeeFrontendRoutes = ['/api-docs'];
 
@@ -61,9 +62,12 @@ export const middleware = async (request: NextRequest) => {
 
   const session = await auth()
 
-  if (!session && request.nextUrl.pathname !== '/auth') {
-    return NextResponse.redirect(new URL("/auth", request.url))
+  if (!session && protectedAuthRoutes.includes(request.nextUrl.pathname)) {
+    const url = request.nextUrl.clone()
+    url.pathname = "/auth"
+    return NextResponse.redirect(url)
   }
+  
   
 
   // Allow request to proceed if no matching route is found

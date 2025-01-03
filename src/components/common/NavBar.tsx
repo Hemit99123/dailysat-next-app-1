@@ -1,18 +1,24 @@
 "use client"; 
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import CookieConsent from "react-cookie-consent";
-import Spinner from "./Spinner";
 import { menuItems } from "@/data/menuItem";
 import { handleSignOut } from "./action";
 
 const NavBar = () => {
-  const router = useRouter(); // Hook to navigate programmatically
+  const router = useRouter(); 
+  const pathname = usePathname()
+
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State to track if the mobile menu is open
   const [renderUI, setRenderUI] = useState(true); // State for UI rendering
 
+  useEffect(() => {
+      if (pathname == "/auth") {
+    setRenderUI(false)
+  }
+  }, [])
   // Toggles the mobile menu open/close state
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -23,7 +29,7 @@ const NavBar = () => {
   };
 
 
-  return renderUI ? (
+  return renderUI && (
     <nav className="bg-white w-full border-b border-gray-200">
       {/* Container for the main navigation bar */}
       <div className="max-w-screen-xl mx-auto flex justify-between items-center p-4">
@@ -123,9 +129,7 @@ const NavBar = () => {
         <span style={{ fontSize: "10px" }}>We use these to make the website more enjoyable!</span>
       </CookieConsent>
     </nav>
-  ) : (
-    <Spinner />
-  );
+  )
 };
 
 export default NavBar;

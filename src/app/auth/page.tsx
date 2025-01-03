@@ -12,7 +12,7 @@ const page = () => {
     await axios.post("api/auth/verify-user")
   }
   return (
-    <div className='flex flex-col items-center mt-10'>
+    <div className='flex flex-col items-center h-screen justify-center'>
       <h1 className='text-blue-800 font-bold text-4xl mb-10'>Sign in</h1>
       <GoogleButton 
         onClick={handleSignInFlow}
