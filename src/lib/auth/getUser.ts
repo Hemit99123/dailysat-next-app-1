@@ -1,4 +1,3 @@
-import { auth } from "@/auth";
 import { client } from "../mongo";
 import { Session } from "next-auth";
 
@@ -21,7 +20,8 @@ export const handleGetUser = async (session: Session | null) => {
             image: session?.user?.image,
             id: session?.user?.id,
             currency: 0,
-            questionsAnswered: []
+            wrongQuestions: 0,
+            correctQuestions: 0
         };
         const result = await usersCollection.insertOne(newUser);
 
