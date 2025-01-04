@@ -91,8 +91,6 @@ const NavBar = () => {
             </button>
           </div>
         )}
-
-
       </div>
 
       {/* Mobile Menu Items with transition effect */}
