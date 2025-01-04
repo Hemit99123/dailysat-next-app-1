@@ -20,6 +20,7 @@ export async function POST() {
     let existingUser = await usersCollection.findOne({ email: userEmail });
 
     // Check if the document is null, if so create a document for the user in our mongodb records
+    // This way we have a record of the user and can add user related info onto said record
 
     if (!existingUser) {
         // Add the user to the database if they don't exist
