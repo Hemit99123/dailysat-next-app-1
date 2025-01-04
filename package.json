@@ -14,6 +14,7 @@
     "@vercel/analytics": "^1.4.1",
     "axios": "^1.7.7",
     "child_process": "^1.0.2",
+    "get-client-ip": "^1.1.1",
     "i": "^0.3.7",
     "install": "^0.13.0",
     "jwt-decode": "^4.0.0",
@@ -34,6 +35,7 @@
     "react-latex-next": "^3.0.0",
     "react-resizable": "^3.0.5",
     "react-toastify": "^10.0.6",
+    "redis": "^4.7.0",
     "swagger-ui-react": "^5.18.2",
     "symspell": "^0.6.1",
     "zustand": "^5.0.0-rc.2"
