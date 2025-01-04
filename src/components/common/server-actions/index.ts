@@ -2,10 +2,9 @@
 import { signOut, signIn } from "@/auth";
 
 export const handleSignIn = async () => { 
-        await signIn("google")
+        await signIn("google", {redirectTo: "/"})
 }
 
 export const handleSignOut = async () => {
-        // Sign out the user
         await signOut({redirectTo: "/unauthorized"});
 };
