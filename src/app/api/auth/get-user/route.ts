@@ -54,10 +54,6 @@ export async function GET() {
             const user = await handleGetUser(session);
             return new Response(JSON.stringify({ result: "Success", user }), { status: 200 });
         }
-
-
-
-
     } catch (error) {
         console.error("Error with rate limiting or fetching user data:", error);
         return new Response(JSON.stringify({ message: "An error occurred" }), { status: 500 });
