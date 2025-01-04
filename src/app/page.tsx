@@ -48,7 +48,7 @@ const Home = () => {
 
       // It is post instead of get because it can create new resources on the server (if user is not found)
       
-      const response = await axios.post("/api/auth/get-user")
+      const response = await axios.get("/api/auth/get-user")
 
       setUser(response.data.user)
 

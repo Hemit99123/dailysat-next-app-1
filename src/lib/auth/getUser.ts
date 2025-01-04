@@ -1,21 +1,14 @@
 import { auth } from "@/auth";
 import { client } from "../mongo";
+import { Session } from "next-auth";
 
-export const handleGetUser = async () => {
-    const session = await auth()
-
-    if (!session || !session.user || !session.user.email) {
-        throw new Error("Unable to retrieve user session or email.");
-    }
-
-    const userEmail = session.user.email;
-    
+export const handleGetUser = async (session: Session | null) => {    
     await client.connect();
     const db = client.db("DailySAT");
     const usersCollection = db.collection("users");
 
     // Find the user
-    let existingUser = await usersCollection.findOne({ email: userEmail });
+    let existingUser = await usersCollection.findOne({ email: session?.user?.email });
 
     // Check if the document is null, if so create a document for the user in our mongodb records
     // This way we have a record of the user and can add user related info onto said record
@@ -23,10 +16,10 @@ export const handleGetUser = async () => {
     if (!existingUser) {
         // Add the user to the database if they don't exist
         const newUser = {
-            email: userEmail,
-            name: session.user.name,
-            image: session.user.image,
-            id: session.user.id,
+            email: session?.user?.email,
+            name: session?.user?.name,
+            image: session?.user?.image,
+            id: session?.user?.id,
             currency: 0,
             questionsAnswered: []
         };

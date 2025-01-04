@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from 'next/server';
 import { getSession as getEmployeeSession } from '@/lib/employee-auth/employeeSession';
 import protectedRoutes from "@/data/protectedRoutes";
-import redirectTo from "./common/redirect";
+import redirectTo from "../common/redirect";
 
 const handleEmployeeRoutes = async (request: NextRequest) => {
     const isSessionValid = await getEmployeeSession();
