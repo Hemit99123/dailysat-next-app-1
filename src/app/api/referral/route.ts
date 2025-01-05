@@ -116,11 +116,10 @@ export async function POST(request: Request) {
             code: 200,
             message: "Referral code redeemed successfully."
         });
-    } catch (error: any) {
-        console.error("Error processing referral:", error);
+    } catch (error) {
         return Response.json({
             code: 500,
-            message: "Internal server error. Please try again later."
+            message: error
         });
     } finally {
         await client.close();
