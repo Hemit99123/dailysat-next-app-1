@@ -59,7 +59,7 @@ const useQuestionHandler = () => {
      }, process.env.NEXT_PUBLIC_JWT_SECRET as string);
 
     // Send request to backend
-      await axios.post("/api/add-points", {
+    axios.post("/api/add-points", {
           jwtToken: token
       });
     
