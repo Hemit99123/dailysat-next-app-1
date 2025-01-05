@@ -59,9 +59,9 @@ const useQuestionHandler = () => {
      }, process.env.NEXT_PUBLIC_JWT_SECRET as string);
 
     // Send request to backend
-    axios.post("/api/add-points", {
+    await axios.post("/api/questions/handle-submit", {
           jwtToken: token
-      });
+    });
     
     if (isCorrect && selectedTopic) {
       setTimeout(() => {
