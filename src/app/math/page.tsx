@@ -28,7 +28,6 @@ const Math = () => {
   const randomQuestion = useQuestionStore((state) => state.randomQuestion)
   const setRandomQuestion = useQuestionStore((state) => state.setRandomQuestion)
 
-  const correctCount = useAnswerCounterStore((state) => state.count)
   const answerCorrectRef: Record<Answers, number> = { A: 0, B: 1, C: 2, D: 3 };
 
   const isScoreModalOpen = useScoreModalStore((state) => state.isOpen);
