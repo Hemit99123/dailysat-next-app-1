@@ -8,7 +8,6 @@ import Quotes from "@/types/quotes";
 import Spinner from "@/components/common/Spinner";
 import MathSVG from "@/components/common/icons/MathSVG";
 import BookSVG from "@/components/common/icons/BookSVG";
-import { DBQuestionRecord } from "@/types/questions";
 import ExtraModal from "@/components/features/Dashboard/ExtraModal";
 import { User } from "@/types/user";
 
