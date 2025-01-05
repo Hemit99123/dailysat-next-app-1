@@ -22,7 +22,7 @@ const StatDisplay: React.FC<CoinDisplayProps> = ({ header, number, status, perce
             <div className='flex items-center'>
                 <div>
                     <p className="text-6xl font-bold">
-                        <span style={{ color: color }}>{number}</span> <span className="text-xl text-gray-400">{type}</span>
+                        <span style={{ color: color }}>{number || 0}</span> <span className="text-xl text-gray-400">{type}</span>
                     </p>
 
                     {/* The amount changed view render */}
@@ -32,14 +32,6 @@ const StatDisplay: React.FC<CoinDisplayProps> = ({ header, number, status, perce
                         {status == "downward" ? "-" : "+"}{percentage}% change this week
                     </p>
                 </div>
-                {type == "coins" && (
-                    <button
-                        onClick={() => window.location.href = "/cash-out"}
-                        className="ml-24 -mt-5 px-10 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-                    >
-                        Cash Out
-                    </button>
-                )}
             </div>
         </div>
     );

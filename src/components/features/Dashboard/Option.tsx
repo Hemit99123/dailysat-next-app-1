@@ -15,7 +15,7 @@ const Option: React.FC<OptionProps> = ({ icon, header, redirect }) => {
   }
   return (
     <div 
-        className="flex border p-4 rounded-lg hover:shadow-sm transition-shadow space-x-4 w-full cursor-pointer"
+        className="flex border p-4 rounded-lg hover:shadow-sm transition-shadow space-x-4 cursor-pointer"
         onClick={handleRedirect} 
     >
       <div className="icon">{icon}</div>

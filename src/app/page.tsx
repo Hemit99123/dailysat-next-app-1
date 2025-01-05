@@ -14,6 +14,10 @@ import { useUserStore } from "@/store/user";
 const Home = () => {
   const user = useUserStore((state) => state.user)
   const setUser = useUserStore((state) => state.setUser)
+
+  // this state is used to determine whether data is from redis cache or from mongodb database
+  const [cached, setCached] = useState(false)
+
   const [loading, setLoading] = useState(true)
   const [greeting, setGreeting] = useState("");
   const [quote, setQuote] = useState<Quotes | null>(null);
@@ -51,6 +55,10 @@ const Home = () => {
       const response = await axios.get("/api/auth/get-user")
 
       setUser(response.data.user)
+
+      if (response.data.result == "Success - using cache") {
+        setCached(true)
+      }
 
     }
 
@@ -92,11 +100,17 @@ const Home = () => {
   return (
     <div>
       {/* Greeting Section */}
-      <div className="mt-8 text-center">
-        <h1 className="text-4xl font-bold text-gray-800">
+      <div className="flex flex-col items-center mt-8">
+        {cached &&
+          <div className="flex items-center text-[12px] space-x-2 text-gray-600 font-medium">
+            <svg fill="#ffb005" height="15px" width="15px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xmlSpace="preserve" stroke="#ffb005"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M256,0C155.174,0,73.143,82.027,73.143,182.857c0,67.839,38.46,130.937,98.424,162.232l1.817,25.482 c0.357,5.036,4.719,8.911,9.772,8.464c5.036-0.357,8.826-4.732,8.469-9.768l-2.187-30.661c-0.232-3.259-2.192-6.152-5.134-7.571 c-56.42-27.348-92.875-85.518-92.875-148.178c0-90.741,73.826-164.571,164.571-164.571c90.745,0,164.571,73.83,164.571,164.571 c0,66.919-39.969,126.652-101.821,152.196c-3.201,1.322-5.379,4.339-5.629,7.795l-3.978,55.661 c-0.357,5.036,3.433,9.411,8.469,9.768c0.223,0.018,0.442,0.027,0.661,0.027c4.755,0,8.768-3.679,9.112-8.491l3.58-50.116 c65.732-29.527,107.893-94.402,107.893-166.839C438.857,82.027,356.826,0,256,0z"></path> </g> </g> <g> <g> <path d="M312.915,420.804l-118.857-27.429c-4.906-1.134-9.83,1.937-10.969,6.857c-1.134,4.92,1.933,9.83,6.853,10.964 l118.857,27.429c0.692,0.161,1.384,0.232,2.067,0.232c4.161,0,7.924-2.857,8.902-7.089 C320.902,426.848,317.835,421.937,312.915,420.804z"></path> </g> </g> <g> <g> <path d="M312.915,457.375l-118.857-27.429c-4.906-1.134-9.83,1.937-10.969,6.857c-1.134,4.92,1.933,9.83,6.853,10.964 l118.857,27.429c0.692,0.161,1.384,0.232,2.067,0.232c4.161,0,7.924-2.857,8.902-7.089 C320.902,463.42,317.835,458.509,312.915,457.375z"></path> </g> </g> <g> <g> <path d="M312.915,493.947l-118.857-27.429c-4.906-1.143-9.83,1.928-10.969,6.857c-1.134,4.92,1.933,9.83,6.853,10.964 l118.857,27.429c0.692,0.161,1.384,0.232,2.067,0.232c4.161,0,7.924-2.857,8.902-7.089 C320.902,499.991,317.835,495.08,312.915,493.947z"></path> </g> </g> </g></svg>
+            <p>Old data because you reached your limit</p>
+          </div>
+        }
+        <h1 className="text-xl md:text-4xl font-bold text-gray-800">
           {greeting ? `${greeting}, ${user?.name || "unknown"}` : "Loading greeting..."}
         </h1>
-        <p className="text-gray-600 font-light">
+        <p className="text-xs md:text-base text-gray-600 font-light">
           Choose what to study and start practicing...
         </p>
       </div>
@@ -107,7 +121,7 @@ const Home = () => {
         <h1 className="pl-3.5 font-bold text-4xl text-blue-900">Practice!</h1>
       </div>
       <div className="lg:px-16 lg:p-6 px-2">
-        <div className="flex space-x-2 mt-px">
+        <div className="grid grids-cols-1 md:grid-cols-3 gap-2 mt-px">
           <Option
             icon={
               <BookSVG />
@@ -223,7 +237,7 @@ const Home = () => {
       </div>
       
       {/* Fourth row of boxes area */}
-      <div className="mt-4 flex flex-col md:flex-row p-3.5 w-full space-y-3 md:space-y-0 md:space-x-3">
+      <div className="mt-4 mb-20 flex flex-col md:flex-row p-3.5 w-full space-y-3 md:space-y-0 md:space-x-3">
         {/* Owned Items Section */}
         <div className="w-full pb-12 rounded-lg shadow-lg p-4 flex flex-col space-y-3">
           <h2 className="text-lg font-bold text-gray-800">Your Owned Items</h2>
