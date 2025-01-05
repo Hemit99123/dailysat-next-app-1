@@ -15,7 +15,9 @@ const Home = () => {
   const user = useUserStore((state) => state.user)
   const setUser = useUserStore((state) => state.setUser)
 
+  // this state is used to determine whether data is from redis cache or from mongodb database
   const [cached, setCached] = useState(false)
+  
   const [loading, setLoading] = useState(true)
   const [greeting, setGreeting] = useState("");
   const [quote, setQuote] = useState<Quotes | null>(null);
