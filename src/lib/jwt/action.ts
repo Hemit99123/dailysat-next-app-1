@@ -6,7 +6,7 @@ import { auth } from "@/auth";
 const JWT_SECRET = process.env.JWT_SECRET; // Secret stored securely in environment variables
 
 // Server Action
-export async function generateJWT(payload: object) {
+export const generateJWT = async (payload: object) => {
     try {
         // Authenticate the user (this assumes `auth()` returns session information)
         const session = await auth();
