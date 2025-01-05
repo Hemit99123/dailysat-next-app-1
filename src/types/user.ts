@@ -6,6 +6,7 @@ export interface User {
     email: string,
     name: string,
     image: string,
+    isReferred: boolean,
   
     // Currency
     currency: number,

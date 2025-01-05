@@ -8,7 +8,7 @@ import Quotes from "@/types/quotes";
 import Spinner from "@/components/common/Spinner";
 import MathSVG from "@/components/common/icons/MathSVG";
 import BookSVG from "@/components/common/icons/BookSVG";
-import ExtraModal from "@/components/features/Dashboard/ExtraModal";
+import Redeem from "@/components/features/Dashboard/Redeem";
 import { User } from "@/types/user";
 
 const Home = () => {
@@ -233,11 +233,12 @@ const Home = () => {
           )}
         </div>
 
-        <ExtraModal 
+        <Redeem 
           art="/icons/high-five.png" 
           color="blue" 
           desc="Both you and your friend can redeem 3000 coins when your friend first logs in!" 
           header="Refer a friend!" 
+          isReferred={user?.isReferred}
         />
 
       </div>

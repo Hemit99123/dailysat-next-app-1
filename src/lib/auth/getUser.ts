@@ -26,6 +26,7 @@ export const handleGetUser = async (session: Session | null) => {
                 currency: 0,
                 wrongQuestions: 0,
                 correctQuestions: 0,
+                isReferred: false,
             };
 
             const result = await usersCollection.insertOne(newUser);
