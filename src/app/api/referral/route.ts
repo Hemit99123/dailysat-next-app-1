@@ -57,6 +57,10 @@ export async function POST(request: Request) {
                 })
             }
             else{
+
+                const user = await db.collection("users").findOne({email: session?.user?.email})
+                // temporary 
+                console.log(user)
                 await db.collection("users").findOneAndUpdate({email}, {$inc : {currency : REFERRAL_BONUS_REFERRED_PERSON}});
                 await db.collection("users").findOneAndUpdate({_id : new ObjectId(data.id_referee)}, {$inc : {currency : REFERRAL_BONUS_REFERREE}});
                 
