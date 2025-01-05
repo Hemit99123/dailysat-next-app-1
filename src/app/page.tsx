@@ -17,7 +17,7 @@ const Home = () => {
 
   // this state is used to determine whether data is from redis cache or from mongodb database
   const [cached, setCached] = useState(false)
-  
+
   const [loading, setLoading] = useState(true)
   const [greeting, setGreeting] = useState("");
   const [quote, setQuote] = useState<Quotes | null>(null);
@@ -121,7 +121,7 @@ const Home = () => {
         <h1 className="pl-3.5 font-bold text-4xl text-blue-900">Practice!</h1>
       </div>
       <div className="lg:px-16 lg:p-6 px-2">
-        <div className="flex space-x-2 mt-px">
+        <div className="grid grids-cols-1 md:grid-cols-3 gap-2 mt-px">
           <Option
             icon={
               <BookSVG />
