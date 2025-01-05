@@ -22,7 +22,7 @@ const StatDisplay: React.FC<CoinDisplayProps> = ({ header, number, status, perce
             <div className='flex items-center'>
                 <div>
                     <p className="text-6xl font-bold">
-                        <span style={{ color: color }}>{number}</span> <span className="text-xl text-gray-400">{type}</span>
+                        <span style={{ color: color }}>{number || 0}</span> <span className="text-xl text-gray-400">{type}</span>
                     </p>
 
                     {/* The amount changed view render */}
