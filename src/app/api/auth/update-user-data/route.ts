@@ -49,11 +49,8 @@ export async function GET(request: Request) {
 
         if (cache) {
             // Store the user data in Redis with the same expiry date from before
-            console.log("updated")
             cacheClient.set(userEmail || "", JSON.stringify(userData), "KEEPTTL");
         }
-
-
 
         // Assign the user data to cacheData
         // Return the data
