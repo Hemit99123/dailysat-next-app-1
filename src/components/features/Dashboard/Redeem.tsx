@@ -1,3 +1,5 @@
+import { generateJWT } from '@/lib/jwt/action';
+import { useUserStore } from '@/store/user';
 import axios from 'axios';
 import React from 'react';
 
@@ -11,15 +13,40 @@ interface RedeemProps {
 
 const Redeem: React.FC<RedeemProps> = ({ art, header, desc, isReferred }) => {
 
+    const setUser = useUserStore((state) => state.setUser)
+    
     const redeemReferralBonus = async () => {
-        const referralCode = prompt("Enter a referral code:")
-
+        const referralCode = prompt("Enter a referral code:");
+    
         if (referralCode) {
-            await axios.post("/api/referral", {
-                referralCode
-            })
+            try {
+                // Send referral code to the referral API
+                await axios.post("/api/referral", {
+                    referralCode
+                }).then(async () => {
+                    // Use the referral code as a Bearer token for the update-user-data API
+                    const jwtToken = await generateJWT({
+                        authorized: true
+                    })
+
+
+                    const response = await axios.get(
+                        "/api/auth/update-user-data",
+                        {
+                            headers: {
+                                Authorization: `Bearer ${jwtToken}`,
+                            },
+                        }
+                    );
+
+                    setUser(response.data.user)
+                })
+                } catch (error) {
+                console.error("Error redeeming reward:", error);
+                alert("An error occurred while redeeming the reward.");
+            }
         }
-    }
+    };
 
     return (
         <div className="shadow-lg w-full rounded-lg bg-white p-4">

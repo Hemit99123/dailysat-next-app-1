@@ -9,10 +9,11 @@ import Spinner from "@/components/common/Spinner";
 import MathSVG from "@/components/common/icons/MathSVG";
 import BookSVG from "@/components/common/icons/BookSVG";
 import Redeem from "@/components/features/Dashboard/Redeem";
-import { User } from "@/types/user";
+import { useUserStore } from "@/store/user";
 
 const Home = () => {
-  const [user, setUser] = useState<User>()
+  const user = useUserStore((state) => state.user)
+  const setUser = useUserStore((state) => state.setUser)
   const [loading, setLoading] = useState(true)
   const [greeting, setGreeting] = useState("");
   const [quote, setQuote] = useState<Quotes | null>(null);

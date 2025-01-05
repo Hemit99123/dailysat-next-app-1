@@ -1,3 +1,4 @@
+import { generateJWT } from "@/lib/jwt/action";
 import { useStreakAnnouncerModalStore } from "@/store/modals";
 import { useAnswerCorrectStore, useAnswerStore, useQuestionStore, useTopicStore } from "@/store/questions";
 import { useScoreStore, useAnswerCounterStore } from "@/store/score";
@@ -6,7 +7,7 @@ import { Topic } from "@/types/topic";
 import axios from "axios";
 import jwt from "jsonwebtoken"
 
-// Custom hook to encapsulate logic
+// Custom hook to encapsulate logic because it is used in both math and reading/writing components
 const useQuestionHandler = () => {
   const setRandomQuestion = useQuestionStore((state) => state.setRandomQuestion);
   const answer = useAnswerStore((state) => state.answer);
@@ -53,10 +54,10 @@ const useQuestionHandler = () => {
 
     setIsAnswerCorrect(isCorrect);
 
-    const token = jwt.sign({ 
-      state: isCorrect == true ? 1 : 0,
-      userAnswer: answerCorrectRef[answer || "A"]
-     }, process.env.NEXT_PUBLIC_JWT_SECRET as string);
+    // making a new token from a server-side action (function that runs on the SEVER!!)
+    const token = await generateJWT({
+      state: isCorrect == true ? 1 : 0
+    })
 
     // Send request to backend
     await axios.post("/api/questions/handle-submit", {
