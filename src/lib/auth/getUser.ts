@@ -1,34 +1,41 @@
+import { REFERRAL_BONUS_REFERRED_PERSON, REFERRAL_BONUS_REFERREE } from "@/data/CONSTANTS";
 import { client } from "../mongo";
 import { Session } from "next-auth";
+import { ObjectId } from "mongodb";
 
-export const handleGetUser = async (session: Session | null) => {    
-    await client.connect();
-    const db = client.db("DailySAT");
-    const usersCollection = db.collection("users");
+export const handleGetUser = async (session: Session | null) => {
+    try {
+        if (!session || !session.user?.email) {
+            throw new Error("Session is invalid or user email is missing.");
+        }
 
-    // Find the user
-    let existingUser = await usersCollection.findOne({ email: session?.user?.email });
+        await client.connect();
+        const db = client.db("DailySAT");
+        const usersCollection = db.collection("users");
 
-    // Check if the document is null, if so create a document for the user in our mongodb records
-    // This way we have a record of the user and can add user related info onto said record
+        // Find the user
+        let existingUser = await usersCollection.findOne({ email: session.user.email });
 
-    if (!existingUser) {
-        // Add the user to the database if they don't exist
-        const newUser = {
-            email: session?.user?.email,
-            name: session?.user?.name,
-            image: session?.user?.image,
-            id: session?.user?.id,
-            currency: 0,
-            wrongQuestions: 0,
-            correctQuestions: 0
-        };
-        const result = await usersCollection.insertOne(newUser);
+        // If user doesn't exist, create a new record
+        if (!existingUser) {
+            const newUser = {
+                email: session.user.email,
+                name: session.user.name,
+                image: session.user.image,
+                id: session.user.id,
+                currency: 0,
+                wrongQuestions: 0,
+                correctQuestions: 0,
+            };
 
-        // Save the newly created user so that the frontend still gets it
-        
-        existingUser = await usersCollection.findOne({ _id: result.insertedId });
+            const result = await usersCollection.insertOne(newUser);
+
+            // Retrieve the newly created user for returning
+            existingUser = await usersCollection.findOne({ _id: result.insertedId });
+        }
+
+        return existingUser;
+    } catch (error) {
+        throw new Error(`An unexpected error occurred: ${error}`);
     }
-
-    return existingUser
-}
+};
