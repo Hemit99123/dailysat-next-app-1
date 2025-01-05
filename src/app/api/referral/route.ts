@@ -37,7 +37,9 @@ interface ReferralUpdate {
 
 export async function POST(request: Request) {
     try{
-        const data : ReferralUpdate = await request.json();
+        const body = await request.json()
+        const referralCode = body.referralCode
+
         const session = await auth()
         const email = session?.user?.email
 
@@ -47,7 +49,7 @@ export async function POST(request: Request) {
             const db: Db = client.db("DailySAT");
 
             // check if the referee exists
-            const doc_check : WithId<Document> | null = await db.collection("users").findOne({_id : new ObjectId(data.id_referee)})
+            const doc_check : WithId<Document> | null = await db.collection("users").findOne({_id : new ObjectId(referralCode)})
 
             if(doc_check == null){
                 return Response.json({
@@ -59,10 +61,23 @@ export async function POST(request: Request) {
             else{
 
                 const user = await db.collection("users").findOne({email: session?.user?.email})
-                // temporary 
-                console.log(user)
+                
+                if (user?._id == referralCode) {
+                    return Response.json({
+                        code : 400,
+                        result : 0,
+                        message : "That is your referral code"
+                    })
+                } else if (user?.isReferred) {
+                    return Response.json({
+                        code: 400,
+                        result: 0,
+                        message: "Already referred. Cannot perform action twice"
+                    })
+                }
+
                 await db.collection("users").findOneAndUpdate({email}, {$inc : {currency : REFERRAL_BONUS_REFERRED_PERSON}});
-                await db.collection("users").findOneAndUpdate({_id : new ObjectId(data.id_referee)}, {$inc : {currency : REFERRAL_BONUS_REFERREE}});
+                await db.collection("users").findOneAndUpdate({_id : new ObjectId(referralCode)}, {$inc : {currency : REFERRAL_BONUS_REFERREE}});
                 
                 return Response.json({
                     code : 200,
