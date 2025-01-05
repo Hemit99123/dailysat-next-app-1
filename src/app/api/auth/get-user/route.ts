@@ -6,7 +6,7 @@ import { handleAPiHits, handleIncreaseAPIHits } from "@/lib/performance/rate-lim
 export async function GET() {
     const session = await auth();
 
-    let userEmail: string | null | undefined = session?.user?.email;
+    const userEmail: string | null | undefined = session?.user?.email;
 
     try {
         const numberHits: number = await handleAPiHits(userEmail || "");

@@ -1,5 +1,4 @@
 // User interface representing a user in the system
-import { DBQuestionRecord } from "./questions";
 
 export interface User {
     // MongoDB string 

@@ -85,26 +85,6 @@ const Home = () => {
     await navigator.clipboard.writeText(referralCode || "");
   };
 
-  // Find out how many questions we've gotten correct
-  function filterQuestions(questions: DBQuestionRecord[]) {
-    let correct_count: number = 0;
-    let wrong_count: number = 0;
-
-    for (let index = 0; index < questions.length; index++) {
-      const element: DBQuestionRecord = questions[index];
-
-      // Check if it's correct
-      if (element.correct == 1) {
-        correct_count += 1;
-      }
-      else {
-        wrong_count += 1;
-      }
-    }
-
-    return [correct_count, wrong_count]
-  }
-
   if (loading) {
     return <Spinner />
   }

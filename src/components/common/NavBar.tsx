@@ -79,7 +79,7 @@ const NavBar = () => {
         {status ? (
         <div className="hidden md:block">
             <button
-              onClick={() => {handleSignOut(), handleToggleStatus()}}
+              onClick={() => { handleSignOut(); handleToggleStatus(); }}
               className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
             >
               Sign out
@@ -88,7 +88,7 @@ const NavBar = () => {
         ) : (
           <div className="hidden md:block">
             <button
-              onClick={() => {handleSignIn(), handleToggleStatus()}}
+              onClick={() => {handleSignIn(); handleToggleStatus();}}
               className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
             >
               Sign in

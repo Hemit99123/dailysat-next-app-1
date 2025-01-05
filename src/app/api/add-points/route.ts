@@ -8,7 +8,7 @@ function verifyJWT(token: string): JwtPayload {
   try {
     return jwt.verify(token, process.env.NEXT_PUBLIC_JWT_SECRET as string) as JwtPayload; // Use type assertion to ensure it's a JwtPayload so that typescript voids errors
   } catch (error) {
-    throw new Error('Invalid or expired JWT');
+    throw new Error(`JWT issue: ${error}`);
   }
 }
 
