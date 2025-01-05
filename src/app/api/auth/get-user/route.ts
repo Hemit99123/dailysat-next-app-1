@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { handleGetUser } from "@/lib/auth/getUser";
 import { client as cacheClient } from "@/lib/performance/cache/redis";
 import { handleAPiHits, handleIncreaseAPIHits } from "@/lib/performance/rate-limiter/helper/apiHits";
+import { User } from "@/types/user";
 
 export async function GET() {
     const session = await auth();
@@ -23,14 +24,15 @@ export async function GET() {
                 const existingUser = await handleGetUser(session);
 
                 // Prepare the user data to store in Redis
-                const userData = {
+                const userData: User = {
                     email: existingUser?.email,
                     name: existingUser?.name,
                     currency: existingUser?.currency,
                     image: existingUser?.image,
-                    _id: existingUser?._id,
+                    _id: existingUser?._id as unknown as string ,
                     correctAnswered: existingUser?.correctAnswered,
-                    wrongAnswered: existingUser?.wrongAnswered
+                    wrongAnswered: existingUser?.wrongAnswered,
+                    isReferred: existingUser?.isReferred
                 };
 
                 // Store the user data in Redis with a 300-second expiration time

@@ -6,7 +6,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 // Verify JWT function
 function verifyJWT(token: string): JwtPayload {
   try {
-    return jwt.verify(token, process.env.NEXT_PUBLIC_JWT_SECRET as string) as JwtPayload; // Use type assertion to ensure it's a JwtPayload so that typescript voids errors
+    return jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload; // Use type assertion to ensure it's a JwtPayload so that typescript voids errors
   } catch (error) {
     throw new Error(`JWT issue: ${error}`);
   }
@@ -14,6 +14,7 @@ function verifyJWT(token: string): JwtPayload {
 
 export async function POST(request: Request) {
   const { jwtToken } = await request.json();
+
 
   // Check if the JWT token is provided
   if (!jwtToken) {
