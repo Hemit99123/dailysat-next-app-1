@@ -14,7 +14,7 @@ const Redeem: React.FC<RedeemProps> = ({ art, header, desc, isReferred }) => {
     const redeemReferralBonus = async () => {
         const referralCode = prompt("Enter a referral code:")
 
-        if (!referralCode) {
+        if (referralCode) {
             await axios.post("/api/referral", {
                 referralCode
             })

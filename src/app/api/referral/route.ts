@@ -3,7 +3,6 @@ import { Db, Document, WithId, ObjectId } from "mongodb";
 import { REFERRAL_BONUS_REFERRED_PERSON, REFERRAL_BONUS_REFERREE } from "@/data/CONSTANTS";
 import { auth } from "@/auth";
 
-
 /**
  * @swagger
  * /api/referral:
@@ -33,67 +32,97 @@ import { auth } from "@/auth";
  */
 
 export async function POST(request: Request) {
-    try{
-        const body = await request.json()
-        const referralCode = body.referralCode
+    const body = await request.json();
+    const referralCode = body.referralCode;
 
-        const session = await auth()
-        const email = session?.user?.email
-
-        try{
-            await client.connect();
-
-            const db: Db = client.db("DailySAT");
-
-            // check if the referee exists
-            const doc_check : WithId<Document> | null = await db.collection("users").findOne({_id : new ObjectId(referralCode)})
-
-            if(doc_check == null){
-                return Response.json({
-                    code : 400,
-                    result : 0,
-                    message : "Invalid referral code"
-                })
-            }
-            else{
-
-                const user = await db.collection("users").findOne({email: session?.user?.email})
-                
-                if (user?._id == referralCode) {
-                    return Response.json({
-                        code : 400,
-                        result : 0,
-                        message : "That is your referral code"
-                    })
-                } else if (user?.isReferred) {
-                    return Response.json({
-                        code: 400,
-                        result: 0,
-                        message: "Already referred. Cannot perform action twice"
-                    })
-                }
-
-                await db.collection("users").findOneAndUpdate({email}, {$inc : {currency : REFERRAL_BONUS_REFERRED_PERSON}});
-                await db.collection("users").findOneAndUpdate({_id : new ObjectId(referralCode)}, {$inc : {currency : REFERRAL_BONUS_REFERREE}});
-                
-                return Response.json({
-                    code : 200,
-                    message : "Referral code redeemed"
-                })
-            }
-        }
-
-        catch{
-            return Response.json({
-                code : 500,
-                message : "error in connecting with the mongodb client"
-            })
-        }
-    }
-    catch{
+    if (!referralCode) {
         return Response.json({
-            code : 400,
-            message : "error in reading request JSON : give referral data in proper format"
-        })
+            code: 400,
+            message: "Referral code is required."
+        });
+    }
+
+    // Validate the referral code
+    if (!ObjectId.isValid(referralCode)) {
+        return Response.json({
+            code: 400,
+            message: "Invalid referral code format."
+        });
+    }
+
+    const session = await auth();
+    const email = session?.user?.email;
+
+    if (!email) {
+        return Response.json({
+            code: 401,
+            message: "User is not authenticated."
+        });
+    }
+
+    try {
+        await client.connect();
+        const db: Db = client.db("DailySAT");
+
+        // Check if the referee exists
+        const referee = await db.collection("users").findOne({ _id: new ObjectId(referralCode) });
+
+        if (!referee) {
+            return Response.json({
+                code: 400,
+                message: "Invalid referral code."
+            });
+        }
+
+        const user = await db.collection("users").findOne({ email });
+
+        if (!user) {
+            return Response.json({
+                code: 404,
+                message: "User not found."
+            });
+        }
+
+        if (user._id.equals(referralCode)) {
+            return Response.json({
+                code: 400,
+                message: "You cannot use your own referral code."
+            });
+        }
+
+        if (user.isReferred) {
+            return Response.json({
+                code: 400,
+                message: "Referral already used. Cannot perform this action twice."
+            });
+        }
+
+        // Update referred person's currency and isReferred status
+        await db.collection("users").findOneAndUpdate(
+            { email },
+            {
+                $inc: { currency: REFERRAL_BONUS_REFERRED_PERSON },
+                $set: { isReferred: true }
+            }
+        );
+
+        // Update referee's currency
+        await db.collection("users").findOneAndUpdate(
+            { _id: new ObjectId(referralCode) },
+            { $inc: { currency: REFERRAL_BONUS_REFERREE } }
+        );
+
+        return Response.json({
+            code: 200,
+            message: "Referral code redeemed successfully."
+        });
+    } catch (error: any) {
+        console.error("Error processing referral:", error);
+        return Response.json({
+            code: 500,
+            message: "Internal server error. Please try again later."
+        });
+    } finally {
+        await client.close();
     }
 }
