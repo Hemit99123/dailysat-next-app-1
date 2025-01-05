@@ -1,71 +1,81 @@
-import { QUESTION_IS_CORRECT_POINTS } from "@/lib/CONSTANTS";
-import { client } from "@/lib/mongo";
-import { Collection, Db, Document } from "mongodb";
+import { auth } from '@/auth';
+import { QUESTION_IS_CORRECT_POINTS } from '@/data/CONSTANTS';
+import { client } from '@/lib/mongo';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 
-/**
- * @swagger
- * /api/add-points:
- *   post:
- *     summary: Add points for answering a question
- *     description: Adds points to a user's account based on whether their answer to a question is correct.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *                 description: Email of the user
- *               question:
- *                 type: object
- *                 description: Question object
- *               state:
- *                 type: integer
- *                 description: State indicating if the answer is correct (1) or not (0)
- *               userAnswer:
- *                 type: string
- *                 description: User's answer to the question
- *     responses:
- *       200:
- *         description: Points added successfully
- *       400:
- *         description: A parameter was not specified
- *       500:
- *         description: Internal server error
- */
+// Verify JWT function
+function verifyJWT(token: string): JwtPayload {
+  try {
+    return jwt.verify(token, process.env.NEXT_PUBLIC_JWT_SECRET as string) as JwtPayload; // Use type assertion to ensure it's a JwtPayload so that typescript voids errors
+  } catch (error) {
+    throw new Error(`JWT issue: ${error}`);
+  }
+}
 
 export async function POST(request: Request) {
-  const {email, question, state, userAnswer} = await request.json();
+  const { jwtToken } = await request.json();
 
-  // Check if the id query parameter is provided
-  if (email === "" || question === null || state === "" || userAnswer === "") {
+  // Check if the JWT token is provided
+  if (!jwtToken) {
     return Response.json({
-      code: 400,
-      error: "a paramater was not specified", // Adjusted to 400 since it's a client-side error
-    });
-  } else {
-    try {
-      await client.connect();
-      const db: Db = client.db("DailySAT");
-      const coll: Collection<Document> = db.collection("users");
-      
-      // Insert the new bug ID into the database
-      await coll.updateOne({"email" : email},{ $inc : {currency : state === 1 ? QUESTION_IS_CORRECT_POINTS : 0}, $addToSet : {questionsAnswered : {...question, correct : state, toc : Date.now(), userAnswer : userAnswer}} });
-      client.close();
+      error: 'JWT token was not specified',
+    }, {status: 400});
+  }
 
-      // Return a success response with the inserted result
+  try {
+    // Verify JWT and extract the payload
+    const decodedToken = verifyJWT(jwtToken);
+
+    // Ensure the payload contains the required fields
+    const { state, userAnswer } = decodedToken;
+
+    // Check if the required parameters are valid
+    if (state === null || userAnswer === '') {
       return Response.json({
-        result: "DONE",
-      });
-    } catch (error) {
-      // Handle any database errors
-      return Response.json({
-        code: 500,
-        error: "Internal server error",
-        errorMsg: error
+        code: 400,
+        error: 'a parameter was not specified',
       });
     }
+
+    const session = await auth();
+    const email = session?.user?.email;
+
+    // Ensure email is valid
+    if (email === '') {
+      return Response.json({
+        code: 400,
+        error: 'Email not found',
+      });
+    }
+
+    await client.connect();
+    const db = client.db('DailySAT');
+    const coll = db.collection('users');
+
+    // Update the user's database with the new information
+    await coll.updateOne(
+      { email },
+      {
+        $inc: {
+          currency: state === 1 ? QUESTION_IS_CORRECT_POINTS : 0,
+          correctAnswered: state === 1 ? 1 : 0,
+          wrongAnswered: state !== 1 ? 1 : 0,
+        },
+      }
+    );
+    
+
+    client.close();
+
+    // Return a success response
+    return Response.json({
+      result: 'DONE',
+    });
+  } catch (error) {
+    return Response.json({
+      code: 500,
+      error: 'Internal server error',
+      errorMsg: error,
+    });
   }
 }

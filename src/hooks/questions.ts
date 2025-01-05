@@ -1,10 +1,10 @@
 import { useStreakAnnouncerModalStore } from "@/store/modals";
 import { useAnswerCorrectStore, useAnswerStore, useQuestionStore, useTopicStore } from "@/store/questions";
 import { useScoreStore, useAnswerCounterStore } from "@/store/score";
-import useUserStore from "@/store/user";
 import { Answers } from "@/types/answer";
 import { Topic } from "@/types/topic";
 import axios from "axios";
+import jwt from "jsonwebtoken"
 
 // Custom hook to encapsulate logic
 const useQuestionHandler = () => {
@@ -42,7 +42,7 @@ const useQuestionHandler = () => {
     correctAnswer: number, // Correct answer index
     answerCorrectRef: Record<Answers, number> = { A: 0, B: 1, C: 2, D: 3 } // Mapping for answer keys
   ) : Promise<void> => {
-    const isCorrect = answerCorrectRef[answer || "A"] === correctAnswer;
+    const isCorrect = answerCorrectRef[answer ?? "A"] === correctAnswer;
 
     if (isCorrect) {
       increaseCorrectCounter();
@@ -53,14 +53,17 @@ const useQuestionHandler = () => {
 
     setIsAnswerCorrect(isCorrect);
 
+    const token = jwt.sign({ 
+      state: isCorrect == true ? 1 : 0,
+      userAnswer: answerCorrectRef[answer || "A"]
+     }, process.env.NEXT_PUBLIC_JWT_SECRET as string);
+
     // Send request to backend
     if (useQuestionStore.getState().randomQuestion !== null) {
-      await axios.post("/api/add-points", {
-        email: useUserStore.getState().user.email || "",
-        question: useQuestionStore.getState().randomQuestion ,
-        state: isCorrect == true ? 1 : 0,
-        userAnswer: answerCorrectRef[answer || "A"]
-      })
+        await axios.post("/api/add-points", {
+          jwtToken: token
+      });
+
     }
     
     if (isCorrect && selectedTopic) {
