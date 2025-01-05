@@ -54,7 +54,6 @@ const useQuestionHandler = () => {
     setIsAnswerCorrect(isCorrect);
 
     const token = jwt.sign({ 
-      question: useQuestionStore.getState().randomQuestion,
       state: isCorrect == true ? 1 : 0,
       userAnswer: answerCorrectRef[answer || "A"]
      }, process.env.NEXT_PUBLIC_JWT_SECRET as string);

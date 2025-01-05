@@ -27,7 +27,7 @@ export async function POST(request: Request) {
     const decodedToken = verifyJWT(jwtToken);
 
     // Ensure the payload contains the required fields
-    const { question, state, userAnswer } = decodedToken;
+    const { state, userAnswer } = decodedToken;
 
     // Check if the required parameters are valid
     if (state === null || userAnswer === '') {
