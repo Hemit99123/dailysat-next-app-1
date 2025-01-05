@@ -3,7 +3,7 @@
 Welcome to the codebase of **DailySAT**! Here you will find a quickstart to our application and some information on it ✨
 
 ### 📚 To access the API documentation, navigate to: /api-docs
-NOTE: You will to have an authorized email. If you do not, kindly email `dailysatorg@gmail.com` or `hemitvpatel@gmail.com` (COO) and we can assist you from there! Afterwards, you will have 7 day (1 week) access to employee privledges
+NOTE: You will to have an authorized email. If you do not, kindly email `dailysatorg@gmail.com` or `hemit@dailysat.org` (COO) and we can assist you from there! Afterwards, you will have 7 day (1 week) access to employee privledges
 
 
 ## 🧑‍🤝‍🧑 For open-source contributions:
