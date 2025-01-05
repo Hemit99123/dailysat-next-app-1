@@ -32,14 +32,6 @@ const StatDisplay: React.FC<CoinDisplayProps> = ({ header, number, status, perce
                         {status == "downward" ? "-" : "+"}{percentage}% change this week
                     </p>
                 </div>
-                {type == "coins" && (
-                    <button
-                        onClick={() => window.location.href = "/cash-out"}
-                        className="ml-24 -mt-5 px-10 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-                    >
-                        Cash Out
-                    </button>
-                )}
             </div>
         </div>
     );
