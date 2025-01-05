@@ -59,12 +59,9 @@ const useQuestionHandler = () => {
      }, process.env.NEXT_PUBLIC_JWT_SECRET as string);
 
     // Send request to backend
-    if (useQuestionStore.getState().randomQuestion !== null) {
-        await axios.post("/api/add-points", {
+      await axios.post("/api/add-points", {
           jwtToken: token
       });
-
-    }
     
     if (isCorrect && selectedTopic) {
       setTimeout(() => {
