@@ -11,7 +11,7 @@ import { useAnswerCounterStore } from "@/store/score";
 import ScoreModal from "@/components/features/Questions/Modals/ScoreModal";
 import StreakModal from "@/components/features/Questions/Modals/StreakModal";
 import { Answers } from "@/types/answer";
-import { useScoreModalStore, useStreakAnnouncerModalStore, useStreakCounterModalStore } from "@/store/modals";
+import { useScoreModalStore, useStreakCounterModalStore } from "@/store/modals";
 import StreakAnnouncer from "@/components/features/Questions/Modals/StreakAnnouncer";
 import useQuestionHandler from "@/hooks/questions";
 import Spinner from "@/components/common/Spinner";
@@ -32,7 +32,6 @@ const Math = () => {
   const answerCorrectRef: Record<Answers, number> = { A: 0, B: 1, C: 2, D: 3 };
 
   const isScoreModalOpen = useScoreModalStore((state) => state.isOpen);
-  const isAnnouncerModalOpen = useStreakAnnouncerModalStore((state) => state.isOpen);
   const isStreakModalOpen = useStreakCounterModalStore((state) => state.isOpen);
 
   const answerComponent = useRef<HTMLDivElement | null>(null);
@@ -44,7 +43,7 @@ const Math = () => {
 
   useEffect(() => {
     handleCheckThreeStreak()
-  }, [correctCount, handleCheckThreeStreak]);
+  }, [handleCheckThreeStreak]);
 
   const handleTopicClick = (topic: Topic) => {
     setSelectedTopic(topic);
@@ -105,7 +104,7 @@ const Math = () => {
         )}
       </QuestionWrappers>
 
-      {isAnnouncerModalOpen && <StreakAnnouncer />}
+      <StreakAnnouncer />
     </MainWrappers>
   );
 };

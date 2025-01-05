@@ -71,7 +71,7 @@ const useQuestionHandler = () => {
   };
 
   const handleCheckThreeStreak = () => {
-    if (correctCount === 3 || correctCount === 7) {
+    if (correctCount === 3) {
       openAnnouncerModal();
     }
   }
