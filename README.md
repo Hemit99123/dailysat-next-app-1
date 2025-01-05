@@ -42,5 +42,4 @@ The other one is for regular users and is handled by the AuthJS lib. It features
 - **NextJS** (frontend and backend, good for SEO)
 - **TailwindCSS** (styling)
 - **MongoDB** (db management solution)
-- **Redis** (storage solution for sessions)
-- **Memcached** (a caching layer used to store user-data during rate limits)
+- **Redis** (storage solution for sessions, rate limiting and caching layer)
