@@ -53,7 +53,7 @@ export async function POST(request: Request) {
                 return Response.json({
                     code : 400,
                     result : 0,
-                    message : "invalid referral code"
+                    message : "Invalid referral code"
                 })
             }
             else{
@@ -62,7 +62,7 @@ export async function POST(request: Request) {
                 
                 return Response.json({
                     code : 200,
-                    message : "updated"
+                    message : "Referral code redeemed"
                 })
             }
         }
