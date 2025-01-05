@@ -1,7 +1,5 @@
-import { REFERRAL_BONUS_REFERRED_PERSON, REFERRAL_BONUS_REFERREE } from "@/data/CONSTANTS";
 import { client } from "../mongo";
 import { Session } from "next-auth";
-import { ObjectId } from "mongodb";
 
 export const handleGetUser = async (session: Session | null) => {
     try {

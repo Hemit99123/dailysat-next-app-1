@@ -5,7 +5,6 @@ import { useScoreStore, useAnswerCounterStore } from "@/store/score";
 import { Answers } from "@/types/answer";
 import { Topic } from "@/types/topic";
 import axios from "axios";
-import jwt from "jsonwebtoken"
 
 // Custom hook to encapsulate logic because it is used in both math and reading/writing components
 const useQuestionHandler = () => {
