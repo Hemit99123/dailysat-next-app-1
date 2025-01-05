@@ -7,7 +7,6 @@ import { Topic } from "@/types/topic";
 import { useEffect, useRef } from "react";
 import MathQuestion from "@/components/features/Questions/Question-UI/QuestionModules/MathQuestion";
 import Header from "@/components/features/Questions/Question-UI/Header";
-import { useAnswerCounterStore } from "@/store/score";
 import ScoreModal from "@/components/features/Questions/Modals/ScoreModal";
 import StreakModal from "@/components/features/Questions/Modals/StreakModal";
 import { Answers } from "@/types/answer";
