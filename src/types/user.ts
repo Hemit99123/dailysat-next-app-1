@@ -12,5 +12,6 @@ export interface User {
     currency: number,
   
     // Questions answered
-    questionsAnswered: DBQuestionRecord[]
+    correctAnswered: number;
+    wrongAnswered: number
 }

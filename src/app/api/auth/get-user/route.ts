@@ -29,6 +29,8 @@ export async function GET() {
                     currency: existingUser?.currency,
                     image: existingUser?.image,
                     _id: existingUser?._id,
+                    correctAnswered: existingUser?.correctAnswered,
+                    wrongAnswered: existingUser?.wrongAnswered
                 };
 
                 // Store the user data in Redis with a 300-second expiration time

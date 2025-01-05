@@ -192,8 +192,8 @@ const Home = () => {
       {/* Second row */}
       <div className="lg:flex lg:space-x-2 mt-1.5 p-3.5">
         <StatDisplay type="coins" color="black" icon="coin" header="DailySAT Coins:" number={user?.currency} status="upward" percentage={user?.currency || 0 * 100} />
-        <StatDisplay type="questions" color="green" icon="checked" header="Questions Correct:" number={filterQuestions(user?.questionsAnswered || [])[0]} status="upward" percentage={filterQuestions(user?.questionsAnswered || [])[0] * 100} />
-        <StatDisplay type="questions" color="#ff5454" icon="cross" header="Questions Wrong:" number={filterQuestions(user?.questionsAnswered || [])[1]} status="upward" percentage={filterQuestions(user?.questionsAnswered || [])[1] * 100} />
+        <StatDisplay type="attempts" color="green" icon="checked" header="Answered Correctly:" number={user?.correctAnswered} status="upward" percentage={user?.correctAnswered || 0 * 100} />
+        <StatDisplay type="attempts" color="#ff5454" icon="cross" header="Answered Wrongly:" number={user?.wrongAnswered} status="upward" percentage={user?.wrongAnswered || 0 * 100} />
       </div>
 
       {/* Third row of boxes area */}
