@@ -22,7 +22,7 @@ export async function generateJWT(payload: object) {
         const token = jwt.sign(
             JSON.parse(payloadString),
             JWT_SECRET || "",
-            { expiresIn: "2m" } // Token expiration
+            { expiresIn: "3s" } // Token expiration
         );
 
         // Return the JWT
