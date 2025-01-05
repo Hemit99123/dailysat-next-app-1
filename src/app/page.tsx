@@ -235,12 +235,9 @@ const Home = () => {
 
         <ExtraModal 
           art="/icons/high-five.png" 
-          buttonText="Redeem Points" 
           color="blue" 
-          desc="Both you and your friend can redeem 3000 coins." 
-          url="/redeem?t=Referee bonus" 
-          header="Referred by a friend?" 
-          type="URL" 
+          desc="Both you and your friend can redeem 3000 coins when your friend first logs in!" 
+          header="Refer a friend!" 
         />
 
       </div>
