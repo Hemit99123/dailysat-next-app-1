@@ -1,4 +1,4 @@
-import { QUESTION_IS_CORRECT_POINTS } from "@/lib/CONSTANTS";
+import { QUESTION_IS_CORRECT_POINTS } from "@/data/CONSTANTS";
 import { useAnswerCorrectStore } from "@/store/questions";
 import React, { MutableRefObject, useState } from "react";
 import Latex from "react-latex-next";
