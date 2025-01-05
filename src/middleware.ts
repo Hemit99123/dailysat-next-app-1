@@ -22,6 +22,10 @@ export const middleware = async (request: NextRequest) => {
   // Handle frontend for employee unauthorization (better UX with redirection)
   const isProtectedEmployeeFrontend = protectedEmployeeFrontendRoutes.includes(request.nextUrl.pathname);
 
+  if(request.nextUrl.pathname == "/"){
+
+  }
+  
   if (isProtectedEmployeeFrontend) {
     const isSessionValid = await getEmployeeSession();
 
