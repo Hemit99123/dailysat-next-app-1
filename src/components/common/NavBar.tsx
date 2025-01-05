@@ -6,8 +6,9 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import CookieConsent from "react-cookie-consent";
 import { menuItems } from "@/data/menuItem";
-import { handleSignIn, handleSignOut } from "./server-actions";
+import AuthButton from "./AuthButton";
 import { determineAuthStatus } from "@/lib/authStatus";
+
 
 const NavBar = () => {
   const router = useRouter(); 
@@ -75,26 +76,10 @@ const NavBar = () => {
             </div>
           ))}
         </div>
-
-        {status ? (
+        
         <div className="hidden md:block">
-            <button
-              onClick={() => { handleSignOut(); handleToggleStatus(); }}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-            >
-              Sign out
-            </button>
+          <AuthButton status={status} handleToggleStatus={handleToggleStatus} />
         </div>
-        ) : (
-          <div className="hidden md:block">
-            <button
-              onClick={() => {handleSignIn(); handleToggleStatus();}}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-            >
-              Sign in
-            </button>
-          </div>
-        )}
       </div>
 
       {/* Mobile Menu Items with transition effect */}
@@ -113,12 +98,7 @@ const NavBar = () => {
             </li>
           ))}
           <li>
-            <button
-              onClick={() => handleGoToNewPage("https://evq73w1t59w.typeform.com/to/S0yXIWtD")}
-              className="w-full px-4 py-2 mt-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-            >
-              Contact
-            </button>
+            <AuthButton status={status} handleToggleStatus={handleToggleStatus} />
           </li>
         </ul>
       </div>
