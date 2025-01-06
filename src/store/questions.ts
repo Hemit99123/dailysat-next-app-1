@@ -25,7 +25,7 @@ interface AnswerCorrectStoreProps {
 
 interface AnswerAttemptsStore {
     attempts: number;
-    setAttempts: (attempt: number) => void;
+    incrementAttempts: () => void;
     resetAttempts: () => void;
 }
 
@@ -55,6 +55,6 @@ export const useAnswerCorrectStore = create<AnswerCorrectStoreProps>((set) => ({
 
 export const useAnswerAttemptsStore = create<AnswerAttemptsStore>((set) => ({
   attempts: 0,
-  setAttempts: (attempt: number) => set(() => ({ attempts: attempt  })),
+  incrementAttempts: () => set((prevAttempts: number) => ({ attempts: prevAttempts + 1})),
   resetAttempts: () => set(() => ({ attempts: 0 })),
 }));
