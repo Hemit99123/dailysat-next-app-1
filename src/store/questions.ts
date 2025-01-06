@@ -55,6 +55,6 @@ export const useAnswerCorrectStore = create<AnswerCorrectStoreProps>((set) => ({
 
 export const useAnswerAttemptsStore = create<AnswerAttemptsStore>((set) => ({
   attempts: 0,
-  incrementAttempts: () => set((prevAttempts: number) => ({ attempts: prevAttempts + 1})),
+  incrementAttempts: (state: number) => set(() => ({ attempts: state.attempts + 1})),
   resetAttempts: () => set(() => ({ attempts: 0 })),
 }));
