@@ -23,6 +23,10 @@ interface AnswerCorrectStoreProps {
     setIsAnswerCorrect: (value: boolean | "none") => void;
 }
 
+interface AnswerAttemptsStore {
+    attempts: number;
+    setAttempts: (attempt: number) => void;
+}
 
 // These are the stores (there are a lot)
 export const useQuestionStore = create<QuestionStoreProps>((set) => ({
@@ -46,4 +50,9 @@ export const useAnswerStore = create<AnswerStoreProps>((set) => ({
 export const useAnswerCorrectStore = create<AnswerCorrectStoreProps>((set) => ({
     isAnswerCorrect: "none",
     setIsAnswerCorrect: (value: boolean | "none") => set(() => ({ isAnswerCorrect: value })),
+}));
+
+export const useAnswerAttemptsStore = create<AnswerAttemptsStore>((set) => ({
+  attempts: 0,
+  setAttempts: (attempt: number) => set(() => ({ attempts: attempt })),
 }));
