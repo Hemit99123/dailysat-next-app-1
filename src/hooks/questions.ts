@@ -21,7 +21,7 @@ const useQuestionHandler = () => {
 
   const attempts = useAnswerAttemptsStore((state) => state.attempts)
   const resetAttempts = useAnswerAttemptsStore((state) => state.resetAttempts) 
-  const setAttempts = useAnswerAttemptsStore((state) => state.setAttempts)
+  const incrementAttempts = useAnswerAttemptsStore((state) => state.incrementAttempts)
 
   const fetchRandomQuestion = async (type: "Math" | "Reading", topic: Topic): Promise<void> => {
     try {
@@ -55,7 +55,7 @@ const useQuestionHandler = () => {
       resetAttempts();
     } else {
       resetCorrectCounter();
-      setAttempts(1);
+      incrementAttempts();
     }
 
     setIsAnswerCorrect(isCorrect);
