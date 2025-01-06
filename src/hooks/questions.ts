@@ -19,7 +19,6 @@ const useQuestionHandler = () => {
   const correctCount = useAnswerCounterStore((state) => state.count);
   const openAnnouncerModal = useStreakAnnouncerModalStore((state) => state.openModal);
 
-  const attempts = useAnswerAttemptsStore((state) => state.attempts)
   const resetAttempts = useAnswerAttemptsStore((state) => state.resetAttempts) 
   const incrementAttempts = useAnswerAttemptsStore((state) => state.incrementAttempts)
 
