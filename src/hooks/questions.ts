@@ -21,6 +21,7 @@ const useQuestionHandler = () => {
 
   const resetAttempts = useAnswerAttemptsStore((state) => state.resetAttempts) 
   const incrementAttempts = useAnswerAttemptsStore((state) => state.incrementAttempts)
+  const attempts = useAnswerAttemptsStore((state) => state.attempts)
 
   const fetchRandomQuestion = async (type: "Math" | "Reading", topic: Topic): Promise<void> => {
     try {
@@ -61,7 +62,8 @@ const useQuestionHandler = () => {
 
     // making a new token from a server-side action (function that runs on the SEVER!!)
     const token = await generateJWT({
-      state: isCorrect == true ? 1 : 0
+      state: isCorrect == true ? 1 : 0,
+      attempts
     })
 
     // Send request to backend
