@@ -5,6 +5,7 @@ import { useScoreStore, useAnswerCounterStore } from "@/store/score";
 import { Answers } from "@/types/answer";
 import { Topic } from "@/types/topic";
 import axios from "axios";
+import { useAnswerAttemptsStore } from "@/store/questions"
 
 // Custom hook to encapsulate logic because it is used in both math and reading/writing components
 const useQuestionHandler = () => {
@@ -17,6 +18,9 @@ const useQuestionHandler = () => {
   const setIsAnswerCorrect = useAnswerCorrectStore((state) => state.setIsAnswerCorrect);
   const correctCount = useAnswerCounterStore((state) => state.count);
   const openAnnouncerModal = useStreakAnnouncerModalStore((state) => state.openModal);
+
+  const attempts = useAnswerAttemptsStore((state) => state.attempts)
+  const setAttempts = useAnswerAttemptsStore((state) => state.setAttempts)
 
   const fetchRandomQuestion = async (type: "Math" | "Reading", topic: Topic): Promise<void> => {
     try {
