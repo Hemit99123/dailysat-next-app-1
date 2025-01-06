@@ -20,6 +20,7 @@ const useQuestionHandler = () => {
   const openAnnouncerModal = useStreakAnnouncerModalStore((state) => state.openModal);
 
   const attempts = useAnswerAttemptsStore((state) => state.attempts)
+  const resetAttempts = useAnswerAttemptsStore((state) => state.resetAttempts) 
   const setAttempts = useAnswerAttemptsStore((state) => state.setAttempts)
 
   const fetchRandomQuestion = async (type: "Math" | "Reading", topic: Topic): Promise<void> => {
@@ -51,8 +52,10 @@ const useQuestionHandler = () => {
     if (isCorrect) {
       increaseCorrectCounter();
       increaseScore();
+      resetAttempts();
     } else {
       resetCorrectCounter();
+      setAttempts(1);
     }
 
     setIsAnswerCorrect(isCorrect);
