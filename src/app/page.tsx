@@ -227,10 +227,6 @@ const Home = () => {
         </div>
 
         <Redeem 
-          art="/icons/high-five.png" 
-          color="blue" 
-          desc="Both you and your friend can redeem 3000 coins when your friend first logs in!" 
-          header="Refer a friend!" 
           isReferred={user?.isReferred}
         />
 

@@ -1,17 +1,13 @@
 import { generateJWT } from '@/lib/jwt/action';
 import { useUserStore } from '@/store/user';
 import axios from 'axios';
-import React from 'react';
+import React, { FC } from 'react';
 
 interface RedeemProps {
-    header: string;
-    desc: string;
-    color: string;
-    art?: string;
-    isReferred: boolean | undefined;
+    isReferred: boolean | undefined
 }
 
-const Redeem: React.FC<RedeemProps> = ({ art, header, desc, isReferred }) => {
+const Redeem: FC<RedeemProps> = ({isReferred}) => {
 
     const setUser = useUserStore((state) => state.setUser)
     
@@ -51,10 +47,12 @@ const Redeem: React.FC<RedeemProps> = ({ art, header, desc, isReferred }) => {
     return (
         <div className="shadow-lg w-full rounded-lg bg-white p-4">
             <div className="flex items-center flex-col mb-3">
-                <p className="text-3xl font-bold ml-2 text-blue-500">{header}</p>
-                <p className="text-lg font-semibold text-gray-600 ml-2">{desc}</p>
+                <p className="text-3xl font-bold ml-2 text-blue-500">DailySAT Referral</p>
+                <p className="text-lg font-semibold text-gray-600 ml-2">
+                    Both you and your friend can both redeem 200 coins when your friend first logs in!
+                </p>
             </div>
-            <img src={art} className="w-32 ml-auto mr-auto " />
+            <img src={"/icons/high-five.png"} className="w-32 ml-auto mr-auto " />
             <div className='flex justify-center mt-10 items-center'>
 
             {isReferred == false &&
