@@ -25,7 +25,7 @@ export const team = [
     },
     {
       name: "Devesh Khilnani",
-      role: "Business Consultant",
+      role: "Chief Business Officer",
       imgSrc: "https://media.licdn.com/dms/image/v2/D4D03AQHp9U6V0ER0bw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1724947190257?e=1738800000&v=beta&t=HcqzWskjTN-TnRsu9sfjUdFe-aTl2S2ZrSUojpB4UJw",
       linkedIn: "https://www.linkedin.com/in/dkhilnani/"
     }
