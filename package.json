@@ -6,21 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx,html}\" --quiet --fix",
+    "lint-check": "eslint \"src/**/*.{js,jsx,ts,tsx,html}\" --quiet --fix",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,md,mdx,css,yaml,yml}\"",
     "check": "prettier --check \"**/*.{ts,tsx,js,jsx,md,mdx,css,yaml,yml}\"",
     "prepare": "husky"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,json,css,scss,md}": [
-      "eslint --fix",
-      "prettier --write"
-    ]
   },
   "dependencies": {
     "@react-oauth/google": "^0.12.1",
