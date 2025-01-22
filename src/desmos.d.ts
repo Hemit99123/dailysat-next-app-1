@@ -1,6 +1,5 @@
 import { DesmosCalculator } from "./types/desmos";
 
-
 declare global {
     interface Window {
       Desmos: {
@@ -9,5 +8,4 @@ declare global {
     }
   }
   
-  export {};
-  
+export {};  

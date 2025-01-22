@@ -60,7 +60,8 @@ import { Collection, Db, Document, InsertOneResult } from "mongodb";
  *                   type: string
  *                   description: A generic error message for internal server issues.
  */
-export async function GET(request: Request) {
+
+export const GET = async (request: Request) => {
   const url: URL = new URL(request.url);
   const searchParams: URLSearchParams = new URLSearchParams(url.search);
   const id: string = searchParams.get("id") || "";

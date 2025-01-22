@@ -31,7 +31,7 @@ import { auth } from "@/auth";
  *         description: Error in connecting with the MongoDB client
  */
 
-export async function POST(request: Request) {
+export const POST = async (request: Request) => {
     const body = await request.json();
     const referralCode = body.referralCode;
 
