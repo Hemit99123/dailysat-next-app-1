@@ -13,7 +13,7 @@ const verifyJWT = (token: string) => {
   }
 }
 
-const POST = async (request: Request) => {
+export const POST = async (request: Request) => {
   const { jwtToken } = await request.json();
 
 
