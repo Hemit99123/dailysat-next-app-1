@@ -67,7 +67,7 @@ import { getQuestion } from "../../../../lib/mongo";
  *                   description: A generic error message for internal server issues.
  */
 
-export async function GET(request: Request) {
+const GET = async (request: Request) => {
   const question = await getQuestion(request, "questions-reading")
 
   return question

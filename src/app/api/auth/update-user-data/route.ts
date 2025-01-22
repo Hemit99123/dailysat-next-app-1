@@ -4,7 +4,7 @@ import { handleGetUser } from "@/lib/auth/getUser";
 import { client as cacheClient } from "@/lib/performance/cache/redis";
 import { User } from "@/types/user";
 
-export async function GET(request: Request) {
+export const GET = async (request: Request) => {
     // Get the Authorization header
     const authHeader = request.headers.get("Authorization");
 

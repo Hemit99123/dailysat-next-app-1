@@ -1,7 +1,7 @@
 import { client } from "@/lib/mongo";
 import { Db, WithId, Document, FindCursor } from "mongodb";
 
-export async function GET(request: Request) {
+export const GET = async (request: Request) => {
     const url: URL = new URL(request.url);
     const searchParams: URLSearchParams = new URLSearchParams(url.search);
     const userEmail: string = searchParams.get("email") || "";

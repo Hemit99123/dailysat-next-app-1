@@ -4,7 +4,8 @@ import { client } from '@/lib/mongo';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
 // Verify JWT function
-function verifyJWT(token: string): JwtPayload {
+
+const verifyJWT = (token: string) => {
   try {
     return jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload; // Use type assertion to ensure it's a JwtPayload so that typescript voids errors
   } catch (error) {
@@ -12,7 +13,7 @@ function verifyJWT(token: string): JwtPayload {
   }
 }
 
-export async function POST(request: Request) {
+const POST = async (request: Request) => {
   const { jwtToken } = await request.json();
 
 

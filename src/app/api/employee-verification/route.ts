@@ -4,7 +4,7 @@ import { redis } from "@/lib/employee-auth/redis";
 import { transporter } from "@/lib/nodemailer";
 import otpGenerate from "@/lib/employee-auth/otpGenerate";
 
-export async function POST(request: Request) {
+export const POST = async (request: Request) => {
   const body = await request.json();
   const email = body.email;
 
