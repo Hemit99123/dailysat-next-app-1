@@ -1,6 +1,6 @@
 import { setSession } from "@/lib/employee-auth/employeeSession"
 
-export async function POST(request: Request) {
+export const POST = async (request: Request) => {
     const body = await request.json() // Await the request body
     const result = await setSession(body.email)
 

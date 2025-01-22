@@ -4,7 +4,7 @@ import { client as cacheClient } from "@/lib/performance/cache/redis";
 import { handleAPiHits, handleIncreaseAPIHits } from "@/lib/performance/rate-limiter/helper/apiHits";
 import { User } from "@/types/user";
 
-export async function GET() {
+export const GET = async () => {
     const session = await auth();
 
     const userEmail: string | null | undefined = session?.user?.email;

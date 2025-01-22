@@ -1,6 +1,6 @@
 import { redis } from "@/lib/employee-auth/redis";
 
-export async function GET(request: Request) {
+export const GET = async (request: Request) => {
   try {
     const url = new URL(request.url);
     const passwordAttempt = url.searchParams.get("passwordAttempt");

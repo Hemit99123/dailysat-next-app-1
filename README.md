@@ -19,9 +19,8 @@ Our mission is to build an app that is free and accessible! This means we love i
 
 ##### 📛 When naming your ticket, please use the following prefixes...
 - feat: (for a feature)
-- bug: (for a bug/issue with functionality)
-- fix: (for a refactor of the code)
-- chore: (for mudane tasks such as updating documentation)
+- fix: (for a fix in wrongful behaviour and bugs)
+- chore: (for mudane tasks such as updating documentation + refactors of code)
 
 ## 👷 Maintainers:
 - Hemit Patel (President/COO)
@@ -43,3 +42,4 @@ The other one is for regular users and is handled by the AuthJS lib. It features
 - **TailwindCSS** (styling)
 - **MongoDB** (db management solution)
 - **Redis** (storage solution for sessions, rate limiting and caching layer)
+- **Husky** (pre-commit solution to check our code for linting issues)

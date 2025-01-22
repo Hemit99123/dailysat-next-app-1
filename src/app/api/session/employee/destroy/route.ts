@@ -1,6 +1,6 @@
 import { destorySession } from "@/lib/employee-auth/employeeSession"
 
-export async function POST() {
+export const POST = async () => {
     const result = await destorySession()
 
     const message = result ? "Session gone" : "Session was NOT gone" // Simplified ternary logic based on result 

@@ -1,15 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Option from "@/components/features/Dashboard/Option";
 import StatDisplay from "@/components/features/Dashboard/CoinDisplay";
 import axios from "axios";
 import Quotes from "@/types/quotes";
 import Spinner from "@/components/common/Spinner";
-import MathSVG from "@/components/common/icons/MathSVG";
-import BookSVG from "@/components/common/icons/BookSVG";
 import Redeem from "@/components/features/Dashboard/Redeem";
 import { useUserStore } from "@/store/user";
+import ExploreSectionFeats from "@/components/features/Dashboard/ExploreSectionFeats";
 
 const Home = () => {
   const user = useUserStore((state) => state.user)
@@ -117,34 +115,7 @@ const Home = () => {
 
       {/* CTA Section */}
       {/* Explore Section */}
-      <div className="flex items-center pl-5 mt-10">
-        <h1 className="pl-3.5 font-bold text-4xl text-blue-900">Practice!</h1>
-      </div>
-      <div className="lg:px-16 lg:p-6 px-2">
-        <div className="grid grids-cols-1 md:grid-cols-3 gap-2 mt-px">
-          <Option
-            icon={
-              <BookSVG />
-            }
-            header="Reading & Writing"
-            redirect="/reading-writing"
-          />
-          <Option
-            icon={
-              <MathSVG />
-            }
-            header="Math"
-            redirect="/math"
-          />
-          <Option
-            icon={
-              <BookSVG />
-            }
-            header="Adaptive Practice"
-            redirect="/adaptive-practice"
-          />
-        </div>
-      </div>
+      <ExploreSectionFeats />
 
       {/* Explore Section */}
       <div className="flex items-center pl-5 mt-10">
