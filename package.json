@@ -6,10 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint-check": "eslint \"src/**/*.{js,jsx,ts,tsx,html}\" --quiet --fix",
-    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,md,mdx,css,yaml,yml}\"",
-    "check": "prettier --check \"**/*.{ts,tsx,js,jsx,md,mdx,css,yaml,yml}\"",
-    "prepare": "husky"
+    "prepare": "husky && husky install"
+  },
+  "lint-staged": {
+    "*.ts": [
+    ]
   },
   "dependencies": {
     "@react-oauth/google": "^0.12.1",
@@ -25,6 +26,7 @@
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^4.0.0",
     "lint": "^0.8.19",
+    "lint-staged": "^15.4.1",
     "lucide-react": "^0.468.0",
     "mailgun.js": "^10.2.4",
     "mongodb": "^6.12.0",
@@ -58,7 +60,7 @@
     "@types/swagger-ui-react": "^4.18.3",
     "eslint": "^8",
     "eslint-config-next": "14.2.15",
-    "husky": "^9.1.7",
+    "husky": "^8.0.0",
     "i": "^0.3.7",
     "npm": "^11.0.0",
     "postcss": "^8",
