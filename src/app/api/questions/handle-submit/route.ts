@@ -59,7 +59,7 @@ export const POST = async (request: Request) => {
       { email },
       {
         $inc: {
-          currency: state === 1 ? QUESTION_IS_CORRECT_POINTS && attempts == 0 : 0,
+          currency: state === 1 ? (attempts === 0 ? QUESTION_IS_CORRECT_POINTS : 0) : 0,
           correctAnswered: state === 1 ? 1 : 0,
           wrongAnswered: state !== 1 ? 1 : 0,
         },
