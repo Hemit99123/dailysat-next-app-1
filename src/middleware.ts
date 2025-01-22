@@ -10,5 +10,6 @@ export const middleware = async (request: NextRequest) => {
   const userResponse = await handleUserRoutes(request);
   if (userResponse) return userResponse;
 
+  // if none are true, return the response originally needed 
   return NextResponse.next();
 };
