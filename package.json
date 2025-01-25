@@ -6,13 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "prepare": "husky && husky install"
-  },
-  "lint-staged": {
-    "*.ts": [
-    ],
-    "*.tsx": [
-    ]
+    "prepare": "husky && husky install", 
+    "lint": " eslint \"src/**/*.{ts,tsx}\""
   },
   "dependencies": {
     "@react-oauth/google": "^0.12.1",
