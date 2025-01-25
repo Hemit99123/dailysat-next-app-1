@@ -40,7 +40,7 @@ const Reading = () => {
   useEffect(() => {
     setRandomQuestion(null)
     setSelectedTopic(null)
-  }, [])
+  }, [setRandomQuestion, setSelectedTopic])
 
   useEffect(() => {
     handleCheckThreeStreak();

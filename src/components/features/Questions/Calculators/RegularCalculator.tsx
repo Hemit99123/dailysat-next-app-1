@@ -1,20 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import DraggableItem from './DraggableItem';
 
 const RegularCalculator = () => {
   const [expression, setExpression] = useState('');
-  const recognizedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '*', '/'];
 
-  const handleDeleteEverything  = () => {{
-      setExpression("")
-  }}
+  // Memoize the recognizedKeys array
+  const recognizedKeys = useMemo(
+    () => ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '*', '/'],
+    []
+  );
 
-  const handleDeleteOneChar = () => {
-    const newExpression = expression.slice(0, -1);
-    setExpression(newExpression);
-  };
+  const handleDeleteEverything = useCallback(() => {
+    setExpression("");
+  }, []);
 
-  const handleCalculation = () => {
+  const handleDeleteOneChar = useCallback(() => {
+    setExpression((prevExpression) => prevExpression.slice(0, -1));
+  }, []);
+
+  const handleCalculation = useCallback(() => {
     try {
       // Sanitize input before evaluation
       const sanitizedExpression = expression.replace(/÷/g, '/').replace(/×/g, '*');
@@ -23,19 +27,15 @@ const RegularCalculator = () => {
     } catch {
       setExpression('Error');
     }
-  };
+  }, [expression]);
 
   useEffect(() => {
-
-    // the test() function checks for the below phrases, if found it returns true 
-    // if not it will be false 
-    
     const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-  
+
     if (isMobile) {
       return; // Exit early if on a mobile device
     }
-  
+
     const handleKeyPress = (event: { key: string }) => {
       if (recognizedKeys.includes(event.key)) {
         setExpression((prevState) => `${prevState}${event.key}`);
@@ -47,19 +47,17 @@ const RegularCalculator = () => {
         handleDeleteEverything();
       }
     };
-  
+
     document.addEventListener('keydown', handleKeyPress);
-  
+
     return () => {
       document.removeEventListener('keydown', handleKeyPress);
     };
-  }, [expression]);
-  
-  
+  }, [recognizedKeys, handleDeleteOneChar, handleCalculation, handleDeleteEverything]);
 
   const handleButtonClick = (value: string) => {
     if (value === 'DEL') {
-      handleDeleteEverything()
+      handleDeleteEverything();
     } else if (value === '=') {
       handleCalculation();
     } else if (value === 'C') {

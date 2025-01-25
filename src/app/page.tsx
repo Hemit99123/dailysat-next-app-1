@@ -62,7 +62,7 @@ const Home = () => {
 
     handleFetchQuote();
     handleGetUser();
-  }, []);
+  }, [setUser]);
 
   // Determine the greeting based on the time of day
   useEffect(() => {

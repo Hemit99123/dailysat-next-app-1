@@ -37,7 +37,7 @@ const Math = () => {
   useEffect(() => {
     setRandomQuestion(null)
     setSelectedTopic(null)
-  }, [])
+  }, [setRandomQuestion, setSelectedTopic])
 
   useEffect(() => {
     handleCheckThreeStreak()
