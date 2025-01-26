@@ -42,4 +42,5 @@ The other one is for regular users and is handled by the AuthJS lib. It features
 - **TailwindCSS** (styling)
 - **MongoDB** (db management solution)
 - **Redis** (storage solution for sessions, rate limiting and caching layer)
-- **Husky** (pre-commit solution to check our code for linting issues)
+- **Husky** (pre-commit solution to run commands prior to a commit)
+- **ESLint** (used for linting enforcement)
