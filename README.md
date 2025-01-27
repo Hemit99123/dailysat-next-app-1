@@ -22,8 +22,8 @@ Our mission is to build an app that is free and accessible! This means we love i
 - fix: (for a fix in wrongful behaviour and bugs)
 - chore: (for mudane tasks such as updating documentation + refactors of code)
 
-## 👷 Maintainers:
-- Hemit Patel (President/COO)
+## 👷 Developers:
+- Hemit Patel (COO and Principal Maintainer of DailySAT)
 - Laksyha Jain (Chief Technology Officer)
 - Aarush Kute (Founder AND Chief Executive)
 
