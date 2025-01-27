@@ -6,6 +6,6 @@ export const middleware = async (request: NextRequest) => {
   const userResponse = await handleUserRoutes(request);
   if (userResponse) return userResponse;
 
-  // added comments
+  // If none of the pre-checks match, move to the request
   return NextResponse.next();
 };
