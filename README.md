@@ -27,15 +27,9 @@ Our mission is to build an app that is free and accessible! This means we love i
 - Laksyha Jain (Chief Technology Officer)
 - Aarush Kute (Founder AND Chief Executive)
 
-## How our authentication works ##
+## 🔐 How our authentication works ##
 
-We have 2 authentication systems. 
-
-#### - Employees:
-This system uses redis for sessions and cookies to store session id. Emails are whitelisted in the MongoDB collection "employees" Once user puts in thier whitelisted email, it is cross referenced to the db server and then an OTP is sent through nodemailer and Google STMP from dailysatorg@gmail.com account. Once user enters the OTP, they are given employee access for 4 hours until they must re-login again. 
-
-#### - Regular users:
-The other one is for regular users and is handled by the AuthJS lib. It features Google SSO and its contents are saved onto a MongoDB collection called "users." This is then used to populate the dashboard with user information. We also employed a rate limiter to regulate the amount of DB calls. This way there is less burden on our MongoDB server. During the times when the API is restircted, we use a caching layer to populate the information
+Unlike the admin platform, the regular DailySAT platform's auth is handled by the AuthJS lib. It features simple Google SSO and its contents are saved onto a MongoDB collection called "users." This is then used to populate the dashboard with user information. We also employed a rate limiter to regulate the amount of DB calls. This way there is less burden on our MongoDB server. During the times when the API is restircted, we use a caching layer to populate the information
 
 ## 💻 Technology Stack:
 - **NextJS** (frontend and backend, good for SEO)
