@@ -9,7 +9,7 @@ export const POST = async (request: Request) => {
 
     // Check if schoolID is provided in the request
     if (!school) {
-        throw new Error("schoolID is required");
+        return NextResponse.json({ success: false, message: "schoolID is required" }, { status: 400 });
     }
 
     // Get the authenticated user email
@@ -17,38 +17,57 @@ export const POST = async (request: Request) => {
     const email: string | null | undefined = session?.user?.email;
 
     if (!email) {
-        throw new Error("User not authenticated");
+        return NextResponse.json({ success: false, message: "User not authenticated" }, { status: 401 });
     }
 
     try {
         await client.connect();
         const db: Db = client.db("DailySAT");
-        const user: Collection<Document> = db.collection("users");
-        const school_collection: Collection<Document> = db.collection("schools");
+        const userCollection: Collection<Document> = db.collection("users");
+        const schoolCollection: Collection<Document> = db.collection("schools");
+
+        // Retrieve the user document
+        const userBefore = await userCollection.findOne({ email });
+
+        if (!userBefore) {
+            return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
+        }
 
         // Proceed with the update if schoolID is different
-        await user.findOneAndUpdate(
+        const response = await userCollection.updateOne(
             { email, enrolledSchool: { $ne: school } }, // Only update if school is different
             { $set: { enrolledSchool: school } },
-            { returnDocument: "after" }  // Optionally return the updated document
         );
 
-        // Add the user to the school's students array
-        await school_collection.findOneAndUpdate(
-            { _id: new ObjectId(school) }, // Assuming `school` is the schoolID or _id of the school document
-            {
-                $addToSet: { students: email } // Using $addToSet to avoid duplicate emails in the students array (sets cannot take duplicates)
-            },
-            { returnDocument: "after" }  // Optionally return the updated school document
-        );
+        if (response) {
+            // Remove the user from the previous school's students array if they were enrolled in one
+            if (userBefore.enrolledSchool) {
+                await schoolCollection.updateOne(
+                    { _id: new ObjectId(userBefore.enrolledSchool) },
+                    
+                    /* eslint-disable  @typescript-eslint/no-explicit-any */
+                    { $pull: { students: email as any } } 
+                );
+                
+            }
 
+            // Add the user to the new school's students array
+            await schoolCollection.updateOne(
+                { _id: new ObjectId(school) }, // Assuming `school` is the schoolID or _id of the school document
+                {
+                    $addToSet: { students: email } // Using $addToSet to avoid duplicate emails in the students array
+                }
+            );
 
-        // Success response
-        return NextResponse.json({ success: true, message: "School enrollment updated and student added to school" });
+            // Success response
+            return NextResponse.json({ success: true, message: "School enrollment updated and student added to school" });
+        } else {
+            return NextResponse.json({ success: false, message: "Already enrolled in the same school" }, { status: 409 });
+        }
 
     } catch (error) {
         console.error("Error updating school enrollment:", error);
-        throw new Error("Failed to update school enrollment and add student to school");
+        return NextResponse.json({ success: false, message: "Failed to update school enrollment and add student to school" }, { status: 500 });
     } finally {
         await client.close();
     }
