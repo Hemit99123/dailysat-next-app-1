@@ -2,7 +2,7 @@ import { MongoClient, ServerApiVersion } from "mongodb";
 import { Db, Document } from "mongodb";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
-export const client: MongoClient = new MongoClient(process.env.NEXT_PUBLIC_MONGO_URL  || "0" , {
+export const client: MongoClient = new MongoClient(process.env.MONGO_URL  || "0" , {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
