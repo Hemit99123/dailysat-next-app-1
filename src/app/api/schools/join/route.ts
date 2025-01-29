@@ -44,7 +44,7 @@ export const POST = async (request: Request) => {
             if (userBefore.enrolledSchool) {
                 await schoolCollection.updateOne(
                     { _id: new ObjectId(userBefore.enrolledSchool) },
-                    
+
                     /* eslint-disable  @typescript-eslint/no-explicit-any */
                     { $pull: { students: email as any } } 
                 );
@@ -66,8 +66,7 @@ export const POST = async (request: Request) => {
         }
 
     } catch (error) {
-        console.error("Error updating school enrollment:", error);
-        return NextResponse.json({ success: false, message: "Failed to update school enrollment and add student to school" }, { status: 500 });
+        return NextResponse.json({ success: false, error }, { status: 500 });
     } finally {
         await client.close();
     }
