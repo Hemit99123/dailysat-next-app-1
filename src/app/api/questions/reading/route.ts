@@ -2,7 +2,7 @@ import { getQuestion } from "../../../../lib/mongo";
 
 /**
  * @swagger
- * /api/question/reading:
+ * /api/questions/reading:
  *   get:
  *     description: 
  *       Retrieves a random question from the "questions" collection in MongoDB based on the provided `topic`.
