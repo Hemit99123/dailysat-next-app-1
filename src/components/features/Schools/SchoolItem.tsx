@@ -3,11 +3,13 @@
 import React from 'react';
 import { CiClock2 } from "react-icons/ci";
 import { SchoolItemProps } from '@/types/schoolitem';
+import axios from 'axios';
 
-const SchoolItem: React.FC<SchoolItemProps> = ({ name, location, desc, joined, img }) => {
+const SchoolItem: React.FC<SchoolItemProps> = ({ _id, name, location, desc, joined, img }) => {
 
     const handleJoinSchool = async () => {
-
+        await axios.post("/api/schools/join", {schoolID: _id})
+        alert("Enrolled into school!")
     }
 
     return (
