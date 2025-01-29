@@ -116,7 +116,7 @@ const About = () => {
     <WorkshopItem 
       title='DailySAT x StockSavvy'
       people='60+ people'
-      desc='yoyo'
+      desc='Did a workshop on post-secondary education and finances!'
       icon={
         <svg
         height={75}
