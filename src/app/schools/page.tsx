@@ -56,6 +56,7 @@ const Schools = () => {
                     {/* Map through schools to dynamically create SchoolItem components */}
                     {schools.map((school) => (
                         <SchoolItem 
+                            _id={school._id}
                             key={school.name} // or any unique field
                             name={school.name}
                             location={school.location}

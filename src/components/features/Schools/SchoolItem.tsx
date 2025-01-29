@@ -6,7 +6,6 @@ import { SchoolItemProps } from '@/types/schoolitem';
 
 const SchoolItem: React.FC<SchoolItemProps> = ({ name, location, desc, joined, img }) => {
 
-
     const handleJoinSchool = async () => {
 
     }
