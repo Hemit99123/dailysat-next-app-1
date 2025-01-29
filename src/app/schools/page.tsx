@@ -8,6 +8,7 @@ import { CiSearch } from "react-icons/ci";
 
 const Schools = () => {
     const [schools, setSchools] = useState<SchoolItemProps[]>([])
+    const [search, setSearch] = useState("")
 
     useEffect(() => {
         const handleGetSchools = async () => {
@@ -19,6 +20,12 @@ const Schools = () => {
 
         handleGetSchools()
     }, [])
+
+    const handleSearchSchool = async () => {
+        const response = await axios.get(`/api/schools/search?query=${search}`)
+
+        setSchools(response.data.schools)
+    }
     
   return (
     <div>
@@ -32,12 +39,13 @@ const Schools = () => {
                 <div className="flex items-center space-x-4 sm:space-x-6 w-full px-4 sm:px-10">
                     <CiSearch className="text-2xl sm:text-4xl" />
                     <input 
+                        onChange={(e) => setSearch(e.target.value)}
                         className="w-full appearance-none outline-none text-base sm:text-lg bg-transparent" 
                         placeholder="Search for your school" 
                     />
                 </div>
 
-                <button className="bg-blue-500 text-white py-3 sm:py-5 px-8 sm:px-16 rounded-full font-bold text-base sm:text-lg mt-4 sm:mt-0">
+                <button onClick={handleSearchSchool} className="bg-blue-500 text-white py-3 sm:py-5 px-8 sm:px-16 rounded-full font-bold text-base sm:text-lg mt-4 sm:mt-0">
                     Search
                 </button>
             </div>
