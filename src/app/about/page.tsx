@@ -113,7 +113,7 @@ const About = () => {
             {team.map((member, index) => (
                 <div key={index} className="flex flex-col items-center justify-center">
                 <img
-                    className="w-36 h-36 rounded-3xl object-contain mb-4"
+                    className="w-36 h-36 rounded-3xl object-cover mb-4"
                     src={member.imgSrc}
                     alt={member.name}
                 />
