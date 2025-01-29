@@ -1,5 +1,3 @@
-"use server"
-
 import { MongoClient, ServerApiVersion } from "mongodb";
 import { Db, Document } from "mongodb";
 
