@@ -20,7 +20,7 @@ const Schools = () => {
             </div>
 
             <div>
-                <h3 className="text-2xl font-semibold">Recently added schools</h3>
+                <h3 className="text-2xl font-semibold mb-9">Partnered Schools:</h3>
                 <div className="grid grid-cols-3 mx-auto gap-16">
                     <SchoolItem 
                         name="Demo"
