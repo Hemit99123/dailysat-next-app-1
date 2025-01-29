@@ -62,7 +62,7 @@ const About = () => {
                     <h6 className="text-gray-500 text-base font-normal leading-relaxed">Users</h6>
                   </div>
                   <div className="flex-col justify-start items-start inline-flex">
-                    <h4 className="text-blue-400 text-4xl font-bold font-manrope leading-normal">1300+</h4>
+                    <h4 className="text-blue-400 text-4xl font-bold font-manrope leading-normal">3500+</h4>
                     <h6 className="text-gray-500 text-base font-normal leading-relaxed">SAT Questions</h6>
                   </div>
                 </div>
