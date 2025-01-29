@@ -9,10 +9,9 @@ const Schools = () => {
             </h1>
             
             <div className="flex justify-between border rounded-full">
-                <input className="ml-10 w-full"/>
+                <input className="ml-10 w-full appearance-none outline-none text-lg" />
                 <button className="bg-blue-500 text-white py-5 px-16 rounded-full font-bold text-lg">Search</button>
             </div>
-
         </div>
     </div>
   )
