@@ -23,7 +23,7 @@ export const GET = async (req: Request) => {
 
         return Response.json({ success: true, schools: allSchools });
     } catch (error) {
-        return Response.json({ success: false, error: "Failed to fetch schools" }, { status: 500 });
+        return Response.json({ success: false, error }, { status: 500 });
     } finally {
         await client.close();
     }
