@@ -10,13 +10,19 @@ const Schools = () => {
                 Find your <span className="text-blue-500 underline font-bold">school.</span>
             </h1>
             
-            <div className="flex justify-between border rounded-full mb-10">
-                <div className="ml-10 flex items-center space-x-6 w-full">
-                    <CiSearch className="text-4xl"/>
-                    <input className="w-full appearance-none outline-none text-lg" placeholder='Search for your school'/>
+            {/* Search bar */}
+            <div className="flex flex-col sm:flex-row items-center justify-between sm:border sm:rounded-full mb-10 p-2 sm:p-0">
+                <div className="flex items-center space-x-4 sm:space-x-6 w-full px-4 sm:px-10">
+                    <CiSearch className="text-2xl sm:text-4xl" />
+                    <input 
+                        className="w-full appearance-none outline-none text-base sm:text-lg bg-transparent" 
+                        placeholder="Search for your school" 
+                    />
                 </div>
 
-                <button className="bg-blue-500 text-white py-5 px-16 rounded-full font-bold text-lg">Search</button>
+                <button className="bg-blue-500 text-white py-3 sm:py-5 px-8 sm:px-16 rounded-full font-bold text-base sm:text-lg mt-4 sm:mt-0">
+                    Search
+                </button>
             </div>
 
             <div>
