@@ -10,7 +10,7 @@ export const GET = async (request: Request) => {
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
         return Response.json({
-            error: "Missing token :("
+            error: "Missing token"
         })
     }
 
