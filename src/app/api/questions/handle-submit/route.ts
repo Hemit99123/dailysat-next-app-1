@@ -131,12 +131,14 @@ export const POST = async (request: Request) => {
     const db = client.db('DailySAT');
     const coll = db.collection('users');
 
+    console.log(attempts)
+
     // Update the user's database with the new information
     await coll.updateOne(
       { email },
       {
         $inc: {
-          currency: state === 1 ? (attempts === 0 ? QUESTION_IS_CORRECT_POINTS : 0) : 0,
+          currency: attempts === 0 && state === 1  ? QUESTION_IS_CORRECT_POINTS : 0,
           correctAnswered: state === 1 ? 1 : 0,
           wrongAnswered: state !== 1 ? 1 : 0,
         },
@@ -150,11 +152,11 @@ export const POST = async (request: Request) => {
     return Response.json({
       result: 'DONE',
     });
-  } catch (error) {
+  } catch (error:any) {
     return Response.json({
       code: 500,
-      error: 'Internal server error',
-      errorMsg: error,
+      error,
+      errorMsg: error.message,
     });
   }
 }
