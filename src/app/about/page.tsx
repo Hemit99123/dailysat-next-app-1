@@ -189,7 +189,7 @@ const About = () => {
     <WorkshopItem 
       title='DailySAT x FTN Broadcasting'
       people='1000+ students'
-      desc='A boradcasing network with in-house content developments, did some with us!'
+      desc='A broadcasting network with in-house content developments, did some with us!'
       icon={
         <Image 
           src='/workshop/ftnbroadcasting.png' 
