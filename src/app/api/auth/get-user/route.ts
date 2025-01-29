@@ -6,7 +6,7 @@ import { User } from "@/types/user";
 
 /**
  * @swagger
- * /api/get-user:
+ * /api/auth/get-user:
  *   get:
  *     summary: Fetch user data with rate limiting and caching mechanisms
  *     description: 
