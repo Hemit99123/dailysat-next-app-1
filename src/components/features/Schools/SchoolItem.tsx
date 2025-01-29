@@ -1,3 +1,5 @@
+"use client"
+
 import React from 'react';
 import { CiClock2 } from "react-icons/ci";
 
@@ -10,16 +12,28 @@ interface SchoolItemProps {
 }
 
 const SchoolItem: React.FC<SchoolItemProps> = ({ name, location, desc, joined, img }) => {
+
+    const handleJoinSchool = () => {
+        alert("gonna make an api call")
+    }
+
     return (
         <div className="shadow-lg rounded-lg h-72 p-6 flex flex-col justify-between bg-white">
             {/* Header Section */}
-            <div className="flex items-center space-x-4">
-                <img src={img} className="w-12 h-12 rounded-full" alt={name} />
-                <div>
-                    <h3 className="text-xl font-bold">{name}</h3>
-                    <p className="text-sm text-gray-600">{location}</p>
+            <div className="flex justify-between">
+                <div className="flex items-center space-x-4">
+                    <img src={img} className="w-12 h-12 rounded-full" alt={name} />
+                    <div>
+                        <h3 className="text-xl font-bold">{name}</h3>
+                        <p className="text-sm text-gray-600">{location}</p>
+                    </div>
                 </div>
+
+                <button onClick={handleJoinSchool}>
+                    <span className="bg-gradient-to-r from-blue-500 to-indigo-600 inline-block text-transparent bg-clip-text text-xl font-bold">Join</span>
+                </button>
             </div>
+
             
             {/* Description */}
             <p className="text-gray-500 font-medium mt-4 flex-grow">{desc}</p>
