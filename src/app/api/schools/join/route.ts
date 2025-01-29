@@ -66,7 +66,7 @@ export const POST = async (request: Request) => {
         }
 
     } catch (error) {
-        return NextResponse.json({ success: false, error }, { status: 500 });
+        return NextResponse.json({ success: false, message: error }, { status: 500 });
     } finally {
         await client.close();
     }

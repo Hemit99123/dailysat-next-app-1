@@ -8,8 +8,9 @@ import axios from 'axios';
 const SchoolItem: React.FC<SchoolItemProps> = ({ _id, name, location, desc, joined, img }) => {
 
     const handleJoinSchool = async () => {
-        await axios.post("/api/schools/join", {schoolID: _id})
-        alert("Enrolled into school!")
+        const response = await axios.post("/api/schools/join", {schoolID: _id})
+
+        alert(response.data.message)
     }
 
     return (
