@@ -3,6 +3,85 @@ import { QUESTION_IS_CORRECT_POINTS } from '@/data/CONSTANTS';
 import { client } from '@/lib/mongo';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
+/**
+ * @swagger
+ * /api/questions/handle-submit:
+ *   post:
+ *     summary: Process user answer and update database
+ *     description: 
+ *       Verifies a JWT token, extracts the user's answer state and attempt count, and updates the user's data in the database accordingly.
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               jwtToken:
+ *                 type: string
+ *                 description: JWT token containing answer state and attempt count.
+ *                 example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+ *     responses:
+ *       200:
+ *         description: Successfully processed the answer and updated the database.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 result:
+ *                   type: string
+ *                   description: Confirmation message.
+ *                   example: DONE
+ *       400:
+ *         description: Bad request due to missing parameters or invalid email.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: integer
+ *                   description: HTTP status code.
+ *                   example: 400
+ *                 error:
+ *                   type: string
+ *                   description: Error message explaining the issue.
+ *                   example: JWT token was not specified
+ *       401:
+ *         description: Unauthorized request due to invalid or expired JWT token.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message indicating JWT verification failure.
+ *                   example: JWT issue: invalid token
+ *       500:
+ *         description: Internal server error due to issues with JWT verification, database connection, or other errors.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: integer
+ *                   description: HTTP status code.
+ *                   example: 500
+ *                 error:
+ *                   type: string
+ *                   description: Generic error message.
+ *                   example: Internal server error
+ *                 errorMsg:
+ *                   type: string
+ *                   description: Detailed error message for debugging.
+ */
+
+
 // Verify JWT function
 
 const verifyJWT = (token: string) => {
