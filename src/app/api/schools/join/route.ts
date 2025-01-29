@@ -39,7 +39,7 @@ export const POST = async (request: Request) => {
             { $set: { enrolledSchool: school } },
         );
 
-        if (response) {
+        if (response.modifiedCount == 1) {
             // Remove the user from the previous school's students array if they were enrolled in one
             if (userBefore.enrolledSchool) {
                 await schoolCollection.updateOne(
@@ -62,11 +62,11 @@ export const POST = async (request: Request) => {
             // Success response
             return NextResponse.json({ success: true, message: "School enrollment updated and student added to school" });
         } else {
-            return NextResponse.json({ success: false, message: "Already enrolled in the same school" }, { status: 409 });
+            return NextResponse.json({ success: false, message: "Already enrolled in the same school" });
         }
 
     } catch (error) {
-        return NextResponse.json({ success: false, message: error }, { status: 500 });
+        return NextResponse.json({ success: false, message: error });
     } finally {
         await client.close();
     }
