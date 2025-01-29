@@ -27,23 +27,14 @@ export const POST = async (request: Request) => {
         const school_collection: Collection<Document> = db.collection("schools");
 
         // Proceed with the update if schoolID is different
-        const result = await user.findOneAndUpdate(
+        await user.findOneAndUpdate(
             { email, enrolledSchool: { $ne: school } }, // Only update if school is different
             { $set: { enrolledSchool: school } },
             { returnDocument: "after" }  // Optionally return the updated document
         );
 
-        // Check if the update was performed
-        if (!result?.value) {
-            // This means the enrolledSchool was already the same or the user was not found
-            if (result?.lastErrorObject.n === 0) {
-                throw new Error("School already enrolled or user not found");
-            }
-            throw new Error("Failed to update school enrollment");
-        }
-
         // Add the user to the school's students array
-        const schoolResult = await school_collection.findOneAndUpdate(
+        await school_collection.findOneAndUpdate(
             { _id: school }, // Assuming `school` is the schoolID or _id of the school document
             {
                 $addToSet: { students: email } // Using $addToSet to avoid duplicate emails in the students array (sets cannot take duplicates)
@@ -51,10 +42,6 @@ export const POST = async (request: Request) => {
             { returnDocument: "after" }  // Optionally return the updated school document
         );
 
-        // Check if the school update was successful
-        if (!schoolResult?.value) {
-            throw new Error("Failed to add user to school students");
-        }
 
         // Success response
         return NextResponse.json({ success: true, message: "School enrollment updated and student added to school" });
