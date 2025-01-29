@@ -152,11 +152,10 @@ export const POST = async (request: Request) => {
     return Response.json({
       result: 'DONE',
     });
-  } catch (error:any) {
+  } catch (error) {
     return Response.json({
       code: 500,
       error,
-      errorMsg: error.message,
     });
   }
 }
