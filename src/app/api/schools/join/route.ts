@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { client } from "@/lib/mongo";
-import { Collection, Db, Document } from "mongodb";
+import { Collection, Db, Document, ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
 
 export const POST = async (request: Request) => {
@@ -35,7 +35,7 @@ export const POST = async (request: Request) => {
 
         // Add the user to the school's students array
         await school_collection.findOneAndUpdate(
-            { _id: school }, // Assuming `school` is the schoolID or _id of the school document
+            { _id: new ObjectId(school) }, // Assuming `school` is the schoolID or _id of the school document
             {
                 $addToSet: { students: email } // Using $addToSet to avoid duplicate emails in the students array (sets cannot take duplicates)
             },
