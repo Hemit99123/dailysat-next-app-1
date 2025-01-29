@@ -82,8 +82,6 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
  */
 
 
-// Verify JWT function
-
 const verifyJWT = (token: string) => {
   try {
     return jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload; // Use type assertion to ensure it's a JwtPayload so that typescript voids errors
