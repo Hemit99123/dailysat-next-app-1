@@ -12,7 +12,7 @@ export const GET = async () => {
             .limit(15)
             .toArray()
 
-        return Response.json({ success: true, data: allSchools });
+        return Response.json({ success: true, schools: allSchools });
     } catch (error) {
         return Response.json({ success: false, error }, { status: 500 });
     } finally {

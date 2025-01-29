@@ -1,8 +1,25 @@
+"use client"
+
 import SchoolItem from '@/components/features/Schools/SchoolItem';
-import React from 'react'
+import { SchoolItemProps } from '@/types/schoolitem';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 import { CiSearch } from "react-icons/ci";
 
 const Schools = () => {
+    const [schools, setSchools] = useState<SchoolItemProps[]>([])
+
+    useEffect(() => {
+        const handleGetSchools = async () => {
+            const response = await axios.get("/api/schools")
+
+            // Update state with the fetched schools
+            setSchools(response.data.schools)
+        }
+
+        handleGetSchools()
+    }, [])
+    
   return (
     <div>
         <div className="p-10">
@@ -28,15 +45,18 @@ const Schools = () => {
             <div>
                 <h3 className="text-lg lg:text-2xl font-semibold mb-9 text-blue-900">Partnered Schools:</h3>
                 <div className="grid grid-cols-1 lg:grid-cols-3 mx-auto lg:gap-16">
-                    <SchoolItem 
-                        name="Demo"
-                        location="Virtual"
-                        desc="This is a demo classroom"
-                        joined="Jan 29 2025"
-                        img='https://saintjamescatholic.school/sites/stjamesschool/files/resize/school_crest-386x424.png'
-                    />
+                    {/* Map through schools to dynamically create SchoolItem components */}
+                    {schools.map((school) => (
+                        <SchoolItem 
+                            key={school.name} // or any unique field
+                            name={school.name}
+                            location={school.location}
+                            desc={school.desc}
+                            joined={school.joined}
+                            img={school.img}
+                        />
+                    ))}
                 </div>
-
             </div>
         </div>
     </div>

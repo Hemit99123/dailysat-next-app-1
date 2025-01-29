@@ -1,20 +1,15 @@
 "use client"
 
-import React from 'react';
+import axios from 'axios';
+import React, { useState } from 'react';
 import { CiClock2 } from "react-icons/ci";
-
-interface SchoolItemProps {
-    name: string;
-    location: string;
-    desc: string;
-    joined: string;
-    img: string;
-}
+import { SchoolItemProps } from '@/types/schoolitem';
 
 const SchoolItem: React.FC<SchoolItemProps> = ({ name, location, desc, joined, img }) => {
 
-    const handleJoinSchool = () => {
-        alert("gonna make an api call")
+
+    const handleJoinSchool = async () => {
+
     }
 
     return (
