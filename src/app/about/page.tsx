@@ -11,7 +11,7 @@ const About = () => {
             <div className="w-full justify-start items-center gap-8 grid lg:grid-cols-2 grid-cols-1">
                 <div className="w-full flex-col justify-start lg:items-start items-center gap-10 inline-flex">
                     <div className="w-full flex-col justify-start lg:items-start items-center gap-4 flex">
-                        <h2 className="text-gray-900 text-4xl font-bold font-manrope leading-normal lg:text-start text-center">ACE the SAT.</h2>
+                        <h2 className="text-blue-900 text-6xl font-bold font-manrope leading-normal lg:text-start text-center">ACE the SAT.</h2>
                         <p className="text-gray-500 text-base font-normal leading-relaxed lg:text-start text-center">Our product will help you prep for the SAT through providing a question bank! You will have annotation and other tools available to aid you in your SAT journey to your dream school 🚀</p>
                     </div>
                 </div>
