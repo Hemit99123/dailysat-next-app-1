@@ -12,7 +12,7 @@ const Schools = () => {
             <div className="flex justify-between border rounded-full">
                 <div className="ml-10 flex items-center space-x-6 w-full">
                     <CiSearch className="text-4xl"/>
-                    <input className="w-full appearance-none outline-none text-lg" />
+                    <input className="w-full appearance-none outline-none text-lg" placeholder='Search for your school'/>
                 </div>
 
                 <button className="bg-blue-500 text-white py-5 px-16 rounded-full font-bold text-lg">Search</button>
