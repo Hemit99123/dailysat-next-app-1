@@ -6,7 +6,7 @@ const Schools = () => {
   return (
     <div>
         <div className="p-10">
-            <h1 className="text-5xl font-semibold mb-10">
+            <h1 className="text-3xl lg:text-5xl font-semibold mb-10">
                 Find your <span className="text-blue-500 underline font-bold">school.</span>
             </h1>
             
