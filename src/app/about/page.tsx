@@ -91,7 +91,7 @@ const About = () => {
                           Schools can easily partner with us and add their names to /schools. Students can then enroll into their schools and teachers can track students progress when they work within the DailySAT platform
                         </p>
                         <a href="https://docs.google.com/forms/d/e/1FAIpQLScGb4Pj_Jn1kmAxMVzJ2lCQ5QCyOnOqtGFqvWr9C3RttQlstg/viewform?usp=header" className="rounded-lg font-semibold cursor-pointer bg-blue-500 text-white py-2 px-5">
-                          Contact for more information
+                          Contact form
                         </a>
                     </div>
                 </div>
