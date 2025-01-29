@@ -1,7 +1,6 @@
 "use client"
 
-import axios from 'axios';
-import React, { useState } from 'react';
+import React from 'react';
 import { CiClock2 } from "react-icons/ci";
 import { SchoolItemProps } from '@/types/schoolitem';
 
