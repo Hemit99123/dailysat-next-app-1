@@ -20,6 +20,7 @@ const Result: React.FC<ResultProps> = ({
   return (
     <div className="mt-4 pl-7 pb-10" ref={answerComponent}>
       {isAnswerCorrect !== "none" &&
+      
         (isAnswerCorrect ? (
           <p className="text-green-500 text-lg font-semibold">
             You are correct!
