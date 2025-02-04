@@ -48,7 +48,29 @@ const Math = () => {
     fetchRandomQuestion("Math", topic);
   };
 
+  // get images from math and format it properly 
+  
+  const extractImageUrls = (explanation: string) => {
+    const urlRegex = /\[Image:\s*(https?:\/\/[^\]]+)\]/g;
+    const urls: string[] = [];
+    let match;
+    while ((match = urlRegex.exec(explanation)) !== null) {
+      urls.push(match[1]); // Push the URL found.
+    }
+    return urls;
+};
 
+  const cleanExplanationText = (explanation: string) => {
+    return explanation.replace(/\[Image:\s*https?:\/\/[^\]]+\]/g, "");
+  };
+
+  const imageUrls = randomQuestion
+    ? extractImageUrls(randomQuestion.explanation)
+    : [];
+  const cleanedExplanation = randomQuestion
+    ? cleanExplanationText(randomQuestion.explanation)
+    : "";
+    
   if (isScoreModalOpen || isStreakModalOpen) {
     return (
       <>
@@ -94,7 +116,9 @@ const Math = () => {
             )}
               <Result 
                 answerComponent={answerComponent}
-                explanation={randomQuestion?.explanation || ""}
+                explanation={cleanedExplanation || ""}
+                type="math"
+                imageUrls={imageUrls}
               />
           </div>
         ) : (

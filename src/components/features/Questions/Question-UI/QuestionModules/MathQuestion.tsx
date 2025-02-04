@@ -39,27 +39,6 @@ const MathQuestion: React.FC<QuestionsProps> = ({ onAnswerSubmit }) => {
     }
   }, [isAnswerCorrect, setSelectedAnswer]);
 
-  // --- Explanation extraction functions (new code) ---
-  const extractImageUrls = (explanation: string) => {
-    const urlRegex = /\[Image:\s*(https?:\/\/[^\]]+)\]/g;
-    const urls: string[] = [];
-    let match;
-    while ((match = urlRegex.exec(explanation)) !== null) {
-      urls.push(match[1]); // Push the URL found.
-    }
-    return urls;
-  };
-
-  const cleanExplanationText = (explanation: string) => {
-    return explanation.replace(/\[Image:\s*https?:\/\/[^\]]+\]/g, "");
-  };
-
-  const imageUrls = randomQuestion
-    ? extractImageUrls(randomQuestion.explanation)
-    : [];
-  const cleanedExplanation = randomQuestion
-    ? cleanExplanationText(randomQuestion.explanation)
-    : "";
 
   // --- Handlers ---
   const handleAnswerClick = (answer: Answers) => {
@@ -140,22 +119,6 @@ const MathQuestion: React.FC<QuestionsProps> = ({ onAnswerSubmit }) => {
 
       {/* Calculator Option Modal */}
       <CalcOption />
-
-      {/* Explanation (if the answer is incorrect) */}
-      {!isAnswerCorrect && randomQuestion && (
-        <div className="mt-4 p-4 bg-gray-100 rounded">
-          <h5 className="text-red-500">Incorrect!</h5>
-          <p className="mt-2">{cleanedExplanation}</p>
-          {imageUrls.map((url, idx) => (
-            <img
-              key={idx}
-              src={url}
-              alt={`Explanation Visual ${idx}`}
-              className="mt-2"
-            />
-          ))}
-        </div>
-      )}
     </div>
   );
 };

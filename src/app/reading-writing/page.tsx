@@ -93,6 +93,7 @@ const Reading = () => {
             <Result
               answerComponent={answerComponent}
               explanation={randomQuestion?.explanation || ""}
+              type="reading-writing"
             />
           </div>
         ) : (
