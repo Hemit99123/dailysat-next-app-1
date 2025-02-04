@@ -34,6 +34,7 @@ const useQuestionHandler = () => {
       }
       const response = await axios.get(`${link}?topic=${topic.name}`);
       const questionData = response.data?.doc_array?.[0] ?? null;
+      console.log(questionData)
       setRandomQuestion(questionData);
       setIsAnswerCorrect("none")
     } catch (error) {

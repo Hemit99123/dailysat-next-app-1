@@ -14,12 +14,9 @@ import {
 import { CalculatorIcon } from "lucide-react";
 import { useCalcOptionModalStore } from "@/store/modals";
 import CalcOption from "../../Modals/CalcOption";
+import { QuestionsProps } from "@/types/questions";
 
-interface MathQuestionProps {
-  onAnswerSubmit: (selectedAnswer: string) => void;
-}
-
-const MathQuestion: React.FC<MathQuestionProps> = ({ onAnswerSubmit }) => {
+const MathQuestion: React.FC<QuestionsProps> = ({ onAnswerSubmit }) => {
   // Use zustand stores for question data and answer handling.
   const randomQuestion = useQuestionStore((state) => state.randomQuestion);
   const selectedAnswer = useAnswerStore((state) => state.answer);
