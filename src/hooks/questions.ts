@@ -6,6 +6,7 @@ import { Answers } from "@/types/answer";
 import { Topic } from "@/types/topic";
 import axios from "axios";
 import { useAnswerAttemptsStore } from "@/store/questions"
+import { questionType } from "@/types/questions";
 
 // Custom hook to encapsulate logic because it is used in both math and reading/writing components
 const useQuestionHandler = () => {
@@ -23,11 +24,11 @@ const useQuestionHandler = () => {
   const incrementAttempts = useAnswerAttemptsStore((state) => state.incrementAttempts)
   const attempts = useAnswerAttemptsStore((state) => state.attempts)
 
-  const fetchRandomQuestion = async (type: "Math" | "Reading", topic: Topic): Promise<void> => {
+  const fetchRandomQuestion = async (type: questionType, topic: Topic): Promise<void> => {
     try {
       let link = ""
 
-      if (type == "Math") {
+      if (type == "math") {
         link = "/api/questions/math"
       } else {
         link = "/api/questions/reading"
@@ -44,7 +45,7 @@ const useQuestionHandler = () => {
   };
 
   const handleAnswerSubmit = async(
-    type: "Math" | "Reading",
+    type: questionType,
     correctAnswer: number, // Correct answer index
     answerCorrectRef: Record<Answers, number> = { A: 0, B: 1, C: 2, D: 3 } // Mapping for answer keys
   ) : Promise<void> => {

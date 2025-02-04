@@ -45,7 +45,7 @@ const Math = () => {
 
   const handleTopicClick = (topic: Topic) => {
     setSelectedTopic(topic);
-    fetchRandomQuestion("Math", topic);
+    fetchRandomQuestion("math", topic);
   };
 
   // get images from math and format it properly 
@@ -105,7 +105,7 @@ const Math = () => {
               <MathQuestion
                 onAnswerSubmit={() => 
                   handleAnswerSubmit( 
-                    "Math",
+                    "math",
                     randomQuestion.correctAnswer, 
                     answerCorrectRef
                   )

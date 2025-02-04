@@ -48,7 +48,7 @@ const Reading = () => {
 
   const handleTopicClick = (topic: Topic) => {
     setSelectedTopic(topic);
-    fetchRandomQuestion("Reading", topic);
+    fetchRandomQuestion("reading-writing", topic);
   };
 
   if (isScoreModalOpen || isStreakModalOpen) {
@@ -81,7 +81,7 @@ const Reading = () => {
               <ReadingQuestion
                 onAnswerSubmit={() =>
                   handleAnswerSubmit(
-                    "Reading",
+                    "reading-writing",
                     randomQuestion.correctAnswer,
                     answerCorrectRef
                   )
