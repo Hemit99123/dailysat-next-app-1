@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import StatDisplay from "@/components/features/Dashboard/CoinDisplay";
+import StatDisplay from "@/components/features/Dashboard/StatDisplay";
 import axios from "axios";
 import Quotes from "@/types/quotes";
 import Spinner from "@/components/common/Spinner";
