@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import handleUserRoutes from '@/lib/middleware/auth/reg-user';
+import handleUserRoutes from '@/lib/middleware/auth/user';
 
 export const middleware = async (request: NextRequest) => {
   const userResponse = await handleUserRoutes(request);
