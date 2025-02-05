@@ -10,10 +10,6 @@ const handleUserRoutes = async (request: NextRequest) => {
       return redirectTo(request, '/api/auth/signin')
     }
   
-    if (session && request.nextUrl.pathname === '/auth') {
-      return redirectTo(request, '/');
-    }
-  
     return null;
 };
   
