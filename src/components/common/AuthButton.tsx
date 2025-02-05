@@ -1,12 +1,9 @@
-import { FC, useEffect, useState } from "react";
-import { handleSignIn, handleSignOut } from "./server-actions";
+import { useEffect, useState } from "react";
+import { handleSignOut } from "./server-actions";
 import { determineAuthStatus } from "@/lib/authStatus";
 
-interface AuthButtonProps {
-    handleToggleStatus: () => void
-  }
   
-const AuthButton: FC<AuthButtonProps> = ({ handleToggleStatus}) => {
+const AuthButton = () => {
   const [status, setStatus] = useState<boolean | null>(null)
 
   useEffect(() => {
@@ -17,6 +14,11 @@ const AuthButton: FC<AuthButtonProps> = ({ handleToggleStatus}) => {
 
     handleGetAuthStatus();
   }, [])
+
+
+  const handleToggleStatus = () => {
+    setStatus((prevStatus) => !prevStatus)
+  }
 
 
     return (

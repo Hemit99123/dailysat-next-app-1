@@ -3,28 +3,17 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import CookieConsent from "react-cookie-consent";
 import { menuItems } from "@/data/menuItem";
 import AuthButton from "./AuthButton";
-import { determineAuthStatus } from "@/lib/authStatus";
 
 
 const NavBar = () => {
   const router = useRouter(); 
-  const [status, setStatus] = useState<boolean | null>(null)
 
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State to track if the mobile menu is open
 
-  useEffect(() => {
-    const handleStatus = async () => {
-      const status = await determineAuthStatus()
-      setStatus(status)
-    }
-
-    handleStatus()
-
-  }, [])
 
   // Toggles the mobile menu open/close state
   const toggleMenu = () => {
@@ -35,9 +24,6 @@ const NavBar = () => {
     router.push(link);
   };
 
-  const handleToggleStatus = () => {
-    setStatus((prevState) => !prevState)
-  }
 
 
   return (
@@ -78,7 +64,7 @@ const NavBar = () => {
         </div>
         
         <div className="hidden md:block">
-          <AuthButton handleToggleStatus={handleToggleStatus} />
+          <AuthButton />
         </div>
       </div>
 
@@ -98,7 +84,7 @@ const NavBar = () => {
             </li>
           ))}
           <li>
-            <AuthButton handleToggleStatus={handleToggleStatus} />
+            <AuthButton />
           </li>
         </ul>
       </div>
