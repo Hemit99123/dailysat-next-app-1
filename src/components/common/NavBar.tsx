@@ -78,7 +78,7 @@ const NavBar = () => {
         </div>
         
         <div className="hidden md:block">
-          <AuthButton status={status} handleToggleStatus={handleToggleStatus} />
+          <AuthButton handleToggleStatus={handleToggleStatus} />
         </div>
       </div>
 
@@ -98,7 +98,7 @@ const NavBar = () => {
             </li>
           ))}
           <li>
-            <AuthButton status={status} handleToggleStatus={handleToggleStatus} />
+            <AuthButton handleToggleStatus={handleToggleStatus} />
           </li>
         </ul>
       </div>

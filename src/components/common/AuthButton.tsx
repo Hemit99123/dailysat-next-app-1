@@ -1,15 +1,27 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { handleSignIn, handleSignOut } from "./server-actions";
+import { determineAuthStatus } from "@/lib/authStatus";
 
 interface AuthButtonProps {
-    status: boolean | null
     handleToggleStatus: () => void
   }
   
-const AuthButton: FC<AuthButtonProps> = ({status, handleToggleStatus}) => {
+const AuthButton: FC<AuthButtonProps> = ({ handleToggleStatus}) => {
+  const [status, setStatus] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    const handleGetAuthStatus = async () => {
+      const status = await determineAuthStatus()
+      setStatus(status)
+    }
+
+    handleGetAuthStatus();
+  }, [])
+
+
     return (
       <>
-      {status ? (
+      {status && (
         <div>
             <button
               onClick={() => { handleSignOut(); handleToggleStatus(); }}
@@ -18,15 +30,6 @@ const AuthButton: FC<AuthButtonProps> = ({status, handleToggleStatus}) => {
               Sign out
             </button>
         </div>
-        ) : (
-          <div>
-            <button
-              onClick={() => {handleSignIn(); handleToggleStatus();}}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-            >
-              Sign in
-            </button>
-          </div>
       )}
       </>
     )
