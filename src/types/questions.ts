@@ -2,6 +2,8 @@ import { Answers } from "./answer";
 
 // Shared between both components (props)
 
+export type questionType = "math" | "reading-writing";
+
 export interface QuestionsProps {
   onAnswerSubmit: (answer: Answers) => void;
 }
