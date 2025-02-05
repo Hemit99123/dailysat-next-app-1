@@ -7,7 +7,7 @@ const handleUserRoutes = async (request: NextRequest) => {
     const session = await auth();
   
     if (!session && protectedRoutes.protectedAuth.includes(request.nextUrl.pathname)) {
-      return redirectTo(request, '/api/auth/signin')
+      return redirectTo(request, '/auth/signin')
     }
   
     return null;

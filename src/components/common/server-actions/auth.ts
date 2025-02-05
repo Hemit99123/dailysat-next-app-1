@@ -1,5 +1,9 @@
 'use server'
-import { signOut } from "@/auth";
+import { signIn, signOut } from "@/auth";
+
+export const handleSignIn = async () => { 
+        await signIn("google", {redirectTo: "/auth/success"})
+}
 
 export const handleSignOut = async () => {
         await signOut({redirectTo: "/api/auth/signin"});
