@@ -1,5 +1,3 @@
-const protectedRoutes = {
-    protectedAuth: ['/', '/shop', '/math', '/reading-writing', '/schools'],
-};
+const protectedRoutes = ['/', '/shop', '/math', '/reading-writing', '/schools']
 
 export default protectedRoutes
