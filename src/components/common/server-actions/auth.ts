@@ -6,5 +6,5 @@ export const handleSignIn = async () => {
 }
 
 export const handleSignOut = async () => {
-        await signOut({redirectTo: "/api/auth/signin"});
+        await signOut({redirectTo: "/auth/signin"});
 };
