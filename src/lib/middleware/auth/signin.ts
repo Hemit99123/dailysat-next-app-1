@@ -3,7 +3,7 @@ import protectedRoutes from "@/data/protected-routes/protectedUserRoutes";
 import type { NextRequest } from "next/server";
 import redirectTo from "../common/redirect";
 
-const handleUserRoutes = async (request: NextRequest) => {
+const handleSignInRoutes = async (request: NextRequest) => {
     const session = await auth();
   
     if (!session && protectedRoutes.protectedAuth.includes(request.nextUrl.pathname)) {
@@ -13,4 +13,4 @@ const handleUserRoutes = async (request: NextRequest) => {
     return null;
 };
   
-export default handleUserRoutes
+export default handleSignInRoutes
