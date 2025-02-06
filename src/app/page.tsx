@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import StatDisplay from "@/components/features/Dashboard/CoinDisplay";
 import axios from "axios";
-import Quotes from "@/types/quotes";
+import Quotes from "@/types/dashboard/quotes";
 import Spinner from "@/components/common/Spinner";
 import Redeem from "@/components/features/Dashboard/Redeem";
 import { useUserStore } from "@/store/user";
