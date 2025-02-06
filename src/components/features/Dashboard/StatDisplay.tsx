@@ -29,7 +29,7 @@ const StatDisplay: React.FC<CoinDisplayProps> = ({ header, number, status, perce
                     <p
                         className={`mt-5 font-semibold ${status == "downward" ? "text-red-500" : "text-green-500"}`}
                     >
-                        {status == "downward" ? "-" : "+"}{percentage}% change this week
+                        {status == "downward" ? "-" : "+"}{percentage} change this week
                     </p>
                 </div>
             </div>

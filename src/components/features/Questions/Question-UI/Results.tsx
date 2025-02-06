@@ -1,53 +1,48 @@
-import { QUESTION_IS_CORRECT_POINTS } from "@/data/CONSTANTS";
 import { useAnswerCorrectStore } from "@/store/questions";
-import React, { MutableRefObject, useState } from "react";
-import Latex from "react-latex-next";
+import { questionType } from "@/types/questions";
+import React, { MutableRefObject } from "react";
 
 interface ResultProps {
-    answerComponent: MutableRefObject<HTMLDivElement | null>;
-    explanation: string | undefined;
+  answerComponent: MutableRefObject<HTMLDivElement | null>;
+  explanation: string | undefined;
+  type: questionType;
+  imageUrls?: string[];
 }
 
 const Result: React.FC<ResultProps> = ({
-    answerComponent,
-    explanation
+  answerComponent,
+  explanation,
+  type,
+  imageUrls,
 }) => {
+  const isAnswerCorrect = useAnswerCorrectStore((state) => state.isAnswerCorrect);
 
-    const [openEditorial, setOpenEditorial] = useState(false)
-
-    const handleToggleEditorial = () => {
-        setOpenEditorial((prev) => !prev)
-    }
-
-    const isAnswerCorrect = useAnswerCorrectStore((state) => state.isAnswerCorrect);
-    return (
-        <div className="mt-4 pl-7 pb-10" ref={answerComponent}>
-            {isAnswerCorrect !== "none" && (
-                isAnswerCorrect ? (
-                    <p className="text-green-500 text-lg font-semibold">
-                        You are correct! + { QUESTION_IS_CORRECT_POINTS}
-                    </p>
-                ) : (
-                    <div>
-                        <p className="text-red-500 text-lg font-semibold">
-                            You are wrong :(
-                        </p>
-                        <button
-                            onClick={handleToggleEditorial}
-                            className="text-blue-500 underline mt-2"
-                        >
-                            Do you want to see the editorials? Click here!
-                        </button>
-                        {openEditorial && explanation && (
-                            <div className="mt-6">
-                                <Latex >{explanation}</Latex>
-                            </div>
-                        )}
-                    </div>
-                )
-            )}
-        </div>
-    );
+  return (
+    <div className="mt-4 pl-7 pb-10" ref={answerComponent}>
+      {isAnswerCorrect !== "none" &&
+      
+        (isAnswerCorrect ? (
+          <p className="text-green-500 text-lg font-semibold">
+            You are correct!
+          </p>
+        ) : (
+          <div className="mt-4 p-4 bg-gray-100 rounded">
+            <h5 className="text-red-500">Incorrect!</h5>
+            <p className="mt-2">{explanation}</p>
+            {type === "math" &&
+              imageUrls &&
+              imageUrls.map((url, idx) => (
+                <img
+                  key={idx}
+                  src={url}
+                  alt={`Explanation Visual ${idx}`}
+                  className="mt-2"
+                />
+              ))}
+          </div>
+        ))}
+    </div>
+  );
 };
 
 export default Result;
