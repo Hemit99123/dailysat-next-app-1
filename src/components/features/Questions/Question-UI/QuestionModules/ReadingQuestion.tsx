@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import AnswerOption from "../AnswerOption";
-import { Answers } from "@/types/answer";
+import { Answers } from "@/types/sat-platform/answer";
 import { useAnswerCorrectStore, useAnswerStore, useQuestionStore } from "@/store/questions";
 import Image from "next/image";
 import axios from "axios";

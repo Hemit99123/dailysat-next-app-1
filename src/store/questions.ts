@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { QuestionData } from '@/types/questions';
-import { Topic } from '@/types/topic';
-import { Answers } from '@/types/answer';
+import { Topic } from '@/types/sat-platform/topic';
+import { Answers } from '@/types/sat-platform/answer';
 
 interface QuestionStoreProps {
   randomQuestion: QuestionData | null; // Allow null for the initial state

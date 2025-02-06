@@ -3,13 +3,13 @@
 import Sidebar from "@/components/features/Sidebar/Sidebar";
 import { mathTopics } from '@/data/topics'; 
 import MathSVG from "@/components/features/Questions/icons/MathSVG";
-import { Topic } from "@/types/topic";
+import { Topic } from "@/types/sat-platform/topic";
 import { useEffect, useRef } from "react";
 import MathQuestion from "@/components/features/Questions/Question-UI/QuestionModules/MathQuestion";
 import Header from "@/components/features/Questions/Question-UI/Header";
 import ScoreModal from "@/components/features/Questions/Modals/ScoreModal";
 import StreakModal from "@/components/features/Questions/Modals/StreakModal";
-import { Answers } from "@/types/answer";
+import { Answers } from "@/types/sat-platform/answer";
 import { useScoreModalStore, useStreakCounterModalStore } from "@/store/modals";
 import StreakAnnouncer from "@/components/features/Questions/Modals/StreakAnnouncer";
 import useQuestionHandler from "@/hooks/questions";

@@ -1,4 +1,4 @@
-import { Answers } from "./answer";
+import { Answers } from "./sat-platform/answer";
 
 // Shared between both components (props)
 
