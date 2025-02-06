@@ -1,5 +1,5 @@
 import React from 'react';
-import { trend } from '@/types/trend';
+import { trend } from '@/types/dashboard/trend';
 import Image from 'next/image';
 
 interface CoinDisplayProps {

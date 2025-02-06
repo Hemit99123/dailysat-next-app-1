@@ -1,20 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import AnswerOption from "../AnswerOption";
-import Latex from "react-latex-next";
-import { Answers } from "@/types/answer";
-import {
-  useAnswerCorrectStore,
-  useAnswerStore,
-  useQuestionStore,
-} from "@/store/questions";
-import {
-  toggleCrossOffMode,
-  toggleCrossOffOption,
-} from "@/lib/questions-func/crossOff";
+import { Answers } from "@/types/sat-platform/answer";
+import { useAnswerCorrectStore, useAnswerStore, useQuestionStore } from "@/store/questions";
+import { QuestionsProps } from "@/types/sat-platform/questions";
+import { toggleCrossOffMode, toggleCrossOffOption } from "@/lib/questions-func/crossOff";
 import { CalculatorIcon } from "lucide-react";
 import { useCalcOptionModalStore } from "@/store/modals";
 import CalcOption from "../../Modals/CalcOption";
-import { QuestionsProps } from "@/types/questions";
+import Latex from "react-latex-next";
 
 const MathQuestion: React.FC<QuestionsProps> = ({ onAnswerSubmit }) => {
   // Use zustand stores for question data and answer handling.

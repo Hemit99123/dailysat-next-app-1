@@ -1,4 +1,4 @@
-import { DesmosCalculator } from "./types/desmos";
+import { DesmosCalculator } from "./types/sat-platform/desmos";
 
 declare global {
     interface Window {

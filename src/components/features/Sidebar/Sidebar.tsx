@@ -1,7 +1,7 @@
 // Sidebar.js
 import React from 'react';
 import CTASideBar from './CTASideBar';
-import { Topic } from '@/types/topic';
+import { Topic } from '@/types/sat-platform/topic';
 import { useScoreModalStore, useStreakCounterModalStore } from '@/store/modals';
 import { useTopicStore } from '@/store/questions';
 
