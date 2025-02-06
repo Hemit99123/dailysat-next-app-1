@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import sidebar from "@/types/sidebar";
+import sidebar from "@/types/sat-platform/sidebar";
 
 interface CTASideBarProps {
     open: () => void;
