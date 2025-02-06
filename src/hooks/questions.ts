@@ -6,7 +6,7 @@ import { Answers } from "@/types/sat-platform/answer";
 import { Topic } from "@/types/sat-platform/topic";
 import axios from "axios";
 import { useAnswerAttemptsStore } from "@/store/questions"
-import { questionType } from "@/types/questions";
+import { questionType } from "@/types/sat-platform/questions";
 
 // Custom hook to encapsulate logic because it is used in both math and reading/writing components
 const useQuestionHandler = () => {
