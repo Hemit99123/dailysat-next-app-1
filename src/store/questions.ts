@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { QuestionData } from '@/types/questions';
+import { QuestionData } from '@/types/sat-platform/questions';
 import { Topic } from '@/types/sat-platform/topic';
 import { Answers } from '@/types/sat-platform/answer';
 
