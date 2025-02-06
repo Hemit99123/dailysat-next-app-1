@@ -1,5 +1,5 @@
 import { useAnswerCorrectStore } from "@/store/questions";
-import { questionType } from "@/types/questions";
+import { questionType } from "@/types/sat-platform/questions";
 import React, { MutableRefObject } from "react";
 
 interface ResultProps {
