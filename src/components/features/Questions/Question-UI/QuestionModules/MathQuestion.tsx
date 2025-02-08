@@ -1,124 +1,173 @@
-import React, { useState, useRef, useEffect } from "react";
-import AnswerOption from "../AnswerOption";
-import Latex from "react-latex-next";
-import { Answers } from "@/types/answer";
-import {
-  useAnswerCorrectStore,
-  useAnswerStore,
-  useQuestionStore,
-} from "@/store/questions";
-import {
-  toggleCrossOffMode,
-  toggleCrossOffOption,
-} from "@/lib/questions-func/crossOff";
+import React, { useState, useEffect } from "react";
 import { CalculatorIcon } from "lucide-react";
-import { useCalcOptionModalStore } from "@/store/modals";
-import CalcOption from "../../Modals/CalcOption";
-import { QuestionsProps } from "@/types/questions";
+import data from "../QuestionModules/cb-digital-questions.json";
 
-const MathQuestion: React.FC<QuestionsProps> = ({ onAnswerSubmit }) => {
-  // Use zustand stores for question data and answer handling.
-  const randomQuestion = useQuestionStore((state) => state.randomQuestion);
-  const selectedAnswer = useAnswerStore((state) => state.answer);
-  const setSelectedAnswer = useAnswerStore((state) => state.setAnswer);
-  const isAnswerCorrect = useAnswerCorrectStore((state) => state.isAnswerCorrect);
+interface MathQuestionProp {
+  onAnswerSubmit: (isCorrect: boolean) => void;
+}
 
-  // Local state for cross-off mode and crossed-off options.
+const MathQuestion: React.FC<MathQuestionProp> = ({ onAnswerSubmit }) => {
+  // State management
+  const [currentQuestionId, setCurrentQuestionId] = useState("");
+  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [crossOffMode, setCrossOffMode] = useState(false);
-  const [crossedOffOptions, setCrossedOffOptions] = useState<Set<Answers> | null>(
-    new Set()
-  );
+  const [crossedOffOptions, setCrossedOffOptions] = useState(new Set());
+  const [showExplanation, setShowExplanation] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [answeredCorrectly, setAnsweredCorrectly] = useState(false);
 
-  const textRef = useRef<HTMLParagraphElement | null>(null);
+  // Get all multiple choice questions
+  const getMultipleChoiceQuestions = () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    return Object.entries(data).filter(([_, question]) => 
+      question.content?.answer?.style === "Multiple Choice"
+    );
+  };
 
-  // Reset answer and crossed-off options when the answer becomes correct.
+  // Get a random question
+  const getRandomQuestion = (): string => {
+    const multipleChoiceQuestions = getMultipleChoiceQuestions();
+    // if (multipleChoiceQuestions.length === 0) return null;
+    const randomIndex = Math.floor(Math.random() * multipleChoiceQuestions.length);
+    return multipleChoiceQuestions[randomIndex][0]; // Return the question ID
+  };
+
+  // Initialize first question
   useEffect(() => {
-    if (isAnswerCorrect) {
-      setSelectedAnswer(null);
-      setCrossedOffOptions(null);
+    if (!currentQuestionId) {
+      setCurrentQuestionId(getRandomQuestion());
     }
-  }, [isAnswerCorrect, setSelectedAnswer]);
+  }, []);
 
+  // Reset states when question changes
+  useEffect(() => {
+    setSelectedAnswer(null);
+    setCrossedOffOptions(new Set());
+    setShowExplanation(false);
+    setAnsweredCorrectly(false);
+  }, [currentQuestionId]);
 
-  // --- Handlers ---
-  const handleAnswerClick = (answer: Answers) => {
+  // Handle answer selection, change type later for answer
+  const handleAnswerClick = (answer: string) => {
     if (crossOffMode) {
-      toggleCrossOffOption(setCrossedOffOptions, answer);
-    } else {
+      const newCrossedOff = new Set(crossedOffOptions);
+      if (newCrossedOff.has(answer)) {
+        newCrossedOff.delete(answer);
+      } else {
+        newCrossedOff.add(answer);
+      }
+      setCrossedOffOptions(newCrossedOff);
+    } else if (!showExplanation) {
       setSelectedAnswer(answer);
     }
   };
 
-  // Call the onAnswerSubmit prop if an answer is selected and then reset the selected answer.
+  // Handle answer submission
   const handleSubmit = () => {
-    if (!selectedAnswer) return;
-    onAnswerSubmit(selectedAnswer);
-    setSelectedAnswer(null);
+    if (!selectedAnswer) {
+      alert("Please select an answer before proceeding.");
+      return;
+    }
+
+    const currentQuestion = data[currentQuestionId];
+    const isCorrect = selectedAnswer === currentQuestion.content.answer.correct_choice;
+    setAnsweredCorrectly(isCorrect);
+    setShowExplanation(true);
+    onAnswerSubmit?.(isCorrect);
   };
 
-  const handleOpenCalcModal = useCalcOptionModalStore(
-    (state) => state.openModal
-  );
+  // Handle next question
+  const handleNextQuestion = () => {
+    setCurrentQuestionId(getRandomQuestion());
+  };
 
-  if (!randomQuestion) {
+  if (!currentQuestionId || !data[currentQuestionId]) {
     return <div>Loading...</div>;
   }
 
-  // Build an object with answer options keyed by their letter.
-  const options: Record<Answers, string> = {
-    A: randomQuestion.optionA,
-    B: randomQuestion.optionB,
-    C: randomQuestion.optionC,
-    D: randomQuestion.optionD,
-  };
+  const currentQuestion = data[currentQuestionId];
 
   return (
     <div className="flex flex-col items-start px-8 -mt-6">
+      {/* Tools */}
       <div className="flex items-center mb-2 space-x-4">
-        {/* Calculator Modal Button */}
-        <button onClick={handleOpenCalcModal}>
-          <CalculatorIcon />
+        <button className="p-2 hover:bg-gray-100 rounded-full">
+          <CalculatorIcon className="w-6 h-6" />
         </button>
-        {/* Cross-Off Mode Button */}
         <button
-          onClick={() => toggleCrossOffMode(setCrossOffMode)}
-          className={`p-1 rounded ${
-            crossOffMode ? "bg-blue-300 text-white" : "bg-gray-300"
+          onClick={() => setCrossOffMode(!crossOffMode)}
+          className={`p-2 rounded ${
+            crossOffMode ? "bg-blue-500 text-white" : "bg-gray-200"
           }`}
         >
           Cross off
         </button>
       </div>
 
-      {/* Question Text */}
-      <p className="mb-5 text-xl relative" ref={textRef}>
-        <Latex>{randomQuestion.question || ""}</Latex>
-      </p>
+      {/* Question Info */}
+      <div className="w-full mb-4 text-sm text-gray-600">
+        <span>Difficulty: {currentQuestion.difficulty}</span>
+        <span className="mx-2">|</span>
+        <span>Topic: {currentQuestion.primary_class_cd_desc}</span>
+      </div>
 
+      {/* Question Text */}
+      <div 
+        className="mb-5 text-xl"
+        dangerouslySetInnerHTML={{ __html: currentQuestion.content.prompt }}
+      />
+
+      {/* Answer Options */}
       <span className="mb-3 text-sm font-semibold">Choose 1 answer:</span>
       <div className="w-full space-y-2">
-        {Object.entries(options).map(([letter, text]) => (
-          <AnswerOption
-            key={letter}
-            text={text}
-            onClick={() => handleAnswerClick(letter as Answers)}
-            isSelected={selectedAnswer === letter}
-            isCrossedOff={crossedOffOptions?.has(letter as Answers) || false}
-          />
+        {Object.entries(currentQuestion.content.answer.choices).map(([key, value]) => (
+          <button
+            key={key}
+            onClick={() => handleAnswerClick(key)}
+            className={`w-full p-4 text-left rounded border ${
+              showExplanation && key === currentQuestion.content.answer.correct_choice
+                ? 'border-green-500 bg-green-50'
+                : showExplanation && key === selectedAnswer
+                ? 'border-red-500 bg-red-50'
+                : selectedAnswer === key
+                ? 'border-blue-500 bg-blue-50'
+                : 'border-gray-200 hover:border-gray-300'
+            } ${crossedOffOptions.has(key) ? 'line-through opacity-50' : ''}`}
+          >
+            <span className="font-semibold mr-2">{key.toUpperCase()}.</span>
+            <span dangerouslySetInnerHTML={{ __html: value.body }} />
+          </button>
         ))}
       </div>
 
-      {/* Submit Answer Button */}
-      <button
-        onClick={handleSubmit}
-        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        disabled={!selectedAnswer}
-      >
-        Submit Answer
-      </button>
+      {/* Explanation */}
+      {showExplanation && (
+        <div className="w-full mt-4 p-4 rounded bg-gray-100">
+          <div dangerouslySetInnerHTML={{ __html: currentQuestion.content.answer.rationale }} />
+        </div>
+      )}
 
-      {/* Calculator Option Modal */}
-      <CalcOption />
+      {/* Action Button */}
+      {!showExplanation ? (
+        <button
+          onClick={handleSubmit}
+          disabled={!selectedAnswer}
+          className={`mt-4 px-6 py-2 rounded text-white ${
+            selectedAnswer 
+              ? 'bg-blue-500 hover:bg-blue-600' 
+              : 'bg-gray-300 cursor-not-allowed'
+          }`}
+        >
+          Submit Answer
+        </button>
+      ) : (
+        <button
+          onClick={handleNextQuestion}
+          className="mt-4 px-6 py-2 rounded text-white bg-blue-500 hover:bg-blue-600"
+        >
+          Next Question
+        </button>
+      )}
     </div>
   );
 };
