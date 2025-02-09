@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import StatDisplay from "@/components/features/Dashboard/CoinDisplay";
+import StatDisplay from "@/components/features/Dashboard/StatDisplay";
 import axios from "axios";
-import Quotes from "@/types/quotes";
+import Quotes from "@/types/dashboard/quotes";
 import Spinner from "@/components/common/Spinner";
 import Redeem from "@/components/features/Dashboard/Redeem";
 import { useUserStore } from "@/store/user";
@@ -20,6 +20,8 @@ const Home = () => {
   const [greeting, setGreeting] = useState("");
   const [quote, setQuote] = useState<Quotes | null>(null);
   const [isLoadingQuote, setIsLoadingQuote] = useState(false);
+
+  const [imageError, setImageError] = useState(false)
 
   // Fetch a random quote once the component has been mounted
   useEffect(() => {
@@ -95,6 +97,10 @@ const Home = () => {
     return <Spinner />
   }
 
+  const toggleImageError = () => {
+    setImageError((prevState) => !prevState)
+  }
+
   return (
     <div>
       {/* Greeting Section */}
@@ -126,10 +132,11 @@ const Home = () => {
         <div className="shadow-lg rounded-lg w-full bg-white p-4 flex lg:items-center flex-col lg:flex-row lg:justify-between">
           <div className="flex items-center mb-3">
             <img
-              src={user?.image || ""}
+              src={!imageError && user?.image || "https://img.freepik.com/premium-vector/vector-flat-illustration-grayscale-avatar-user-profile-person-icon-gender-neutral-silhouette-profile-picture-suitable-social-media-profiles-icons-screensavers-as-templatex9xa_719432-875.jpg"}
               alt="userpfpic"
               width={120}
               height={120}
+              onError={toggleImageError}
               className="rounded-2xl"
             />
             <div className="ml-6">

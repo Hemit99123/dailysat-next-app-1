@@ -1,4 +1,4 @@
-import { calc } from '@/types/calc';
+import { calc } from '@/types/sat-platform/calc';
 import { create } from 'zustand'
 
 interface ModalProps {

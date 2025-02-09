@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import AnswerOption from "../AnswerOption";
-import { Answers } from "@/types/answer";
+import { Answers } from "@/types/sat-platform/answer";
 import { useAnswerCorrectStore, useAnswerStore, useQuestionStore } from "@/store/questions";
 import Image from "next/image";
 import axios from "axios";
-import { QuestionsProps } from "@/types/questions";
+import { QuestionsProps } from "@/types/sat-platform/questions";
 import { toggleCrossOffMode, toggleCrossOffOption } from "@/lib/questions-func/crossOff";
 
 const ReadingQuestion: React.FC<QuestionsProps> = ({ onAnswerSubmit }) => {

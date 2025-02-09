@@ -3,14 +3,14 @@
 import Sidebar from "@/components/features/Sidebar/Sidebar";
 import { readingTopics } from "@/data/topics";
 import BookSVG from "../../components/features/Questions/icons/BookSVG";
-import { Topic } from "@/types/topic";
+import { Topic } from "@/types/sat-platform/topic";
 import { useEffect, useRef } from "react";
 import ReadingQuestion from "@/components/features/Questions/Question-UI/QuestionModules/ReadingQuestion";
 import Header from "@/components/features/Questions/Question-UI/Header";
 import { useAnswerCounterStore } from "@/store/score";
 import ScoreModal from "@/components/features/Questions/Modals/ScoreModal";
 import StreakModal from "@/components/features/Questions/Modals/StreakModal";
-import { Answers } from "@/types/answer";
+import { Answers } from "@/types/sat-platform/answer";
 import { useScoreModalStore, useStreakAnnouncerModalStore, useStreakCounterModalStore } from "@/store/modals";
 import StreakAnnouncer from "@/components/features/Questions/Modals/StreakAnnouncer";
 import useQuestionHandler from "@/hooks/questions";
@@ -48,7 +48,7 @@ const Reading = () => {
 
   const handleTopicClick = (topic: Topic) => {
     setSelectedTopic(topic);
-    fetchRandomQuestion("Reading", topic);
+    fetchRandomQuestion("reading-writing", topic);
   };
 
   if (isScoreModalOpen || isStreakModalOpen) {
@@ -81,7 +81,7 @@ const Reading = () => {
               <ReadingQuestion
                 onAnswerSubmit={() =>
                   handleAnswerSubmit(
-                    "Reading",
+                    "reading-writing",
                     randomQuestion.correctAnswer,
                     answerCorrectRef
                   )
@@ -93,6 +93,7 @@ const Reading = () => {
             <Result
               answerComponent={answerComponent}
               explanation={randomQuestion?.explanation || ""}
+              type="reading-writing"
             />
           </div>
         ) : (

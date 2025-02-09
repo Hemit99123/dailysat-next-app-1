@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ResizableBox } from 'react-resizable';
 import 'react-resizable/css/styles.css'; // Import the necessary styles
-import { DesmosCalculator } from '@/types/desmos';
+import { DesmosCalculator } from '@/types/sat-platform/desmos';
 import DraggableItem from '@/components/features/Questions/Calculators/DraggableItem';
 
 // Define the Desmos type

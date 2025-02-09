@@ -3,13 +3,13 @@
 import Sidebar from "@/components/features/Sidebar/Sidebar";
 import { mathTopics } from '@/data/topics'; 
 import MathSVG from "@/components/features/Questions/icons/MathSVG";
-import { Topic } from "@/types/topic";
+import { Topic } from "@/types/sat-platform/topic";
 import { useEffect, useRef } from "react";
 import MathQuestion from "@/components/features/Questions/Question-UI/QuestionModules/MathQuestion";
 import Header from "@/components/features/Questions/Question-UI/Header";
 import ScoreModal from "@/components/features/Questions/Modals/ScoreModal";
 import StreakModal from "@/components/features/Questions/Modals/StreakModal";
-import { Answers } from "@/types/answer";
+import { Answers } from "@/types/sat-platform/answer";
 import { useScoreModalStore, useStreakCounterModalStore } from "@/store/modals";
 import StreakAnnouncer from "@/components/features/Questions/Modals/StreakAnnouncer";
 import useQuestionHandler from "@/hooks/questions";
@@ -45,10 +45,32 @@ const Math = () => {
 
   const handleTopicClick = (topic: Topic) => {
     setSelectedTopic(topic);
-    fetchRandomQuestion("Math", topic);
+    fetchRandomQuestion("math", topic);
   };
 
+  // get images from math and format it properly 
+  
+  const extractImageUrls = (explanation: string) => {
+    const urlRegex = /\[Image:\s*(https?:\/\/[^\]]+)\]/g;
+    const urls: string[] = [];
+    let match;
+    while ((match = urlRegex.exec(explanation)) !== null) {
+      urls.push(match[1]); // Push the URL found.
+    }
+    return urls;
+};
 
+  const cleanExplanationText = (explanation: string) => {
+    return explanation.replace(/\[Image:\s*https?:\/\/[^\]]+\]/g, "");
+  };
+
+  const imageUrls = randomQuestion
+    ? extractImageUrls(randomQuestion.explanation)
+    : [];
+  const cleanedExplanation = randomQuestion
+    ? cleanExplanationText(randomQuestion.explanation)
+    : "";
+    
   if (isScoreModalOpen || isStreakModalOpen) {
     return (
       <>
@@ -83,7 +105,7 @@ const Math = () => {
               <MathQuestion
                 onAnswerSubmit={() => 
                   handleAnswerSubmit( 
-                    "Math",
+                    "math",
                     randomQuestion.correctAnswer, 
                     answerCorrectRef
                   )
@@ -94,7 +116,9 @@ const Math = () => {
             )}
               <Result 
                 answerComponent={answerComponent}
-                explanation={randomQuestion?.explanation || ""}
+                explanation={cleanedExplanation || ""}
+                type="math"
+                imageUrls={imageUrls}
               />
           </div>
         ) : (

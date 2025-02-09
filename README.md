@@ -1,4 +1,4 @@
-# DailySAT Platform
+# DailySAT
 
 Welcome to the codebase of **DailySAT**! Here you will find a quickstart to our application and some information on it ✨
 

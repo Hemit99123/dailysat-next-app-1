@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import { Answers } from '@/types/answer';
+import { Answers } from '@/types/sat-platform/answer';
 import React from 'react';
 
 // Toggle cross-off mode
