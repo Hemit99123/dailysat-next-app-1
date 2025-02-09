@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { handleSignOut } from "./server-actions/auth";
+import { handleSignOut } from "../../lib/server-actions/auth";
 import { determineAuthStatus } from "@/lib/authStatus";
 
   
